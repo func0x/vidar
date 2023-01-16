@@ -149,6 +149,14 @@
 		align-items: center;
 	}
 
+	img {
+		-webkit-user-drag: none;
+		-khtml-user-drag: none;
+		-moz-user-drag: none;
+		-o-user-drag: none;
+		user-drag: none;
+	}
+
 	.speed-btn {
 		width: 50px;
 		color: white;

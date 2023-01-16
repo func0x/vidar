@@ -2,12 +2,18 @@
 	import Marker from './Marker.svelte';
 	import { onMount } from 'svelte';
 
-	export let progress;
 	export let video;
-	export let thumb;
+	let thumb;
 	export let timestamps;
 	export let duration;
+	export let currentPercent;
+	$: {
+		if (thumb) thumb.style.setProperty('--progress-position', currentPercent);
+	}
 	let wrapper;
+
+	let isScrubbing = false;
+	let previewTimestamp = 0;
 
 	onMount(() => {
 		wrapper = document.querySelector('.progress-wrapper');
@@ -15,90 +21,112 @@
 
 	const handleMove = (e) => {
 		if (!video.duration) return;
-		if (e.type !== 'touchmove' && !(e.buttons & 1)) return;
 
 		const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+		const { left, right, top, bottom } = wrapper.getBoundingClientRect();
+		const percent = Math.min(Math.max((clientX - left) / (right - left), 0), 1);
+		if (clientX < left || clientX > right || e.clientY < top || e.clientY > bottom) {
+			previewTimestamp = 0;
+		} else {
+			previewTimestamp = video.duration * percent;
+		}
 
+		if (isScrubbing) {
+			video.currentTime = (video.duration * (clientX - left)) / (right - left);
+			wrapper.style.setProperty('--preview-position', percent);
+		}
+	};
+
+	const handleMousedown = (e) => {
+		if (e.type !== 'touchstart' && e.button !== 0) return;
+		video.pause();
+		isScrubbing = true;
+
+		const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
 		const { left, right } = wrapper.getBoundingClientRect();
 		video.currentTime = (video.duration * (clientX - left)) / (right - left);
 
 		const percent = (clientX - left) / (right - left);
 
 		thumb.style.setProperty('--progress-position', percent);
-	};
-
-	const handleMousedown = () => {
-		video.pause();
 	};
 
 	const handleMouseup = (e) => {
-		const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-		const { left, right } = wrapper.getBoundingClientRect();
-		video.currentTime = (video.duration * (clientX - left)) / (right - left);
-
-		const percent = (clientX - left) / (right - left);
-
-		thumb.style.setProperty('--progress-position', percent);
 		setTimeout(function () {
 			video.play();
 		}, 150);
 	};
+
+	const handleDocumentMouseDown = (e) => {
+		if (isScrubbing) {
+			isScrubbing = false;
+		}
+	};
+
+	onMount(() => {
+		document.addEventListener('mousemove', handleMove);
+		document.addEventListener('mouseup', handleDocumentMouseDown);
+		return () => {
+			document.removeEventListener('mousemove', handleMove);
+			document.removeEventListener('mouseup', handleDocumentMouseDown);
+		};
+	});
 </script>
 
 <div
 	class="progress-wrapper"
-	on:mousemove={handleMove}
 	on:touchmove|preventDefault={handleMove}
 	on:mousedown={handleMousedown}
 	on:mouseup={handleMouseup}
 >
 	<div bind:this={thumb} class="thumb-indicator" />
-	<Marker {duration} timestamp={timestamps[0]} />
-	<Marker {duration} timestamp={timestamps[1]} />
-	<Marker {duration} timestamp={timestamps[2]} />
-	<progress bind:this={progress} value="0.0" />
+	<div class="markers">
+		{#each timestamps as timestamp}
+			<Marker
+				{timestamp}
+				{duration}
+				currentTime={currentPercent * duration}
+				previewTime={previewTimestamp}
+			/>
+		{/each}
+	</div>
 </div>
 
 <style>
-	progress {
-		border: none;
-		position: absolute;
-		width: 100%;
-		height: 3px;
-		z-index: 10;
-		background: rgba(255, 255, 255, 0.35);
-	}
-
-	progress::-moz-progress-bar {
-		background: var(--red);
-	}
-
-	progress::-webkit-progress-bar {
-		background: rgba(0, 0, 0, 0.35);
-	}
-
-	progress::-webkit-progress-value {
-		background: var(--red);
-	}
-
 	.progress-wrapper {
-		position: relative;
+		height: 18px;
+		display: grid;
+		align-items: center;
+		user-select: none;
+	}
+
+	.progress-wrapper > * {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.markers {
 		display: flex;
-		gap: 1px;
-		height: 3px;
+		align-items: stretch;
+		height: 100%;
+		gap: 3px;
+	}
+	.markers:hover {
+		cursor: pointer;
 	}
 
 	.thumb-indicator {
 		--scale: 1;
-		cursor: grab;
+		pointer-events: none;
+
 		top: 0;
 		width: 10px;
 		height: 10px;
 		z-index: 100;
-		transform: translate(-50%, -37.5%) scale(var(--scale));
+		transform: translate(-50%, 0%) scale(var(--scale));
 		left: calc(var(--progress-position) * 100%);
 		border-radius: 50%;
-		position: absolute;
+		position: relative;
 		transition: transform 150ms ease-in-out;
 		aspect-ratio: 1/1;
 		background-color: var(--white);

@@ -13,10 +13,8 @@
 
 	let videoContainer;
 	let video;
-	let thumb;
 	let currentTime;
 	let totalTime;
-	let progress;
 	let duration;
 	let slider;
 	let volumeBtn;
@@ -45,12 +43,11 @@
 		}
 	};
 
+	let currentPercent;
+
 	const currentTimeVideo = () => {
 		currentTime.textContent = formatDuration(video.currentTime);
-		const percent = video.currentTime / video.duration;
-
-		progress.value = percent;
-		thumb.style.setProperty('--progress-position', percent);
+		currentPercent = video.currentTime / video.duration;
 	};
 
 	const skip = (time) => {
@@ -127,13 +124,14 @@
 	</Box>
 {:else}
 	<div class="video-section-container">
+		<div class="gradient" />
 		<div
 			bind:this={videoContainer}
 			on:fullscreenchange={toggleFullscreen}
 			class="video-container paused"
 		>
 			<div class="video-controls-container">
-				<Timeline bind:progress bind:thumb {duration} {video} timestamps={event.video.timestamps} />
+				<Timeline {duration} {video} timestamps={event.video.timestamps} {currentPercent} />
 				<Controls
 					{videoContainer}
 					{video}
@@ -145,30 +143,32 @@
 					bind:totalTime
 				/>
 			</div>
-			<video
-				bind:this={video}
-				bind:duration
-				on:click={togglePlay}
-				on:timeupdate={currentTimeVideo}
-				on:play={() => {
-					videoContainer.classList.remove('paused');
-				}}
-				on:pause={() => {
-					videoContainer.classList.add('paused');
-				}}
-				type="video/mp4"
-				src={event.video.name}
-			>
-				<track kind="captions" />
-			</video>
+			<div class="video-wrapper">
+				<video
+					bind:this={video}
+					bind:duration
+					on:click={togglePlay}
+					on:timeupdate={currentTimeVideo}
+					on:play={() => {
+						videoContainer.classList.remove('paused');
+					}}
+					on:pause={() => {
+						videoContainer.classList.add('paused');
+					}}
+					type="video/mp4"
+					src={event.video.name}
+				>
+					<track kind="captions" />
+				</video>
+			</div>
 		</div>
 	</div>
 {/if}
 
 <style>
 	video {
+		height: 100%;
 		width: 100%;
-		height: inherit;
 	}
 	span {
 		color: var(--white);
@@ -178,41 +178,51 @@
 
 	.video-section-container {
 		width: 100%;
-		height: 720px;
+
 		background-color: black;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		position: relative;
+		display: grid;
+
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	.video-section-container > * {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.gradient {
+		z-index: 2;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%);
 	}
 
 	.video-container {
 		font-size: var(--font-m);
-		height: 720px;
+
+		display: grid;
+		grid-template-rows: 1fr auto;
+		grid-template-areas: 'video' 'controls';
+	}
+
+	.video-wrapper {
+		display: grid;
+		justify-content: center;
+		align-items: center;
+		grid-area: video;
 	}
 
 	.video-controls-container {
-		position: absolute;
 		height: fit-content;
-		margin: 0 0.5rem;
+		padding: 0 1rem;
 		bottom: 0;
 		left: 0;
 		right: 0;
 		z-index: 3;
 		opacity: 1;
 		transition: opacity 150ms ease-in-out;
-	}
-
-	.video-controls-container::before {
-		content: '';
-		position: absolute;
-		bottom: 0;
-		background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
-		width: 100%;
-		aspect-ratio: 6/1;
-		z-index: -1;
-		pointer-events: none;
-		margin-left: -0.5rem;
+		grid-area: controls;
 	}
 
 	.video-container:hover .video-controls-container,
@@ -223,28 +233,12 @@
 	}
 
 	@media screen and (max-width: 1115px) {
-		.video-section-container {
-			height: 575px;
-		}
-
-		.video-container {
-			height: 575px;
-		}
-
 		video {
 			height: 575px;
 		}
 	}
 
 	@media screen and (max-width: 700px) {
-		.video-container {
-			height: 345px;
-		}
-
-		.video-section-container {
-			height: 345px;
-		}
-
 		video {
 			height: 345px;
 		}
