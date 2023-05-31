@@ -83,6 +83,14 @@ If you don't want to use timestamps, change `from` and `to` values to 0.
 This will cause timestamps to not be visible in the video player.
 Timestamps have to be defined, otherwise they will generate an error during the build process.
 
+### Replacing existing assets
+
+You can replace any number of assets (such as icons and logos) located in `./src/lib/images`.
+To add your custom assets, you need to create an `external_assets` folder in the root of the project.
+
+A new asset must have the same name as the asset in `./src/lib/images` that you want to replace.
+To see your newly replaced assets, you must rebuild the project.
+
 ### Creating speaker profiles
 
 After defining all of your events in the appropriate `data.json` files, you must add all of the speakers from the `authors` sections of all `data.json` files to the `authors.json` file, which must be placed in the `event_data` folder.
