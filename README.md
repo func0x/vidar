@@ -49,17 +49,16 @@ npm install --global yarn
 
 ## Adding your own content
 
-Information about events in Vidar is stored in `data.json` files, each in a separate subfolder, one per event, in the `event_data` directory.
-You should add assets for each video to the folder containing the JSON file.
-In the root folder, you can find `event-data-template.json`, which contains descriptions of each field making it easy to fill with your own data.
-Remember to change the name of your newly created JSON file to `data.json` and place it in an appropriate folder in `event_data`.
+Information about events in Vidar is stored in `data.json` files, each in a separate subfolder (one per event) in the `event_data` directory.
+You should add a video, a slide deck (optional) and thumbnail for each event to the corresponding event's folder.
+In the `event_data/video_1` directory, you can find a `data.json` file filled with sample information.
 
 ### Adding upcoming events
 
-The `upcoming` field refers to a video displayed on the main page as an upcoming event.
+The `upcoming` field in the `data.json` file refers to a video displayed on the main page as an upcoming event.
 Upcoming events must have the `upcoming` field set to `true`.
 
-If you want to add a link to a live stream of the upcoming event, you have to add the `livestream` property to your `data.json` file:
+If you want to add a link to a live stream of the upcoming event, you need to add the `livestream` property:
 
 ```json
 "livestream": "link to the livestream"
@@ -68,7 +67,7 @@ If you want to add a link to a live stream of the upcoming event, you have to ad
 ### Defining the date and time of the event
 
 The `datetime` field describes the time and date of the event using Unix time (e.g., January 1, 2022, 8 am in Unix time is 1641024000).
-To convert your dates to Unix time, use the `date` command in your terminal:
+To convert your dates to Unix time, use the `date` command in your terminal (mm/dd/yyyy):
 
 ```
 date -d '01/01/2022 08:00:00' +'%s'
@@ -78,33 +77,39 @@ date -d '01/01/2022 08:00:00' +'%s'
 
 The field timestamps describe sections of your video, which will be visible in the video player.
 The start and end of the timestamp need to be expressed as seconds from the beginning of the video.
+Note that separate sections cannot overlap, e.g. if one ends at 3 seconds, the next one needs to start at 4. 
 
-If you don't want to use timestamps, change `from` and `to` values to 0.
-This will cause timestamps to not be visible in the video player.
-Timestamps have to be defined, otherwise they will generate an error during the build process.
+Should you not want to use timestamps, you need to leave a single timestamp in the `data.json` file and change the `from` to 0 and the `to` value to the final second of your video (e.g 122 for a 2:02 video). 
+Also, make sure the `title` field is empty - `"title": ""`.
+Otherwise, the playback progress bar will not be visible.
 
-### Replacing existing assets
+For [upcoming videos](#adding-upcoming-events), make sure the `from` and `to` values are set to 0 and the `title` field is empty.
 
-You can replace any number of assets (such as icons and logos) located in `./src/lib/images`.
+### Modifying Vidar appearance
+
 To add your custom assets, you need to create an `external_assets` folder in the root of the project.
+
+The `external_assets` folder must contain an `images` subfolder where the new assets will be located.
 
 A new asset must have the same name as the asset in `./src/lib/images` that you want to replace.
 To see your newly replaced assets, you must rebuild the project.
 
+You can also override the default `styles.css` located in `./src/routes` by copying the default file and placing an edited version in the `external_assets` directory.
+
 ### Creating speaker profiles
 
-After defining all of your events in the appropriate `data.json` files, you must add all of the speakers from the `authors` sections of all `data.json` files to the `authors.json` file, which must be placed in the `event_data` folder.
+After defining all of your events in the appropriate `data.json` files, you need to add all speakers from the `authors` sections in all your `data.json` files to the `authors.json` file located in the `event_data` folder.
+Note that the `authors.json` file cannot contain duplicates in the `id` fields.
 
-Adding a speaker to `authors.json` will enable you to click their name and visit their speaker profile with additional information about them.
+Adding a speaker to `authors.json` will enable you to click their name and visit their speaker profile in Vidar. The speaker profile is defined in the `profile` field within the `contact` object.
 
-If the speaker does not have an entry in `authors.json`, clicking their name will generate a page not found error.
+If the speaker does not have an entry in `authors.json`, clicking their name will generate a `page not found` error.
 
-In the root folder, you can find `authors-template.json`, which contains descriptions of each field making it easy to fill with your own data.
-Remember to change the name of your JSON file to `authors.json` and place it in `event_data`.
+You also need to place your `authors.json` file in the `src/lib/jsons` directory, because this is where the data is parsed from.
 
 ### Generating tags
 
-After you have filled the events' `data.json` files with your event data, you need to run the `GenerateTags.py` Python script located in the root folder to generate tags based on all the events' JSON files.
+After populating events' `data.json` files with your event data, you need to run the `GenerateTags.py` Python script located in the root folder to generate tags defined in the `tags` array.
 
 To run the `GenerateTags.py` script, use the following in the Vidar root directory:
 
@@ -117,18 +122,26 @@ Otherwise, the newly added tags will not be visible on the main page.
 
 ## Deployment
 
-After filling the `data.json` files in the appropriate `event_data` subdirectories and the `authors.json` fils with your data and generating tags using the `GenerateTags.py` script, you can build Vidar.
+With all the above steps completed, you can run a local instance of Vidar and generate Vidar's static files.
 To install the project's dependencies, run the following command in Vidar's root directory:
 
 ```sh
 yarn install
 ```
 
-Then, you can build Vidar using:
+You can now run Vidar locally using:
+
+```sh
+yarn dev
+```
+
+To generate static files, run:
 
 ```sh
 yarn build
 ```
+
+Then, place your generated static files on your server, with respect to your particular infrastructure.
 
 ## License
 
