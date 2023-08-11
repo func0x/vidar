@@ -26,7 +26,7 @@
 	</Box>
 </Box>
 <SectionName title="{data.author.name} Events" />
-<RecentEvents hover events={data.events} />
+<RecentEvents hover exploreSimilar events={data.events} />
 
 <style>
 	img {
