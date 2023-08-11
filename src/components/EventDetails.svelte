@@ -18,7 +18,6 @@
 	export let isLive = false;
 
 	const downloadSlides = (assets) => {
-		console.log('click');
 		const a = document.createElement('a');
 		a.href = assets.slides.path;
 		a.setAttribute('download', assets.slides.name);
@@ -70,6 +69,7 @@
 				<Button href={event.assets.slides.name} icon={slides} text="Open with Google Slides" />
 			{:else}
 				<Button
+					bg="var(--grey-300)"
 					onClick={() => downloadSlides(event.assets)}
 					icon={download}
 					text="Download slides"
