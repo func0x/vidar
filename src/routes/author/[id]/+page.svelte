@@ -25,10 +25,24 @@
 	<Box cvh gap="var(--gap-m)" fd="column">
 		{#if data.author.contact.profile}
 			<a href={`${data.author.contact.profile}/`}>
-				<img src={data.author.avatar_photo || placeholder} alt={data.author.name} />
+				{#if data.author.avatar_photo}
+					{#if data.author.avatar_photo.includes('https')}
+						<img src={data.author.avatar_photo} alt={data.author.name} />
+					{:else}
+						<img src={`/${data.author.avatar_photo}`} alt={data.author.name} />
+					{/if}
+				{:else}
+					<img src={placeholder} alt={data.author.name} />
+				{/if}
 			</a>
+		{:else if data.author.avatar_photo}
+			{#if data.author.avatar_photo.includes('https')}
+				<img src={data.author.avatar_photo} alt={data.author.name} />
+			{:else}
+				<img src={`/${data.author.avatar_photo}`} alt={data.author.name} />
+			{/if}
 		{:else}
-			<img src={data.author.avatar_photo || placeholder} alt={data.author.name} />
+			<img src={placeholder} alt={data.author.name} />
 		{/if}
 		<Box cvh bg="transparent" fd="column" width="fit-content" height="fit-content">
 			<span class="author-name">{data.author.name}</span>

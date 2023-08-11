@@ -10,10 +10,27 @@
 	{#each authors as author}
 		{#if !pageUrl}
 			<a href={`/author/${author.id}`}>
-				<img src={author.avatar_photo || avatarPlaceholder} alt={author.name} />
+				{#if author.avatar_photo}
+					{#if author.avatar_photo.includes('https')}
+						<img src={author.avatar_photo} alt={author.name} />
+					{:else}
+						<img src={`/${author.avatar_photo}`} alt={author.name} />
+					{/if}
+				{:else}
+					<img src={avatarPlaceholder} alt={author.name} />
+				{/if}
 			</a>
 		{:else}
-			<img src={author.avatar_photo || avatarPlaceholder} alt={author.name} />
+			<!-- <img src={author.avatar_photo || avatarPlaceholder} alt={author.name} /> -->
+			{#if author.avatar_photo}
+				{#if author.avatar_photo.includes('https')}
+					<img src={author.avatar_photo} alt={author.name} />
+				{:else}
+					<img src={`/${author.avatar_photo}`} alt={author.name} />
+				{/if}
+			{:else}
+				<img src={avatarPlaceholder} alt={author.name} />
+			{/if}
 		{/if}
 	{/each}
 </div>
