@@ -5,11 +5,9 @@
 	import SectionName from 'src/components/SectionName.svelte';
 
 	export let data;
-
-	const { event, recomendedEvents } = data.eventWithRecomendations;
 </script>
 
 <Player />
-<EventDetails eventCard videoFooter {event} />
+<EventDetails eventCard videoFooter event={data.eventWithRecomendations.event} />
 <SectionName title="Explore Similar" />
-<RecentEvents events={recomendedEvents} />
+<RecentEvents events={data.eventWithRecomendations.recomendedEvents} />
