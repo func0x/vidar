@@ -1,5 +1,5 @@
 <script>
-	import avatarPlaceholder from 'src/assets/avatar_placeholder.svg';
+	import avatarPlaceholder from '$lib/images/avatar_placeholder.svg';
 
 	export let authors;
 </script>

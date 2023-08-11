@@ -63,9 +63,18 @@ a {
 	text-decoration: unset;
 }
 
-@keyframes change-bg-color-hover {
+@keyframes change-upcoming-tag-bg-color-hover {
 	from {
 		background-color: var(--white);
+	}
+	to {
+		background-color: var(--grey-700);
+	}
+}
+
+@keyframes change-recent-tag-bg-color-hover {
+	from {
+		background-color: var(--grey-300);
 	}
 	to {
 		background-color: var(--grey-700);
