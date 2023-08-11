@@ -234,7 +234,7 @@
 	.video-controls-container {
 		height: fit-content;
 		position: absolute;
-		padding: 0 1rem;
+		padding: 0 1.25rem;
 		bottom: 0;
 		left: 0;
 		right: 0;
