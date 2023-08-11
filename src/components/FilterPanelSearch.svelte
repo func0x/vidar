@@ -155,17 +155,20 @@
 		$searchedAuthorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
 		const subscribtion = searchedDateRangeStore.subscribe(() => {
-			if ($searchedDateRangeStore.from || $searchedDateRangeStore.to) {
+			if ($searchedDateRangeStore.to && $searchedDateTypeStore == 'Range') {
 				$page.url.searchParams.set(
 					'date',
-					JSON.stringify({ from: $searchedDateRangeStore.from, to: $searchedDateRangeStore.to })
+					JSON.stringify({ from: $searchedDateRangeStore.from, to: $searchedDateRangeStore.from })
 				);
-				goto(`?${$page.url.searchParams.toString()}`, {
-					noScroll: true,
-					replaceState: true,
-					keepFocus: true
-				});
+			} else if ($searchedDateRangeStore.from) {
+				$page.url.searchParams.set('date', JSON.stringify({ from: $searchedDateRangeStore.from }));
 			}
+
+			goto(`?${$page.url.searchParams.toString()}`, {
+				noScroll: true,
+				replaceState: true,
+				keepFocus: true
+			});
 		});
 
 		return () => {

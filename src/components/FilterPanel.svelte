@@ -8,13 +8,11 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { authorStore, dateRangeStore, dateTypeStore, selectedTagsStore } from 'src/stores/Data';
-	import { getDayAndMonthJsDate, jsDateToLuxonTimestamp } from 'src/utils/date';
-	import deleteIcon from '$lib/images/delete.svg';
+	import { getDayAndMonthJsDate } from 'src/utils/date';
 	import AuthorName from './AuthorName.svelte';
 	import Filters from './Filters.svelte';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import TagPanel from './TagPanel.svelte';
-	import TagInfo from './TagInfo.svelte';
 
 	export let tags;
 	export let authors;
@@ -150,17 +148,19 @@
 		$authorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
 		const subscribtion = dateRangeStore.subscribe(() => {
-			if ($dateRangeStore.from || $dateRangeStore.to) {
+			if ($dateRangeStore.to && $dateTypeStore == 'Range') {
 				$page.url.searchParams.set(
 					'date',
-					JSON.stringify({ from: $dateRangeStore.from, to: $dateRangeStore.to })
+					JSON.stringify({ from: $dateRangeStore.from, to: $dateRangeStore.from })
 				);
-				goto(`?${$page.url.searchParams.toString()}`, {
-					noScroll: true,
-					replaceState: true,
-					keepFocus: true
-				});
+			} else if ($dateRangeStore.from) {
+				$page.url.searchParams.set('date', JSON.stringify({ from: $dateRangeStore.from }));
 			}
+			goto(`?${$page.url.searchParams.toString()}`, {
+				noScroll: true,
+				replaceState: true,
+				keepFocus: true
+			});
 		});
 
 		return () => {
