@@ -35,8 +35,14 @@
 
 		timeMove = (video.duration * (clientX - left)) / (right - left);
 
-		const test = e.target.getBoundingClientRect();
-		position = e.clientX - test.left;
+		if (e.target) {
+			try {
+				const test = e.target?.getBoundingClientRect();
+				position = e.clientX - test.left;
+			} catch (error) {
+				position = 0;
+			}
+		}
 
 		if (isScrubbing) {
 			video.currentTime = (video.duration * (clientX - left)) / (right - left);
@@ -67,6 +73,7 @@
 	const handleDocumentMouseDown = (e) => {
 		if (isScrubbing) {
 			isScrubbing = false;
+			video.play();
 		}
 	};
 

@@ -201,9 +201,9 @@
 	.video-container {
 		font-size: var(--font-m);
 
-		display: grid;
-		grid-template-rows: 1fr auto;
-		grid-template-areas: 'video' 'controls';
+		display: flex;
+		position: relative;
+		justify-content: center;
 	}
 
 	.video-wrapper {
@@ -215,6 +215,7 @@
 
 	.video-controls-container {
 		height: fit-content;
+		position: absolute;
 		padding: 0 1rem;
 		bottom: 0;
 		left: 0;
@@ -234,7 +235,7 @@
 
 	@media screen and (max-width: 1115px) {
 		video {
-			height: 575px;
+			display: flex;
 		}
 	}
 
