@@ -3,20 +3,34 @@
 	import search from '$lib/images/search.svg';
 	import FilterPanelSearch from 'src/components/FilterPanelSearch.svelte';
 	import RecentEvents from 'src/components/RecentEvents.svelte';
+	import { onMount } from 'svelte';
+	import { eventsStore } from 'src/stores/Data';
+	import { page } from '$app/stores';
 
-	export let data;
+	let searched = [];
+	let query = $page.url.searchParams.get('query') || '';
+
+	const findEventsByTitle = (eventsData, titleParam) => {
+		return eventsData.filter((item) => {
+			return item.title.toLowerCase().includes(titleParam.toLowerCase());
+		});
+	};
+
+	onMount(() => {
+		searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
+	});
 </script>
 
 <Box bg="var(--grey-300)" height="80px" position="relative">
 	<div>
-		<input value={data.query} />
+		<input value={query} />
 		<button><img src={search} alt="search" /></button>
 	</div>
 </Box>
 
 <Box mt="80px">
-	<FilterPanelSearch authors={[]} tags={[]} query={data.query} count={data.results.length} />
-	<RecentEvents events={data.results} />
+	<FilterPanelSearch authors={[]} tags={[]} {query} count={searched.length} />
+	<RecentEvents events={searched} />
 </Box>
 
 <style>
