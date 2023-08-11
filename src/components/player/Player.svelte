@@ -219,6 +219,7 @@
 	.video-container {
 		font-size: var(--font-m);
 
+		height: 720px;
 		display: flex;
 		position: relative;
 		justify-content: center;
@@ -255,6 +256,10 @@
 		video {
 			display: flex;
 		}
+
+		.video-container {
+			height: 520px;
+		}
 	}
 
 	@media screen and (max-width: 700px) {
@@ -263,6 +268,7 @@
 		}
 
 		.video-container {
+			height: 375px;
 			font-size: var(--font-s);
 		}
 	}
