@@ -40,8 +40,6 @@
 
 		if (v === '') {
 			filterAuthors = [];
-			selectedAuthor = null;
-			$page.url.searchParams.set('speaker', JSON.stringify(null));
 			goto(`?${$page.url.searchParams.toString()}`, {
 				noScroll: true,
 				replaceState: true,
