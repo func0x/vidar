@@ -54,7 +54,14 @@
 			<div class:ai class="multiple-speakers-list-mobile" bind:this={ref}>
 				{#each authors as author}
 					<div class="author-name-wrapper" name={author.name}>
-						<AuthorName {author} />
+						<div
+							class="author-name-wrapper"
+							name={author.name}
+							on:click={onSelect}
+							on:keyup={onSelect}
+						>
+							<AuthorName {author} />
+						</div>
 					</div>
 				{/each}
 			</div>

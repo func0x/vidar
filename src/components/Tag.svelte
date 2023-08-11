@@ -12,6 +12,7 @@
 	export let fs = 'var(--font-s)'; // font size
 	export let ft = false; // delete tag from filters
 	export let onDelete = () => {};
+	export let nh = false; // no hover effect
 
 	const changeTagColorHover = keyframes`
 		from {
@@ -23,25 +24,23 @@
 		}
 `;
 
-	const tagCss = css`
-		background-color: ${bg};
-		font-size: ${fs};
+	const tagCss =
+		nh === false
+			? css`
+					background-color: ${bg};
+					font-size: ${fs};
+			  `
+			: css`
+					background-color: ${bg};
+					font-size: ${fs};
+					cursor: pointer;
 
-		&:hover {
-			background-color: ${hbg} !important;
-			color: ${hc} !important;
-			animation: ${changeTagColorHover} 0.75s;
-		}
-	`;
-
-	const onTagClick = () => {
-		selectedTagsStore.update((v) => {
-			return Array.from(new Set([...v, text]));
-		});
-
-		$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
-		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
-	};
+					&:hover {
+						background-color: ${hbg} !important;
+						color: ${hc} !important;
+						animation: ${changeTagColorHover} 0.75s;
+					}
+			  `;
 </script>
 
 {#if ft}
@@ -57,7 +56,7 @@
 		</div>
 	</span>
 {:else}
-	<span on:click={onTagClick} on:keyup={onTagClick} class={tagCss}>{text}</span>
+	<span class={tagCss}>{text}</span>
 {/if}
 
 <style>
@@ -68,7 +67,6 @@
 		border-radius: var(--border-radius-xl);
 		display: flex;
 		white-space: nowrap;
-		cursor: pointer;
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		-ms-user-select: none;
@@ -86,5 +84,6 @@
 
 	.ft > img {
 		align-self: center;
+		cursor: pointer;
 	}
 </style>

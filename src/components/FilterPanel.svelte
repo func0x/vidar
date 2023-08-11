@@ -133,7 +133,10 @@
 			to: jsDateToLuxonTimestamp(dateTo, 'to')
 		});
 
+		$dateTypeStore = 'Any Time';
+
 		$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
+		$page.url.searchParams.set('period', JSON.stringify('Any Time'));
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
 
@@ -195,13 +198,11 @@
 							fd="column"
 							height="fit-content"
 						>
-							{#key $selectedTagsStore}
-								<TagPanel>
-									{#each $selectedTagsStore as tag (tag)}
-										<Tag ft text={tag} onDelete={deleteTagFromFilter} />
-									{/each}
-								</TagPanel>
-							{/key}
+							<TagPanel>
+								{#each $selectedTagsStore as tag (tag)}
+									<Tag ft text={tag} onDelete={deleteTagFromFilter} />
+								{/each}
+							</TagPanel>
 						</Box>
 					</Box>
 				{/if}
@@ -219,39 +220,45 @@
 						/>
 					</Box>
 				{/if}
-				{#if period !== 'Any Time'}
-					<Box ch gap="var(--gap-m)" width="fit-content">
-						<!-- <TagInfo text={getDayAndMonthJsDate(dateFrom)} fp /> -->
-						<!-- <span>-</span> -->
-						<!-- <TagInfo text={getDayAndMonthJsDate(dateTo)} fp /> -->
-						{#if $dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After'}
-							<span class="select-tags">TIMEFRAME:</span>
-							<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
-							<img
-								src={deleteIcon}
-								alt="delete"
-								on:keyup={deleteSpeakerFromFilter}
-								on:click={deleteDateFromFilter}
-							/>
-						{/if}
+				<Box ch gap="var(--gap-m)" width="fit-content">
+					{#if $dateTypeStore === 'Last 30 days' || $dateTypeStore === 'Last 3 months'}
+						<span class="select-tags">TIMEFRAME:</span>
+						<TagInfo text={$dateTypeStore} fp />
+						<img
+							src={deleteIcon}
+							alt="delete"
+							on:keyup={deleteSpeakerFromFilter}
+							on:click={deleteDateFromFilter}
+						/>
+					{/if}
 
-						{#if $dateTypeStore === 'Range' && dateTo != null}
-							<span class="select-tags">TIMEFRAME:</span>
-							<TagInfo
-								text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
-									dateTo
-								)}`}
-								fp
-							/>
-							<img
-								src={deleteIcon}
-								alt="delete"
-								on:keyup={deleteSpeakerFromFilter}
-								on:click={deleteDateFromFilter}
-							/>
-						{/if}
-					</Box>
-				{/if}
+					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && dateFrom}
+						<span class="select-tags">TIMEFRAME:</span>
+						<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
+						<img
+							src={deleteIcon}
+							alt="delete"
+							on:keyup={deleteSpeakerFromFilter}
+							on:click={deleteDateFromFilter}
+						/>
+					{/if}
+
+					{#if $dateTypeStore === 'Range' && dateTo}
+						<span class="select-tags">TIMEFRAME:</span>
+						<TagInfo
+							text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
+								dateTo
+							)}`}
+							fp
+						/>
+						<img
+							src={deleteIcon}
+							alt="delete"
+							on:keyup={deleteSpeakerFromFilter}
+							on:click={deleteDateFromFilter}
+						/>
+					{/if}
+				</Box>
 			</Box>
 		{:else}
 			<Box df fd="column" gap="var(--gap-m)">
@@ -309,36 +316,34 @@
 	</MediaQuery>
 
 	{#if open}
-		{#key $selectedTagsStore}
-			<MediaQuery query="(min-width: 1115px)" let:matches>
-				{#if matches}
-					<Filters
-						bind:dateFrom
-						bind:dateTo
-						bind:selectedAuthor
-						bind:author
-						bind:boxRef
-						{tags}
-						{authors}
-						tagClickEvent={addClickTagEvent}
-						{initSelectTags}
-					/>
-				{:else}
-					<Filters
-						bind:dateFrom
-						bind:dateTo
-						bind:selectedAuthor
-						bind:author
-						bind:boxRef
-						dc
-						{tags}
-						{authors}
-						tagClickEvent={addClickTagEvent}
-						{initSelectTags}
-					/>
-				{/if}
-			</MediaQuery>
-		{/key}
+		<MediaQuery query="(min-width: 1115px)" let:matches>
+			{#if matches}
+				<Filters
+					bind:dateFrom
+					bind:dateTo
+					bind:selectedAuthor
+					bind:author
+					bind:boxRef
+					{tags}
+					{authors}
+					tagClickEvent={addClickTagEvent}
+					{initSelectTags}
+				/>
+			{:else}
+				<Filters
+					bind:dateFrom
+					bind:dateTo
+					bind:selectedAuthor
+					bind:author
+					bind:boxRef
+					dc
+					{tags}
+					{authors}
+					tagClickEvent={addClickTagEvent}
+					{initSelectTags}
+				/>
+			{/if}
+		</MediaQuery>
 	{/if}
 </Box>
 

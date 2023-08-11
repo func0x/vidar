@@ -43,7 +43,9 @@
 
 <Box df fd="column" gap="var(--gap-m)">
 	<Box df fd={dc ? 'column' : 'row'} gap="var(--gap-l)">
-		<SelectTime {options} />
+		{#key $dateTypeStore}
+			<SelectTime {options} />
+		{/key}
 		{#if $dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After'}
 			<DatePicker label="From" bind:date={dateFrom} />
 		{/if}
@@ -51,13 +53,12 @@
 			<DatePicker label="From" bind:date={dateFrom} />
 			<DatePicker label="To" bind:date={dateTo} />
 		{/if}
-
 		<AuthorInput {authors} bind:selectedAuthor bind:authorName={author} />
 	</Box>
 	<span class="select-tags">Select tags</span>
 	<Box bind:boxRef df fw gap="var(--gap-m)">
 		{#each tags as tag}
-			<Tag text={tag} bg={tagBg} {hbg} {hc} {fs} />
+			<Tag nh text={tag} bg={tagBg} {hbg} {hc} {fs} />
 		{/each}
 	</Box>
 </Box>
