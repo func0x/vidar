@@ -16,6 +16,7 @@
 	let authors = [];
 	let tags = [];
 	let query;
+	let queryValue = '';
 
 	const findEventsByTitle = (eventsData, titleParam) => {
 		return eventsData.filter((item) => {
@@ -23,23 +24,45 @@
 		});
 	};
 
+	const redirectToSearch = (e) => {
+		authorsSet = new Set([]);
+		tagsSet = new Set([]);
+		const data = Object.fromEntries(new FormData(e.target).entries());
+		queryValue = data.query !== '' ? data.query : 'All results';
+		console.log(data.query);
+
+		searched = findEventsByTitle($eventsStore, data.query);
+		searched.forEach((element) => {
+			element.authors.forEach((author) => {
+				if (!authorsSet.has(JSON.stringify(author))) {
+					authorsSet.add(JSON.stringify(author));
+				}
+			});
+			tagsSet = new Set([...tagsSet, ...element.tags]);
+		});
+
+		$searchedEventsStore = searched;
+		authors = Array.from(authorsSet).map((x) => JSON.parse(x));
+		tags = Array.from(tagsSet).sort((a, b) => a.localeCompare(b));
+		goto(`/search?query=${query}`);
+	};
+
 	onMount(() => {
 		query = $page.url.searchParams.get('query') || '';
-		if (query !== '') {
-			searched = findEventsByTitle($eventsStore, query);
-			searched.forEach((element) => {
-				element.authors.forEach((author) => {
-					if (!authorsSet.has(JSON.stringify(author))) {
-						authorsSet.add(JSON.stringify(author));
-					}
-				});
-				tagsSet = new Set([...tagsSet, ...element.tags]);
+		queryValue = query !== '' ? query : 'All results';
+		searched = findEventsByTitle($eventsStore, query);
+		searched.forEach((element) => {
+			element.authors.forEach((author) => {
+				if (!authorsSet.has(JSON.stringify(author))) {
+					authorsSet.add(JSON.stringify(author));
+				}
 			});
+			tagsSet = new Set([...tagsSet, ...element.tags]);
+		});
 
-			$searchedEventsStore = searched;
-			authors = Array.from(authorsSet).map((x) => JSON.parse(x));
-			tags = Array.from(tagsSet);
-		}
+		$searchedEventsStore = searched;
+		authors = Array.from(authorsSet).map((x) => JSON.parse(x));
+		tags = Array.from(tagsSet).sort((a, b) => a.localeCompare(b));
 	});
 </script>
 
@@ -54,13 +77,11 @@
 	<div class="spacer" />
 
 	{#if searched.length > 0}
-		{#key $page.url.searchParams.get('query')}
-			<SearchResults {authors} {tags} bind:searched />
-		{/key}
+		<SearchResults bind:authors bind:tags bind:searched bind:queryValue />
 	{:else}
 		<div class="wrapper">
 			<Box df tac fd="column" noRes width="fit-content">
-				<span class="query">{query}</span>
+				<span class="query">{queryValue}</span>
 				<span class="results">no results found</span>
 			</Box>
 			<img class="no-found" src={noFound} alt="no-found" />
