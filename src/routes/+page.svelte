@@ -12,6 +12,10 @@
 	const { tags, authors } = data;
 </script>
 
+<svelte:head>
+	<title>Vidar &#x2022; Home</title>
+</svelte:head>
+
 <Upcoming {event} />
 <SectionName title="Explore" />
 <FilterPanel {tags} {authors} />

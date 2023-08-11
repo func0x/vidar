@@ -7,6 +7,12 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>
+		Vidar &#x2022; {data.author !== undefined ? data.author.name : 'Not Found'}
+	</title>
+</svelte:head>;
+
 <Box height="290px">
 	<Box cvh gap="var(--gap-m)" fd="column">
 		<img src={data.author.avatar_photo || placeholder} alt={data.author.name} />

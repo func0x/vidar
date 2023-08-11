@@ -10,6 +10,10 @@
 	const { recentEvents } = data;
 </script>
 
+<svelte:head>
+	<title>Vidar &#x2022; 404</title>
+</svelte:head>
+
 <Box cvh mt="var(--gap-xl)" fd="column" gap="var(--gap-xl)">
 	<Box cvh fd="column" gap="var(--gap-l)">
 		<h1>Oops! We can’t find that page.</h1>
