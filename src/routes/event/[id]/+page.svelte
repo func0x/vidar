@@ -15,6 +15,12 @@
 			? data.eventWithRecomendations.event.title
 			: 'Not Found'}
 	</title>
+
+	<style>
+		body {
+			overflow-x: hidden;
+		}
+	</style>
 </svelte:head>
 
 {#key $page.params.id}

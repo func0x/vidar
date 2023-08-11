@@ -14,6 +14,8 @@
 
 	let isScrubbing = false;
 	let previewTimestamp = 0;
+	let timeMove = 0.0;
+	let position = 0;
 
 	onMount(() => {
 		wrapper = document.querySelector('.progress-wrapper');
@@ -30,6 +32,11 @@
 		} else {
 			previewTimestamp = video.duration * percent;
 		}
+
+		timeMove = (video.duration * (clientX - left)) / (right - left);
+
+		const test = e.target.getBoundingClientRect();
+		position = e.clientX - test.left;
 
 		if (isScrubbing) {
 			video.currentTime = (video.duration * (clientX - left)) / (right - left);
@@ -87,6 +94,8 @@
 				{duration}
 				currentTime={currentPercent * duration}
 				previewTime={previewTimestamp}
+				{timeMove}
+				{position}
 			/>
 		{/each}
 	</div>

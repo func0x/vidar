@@ -1,4 +1,5 @@
 <script>
+	import { css } from '@emotion/css';
 	let ref;
 	let barWatched;
 	let barLeft;
@@ -8,7 +9,38 @@
 	export let duration;
 	export let currentTime;
 	export let previewTime;
+	export let timeMove;
+	export let position;
+
+	let boxCss;
+	console.log(ref);
+
+	const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
+		minimumIntegerDigits: 2
+	});
+
+	const formatDuration = (time) => {
+		const seconds = Math.floor(time % 60);
+		const minutes = Math.floor(time / 60) % 60;
+		const hours = Math.floor(time / 3600);
+		if (hours === 0) {
+			return `${minutes}:${leadingZeroFormatter.format(seconds)}`;
+		} else {
+			return `${hours}:${leadingZeroFormatter.format(minutes)}:${leadingZeroFormatter.format(
+				seconds
+			)}`;
+		}
+	};
+
 	$: {
+		if (position > 5) {
+			boxCss = css`
+				left: ${position}px;
+				position: relative;
+				width: fit-content;
+			`;
+		}
+
 		if (barWatched && barLeft) {
 			const safeCurrentTime = isNaN(currentTime) ? 0 : currentTime;
 
@@ -77,12 +109,10 @@
 	}
 </script>
 
-<div
-	bind:this={ref}
-	class="general-marker timestamp-marker"
-	style={`flex: ${timestamp.to - timestamp.from} 0 0;`}
->
-	<div class="timestamp-marker__tooltip">{timestamp.title}</div>
+<div class="general-marker timestamp-marker" style={`flex: ${timestamp.to - timestamp.from} 0 0;`}>
+	<div class={`timestamp-marker__tooltip ${boxCss} `}>
+		<span>{timestamp.title}</span><span>{formatDuration(timeMove)}</span>
+	</div>
 	<div class="bars">
 		<div class="timestamp-marker__bar timestamp-marker__bar--watched" bind:this={barWatched} />
 		<div class="timestamp-marker__bar timestamp-marker__bar--preview" bind:this={barPreview} />
@@ -130,10 +160,12 @@
 	.timestamp-marker__tooltip {
 		pointer-events: none;
 		text-align: center;
-		transform: translateY(calc(-100% - 5px));
+		transform: translate(-50%, calc(-100% - 5px));
 		opacity: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
 
-		transition: all 0.3s ease;
 		color: white;
 	}
 
