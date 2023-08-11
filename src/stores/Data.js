@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+import { luxonTimeBack } from 'src/utils/date';
 import { writable, derived } from 'svelte/store';
 const modules = import.meta.glob('../../event_data/*/*.json');
 
@@ -6,6 +8,7 @@ export const selectedTagsStore = writable([]);
 export const dateRangeStore = writable();
 export const authorStore = writable('');
 export const sortDirectionStore = writable('Latest');
+export const dateTypeStore = writable('Any Time');
 
 const replacePath = (path) => {
 	return path.replace('../..', '').replace('/data.json', '');
@@ -48,33 +51,9 @@ export const jsonEvents = async () => {
 };
 
 export const filtered = derived(
-	[eventsStore, selectedTagsStore, dateRangeStore, authorStore],
-	([$eventsStore, $selectedTagsStore, $dateRangeStore, $authorStore]) => {
+	[eventsStore, selectedTagsStore, authorStore, dateTypeStore, dateRangeStore],
+	([$eventsStore, $selectedTagsStore, $authorStore, $dateTypeStore, $dateRangeStore]) => {
 		let events = $eventsStore;
-
-		if ($dateRangeStore && $dateRangeStore.from && $dateRangeStore.to) {
-			if ($dateRangeStore.from < $dateRangeStore.to) {
-				events = events.filter((item) => {
-					return item.datetime >= $dateRangeStore.from && item.datetime <= $dateRangeStore.to;
-				});
-			} else {
-				events = events.filter((item) => {
-					return item.datetime >= $dateRangeStore.to && item.datetime <= $dateRangeStore.from;
-				});
-			}
-		}
-
-		if ($dateRangeStore && $dateRangeStore.from && isNaN($dateRangeStore.to)) {
-			events = events.filter((item) => {
-				return item.datetime >= $dateRangeStore.from;
-			});
-		}
-
-		if ($dateRangeStore && $dateRangeStore.to && isNaN($dateRangeStore.from)) {
-			events = events.filter((item) => {
-				return item.datetime <= $dateRangeStore.to;
-			});
-		}
 
 		events = events.filter((item) => {
 			const isExist = item.authors.filter((y) => {
@@ -86,6 +65,30 @@ export const filtered = derived(
 		if ($selectedTagsStore.length > 0) {
 			events = events.filter(
 				(e) => e.tags.some((t) => $selectedTagsStore.indexOf(t) >= 0) && e.upcoming === false
+			);
+		}
+
+		if ($dateTypeStore === 'Last 30 days') {
+			events = events.filter((x) => x.datetime >= luxonTimeBack(30));
+		} else if ($dateTypeStore === 'Last 3 months') {
+			events = events.filter((x) => x.datetime >= luxonTimeBack(90));
+		} else if ($dateTypeStore === 'On...') {
+			events = events.filter(
+				(x) =>
+					x.datetime >= $dateRangeStore.from &&
+					x.datetime <=
+						DateTime.fromMillis($dateRangeStore.from * 1000)
+							.set({ hour: 23, minute: 59, second: 59 })
+							.toMillis() /
+							1000
+			);
+		} else if ($dateTypeStore === 'Before...') {
+			events = events.filter((x) => x.datetime <= $dateRangeStore.from);
+		} else if ($dateTypeStore === 'After...') {
+			events = events.filter((x) => x.datetime >= $dateRangeStore.from);
+		} else if ($dateTypeStore === 'Range') {
+			events = events.filter(
+				(x) => x.datetime >= $dateRangeStore.from && x.datetime <= $dateRangeStore.to
 			);
 		}
 

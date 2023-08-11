@@ -7,6 +7,12 @@ export const formatTimestamp = (timestamp) => {
 	}).toFormat('yyyy-MM-dd HH:mm ZZZZ');
 };
 
+export const luxonTimeBack = (days) => {
+	return (
+		DateTime.now().set({ hour: 0, minute: 0, second: 0 }).minus({ days: days }).toMillis() / 1000
+	);
+};
+
 export const jsDateToLuxonTimestamp = (jsDate, type) => {
 	switch (type) {
 		case 'from':
