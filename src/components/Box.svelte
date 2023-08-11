@@ -29,7 +29,9 @@
 	export let fw = false; // flex-wrap
 	export let hbg = false; // change bg on hover
 	export let tac = false; // text-align: center
+	export let transformX = false; // tranform: translateX
 	export let className = ''; // CSS class name
+	export let noRes = false;
 
 	let boxCss = css`
 		margin-top: ${mt};
@@ -65,9 +67,11 @@
 		class:fw
 		class:ds
 		class:di
+		class:noRes
 		class:df
 		class:tac
 		class:cvh
+		class:transformX
 		class:ch
 		class:jsb
 		class:je
@@ -85,8 +89,18 @@
 		display: flex;
 	}
 
+	.transformX {
+		transform: translateX(-50%);
+	}
+
 	.tac {
 		text-align: center;
+	}
+
+	.noRes {
+		height: fit-content;
+		transform: translateX(50%);
+		align-self: flex-start;
 	}
 
 	.hbg:hover > :global(.author-name) {

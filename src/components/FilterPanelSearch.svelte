@@ -156,13 +156,13 @@
 
 <MediaQuery query="(min-width: 1750px)" let:matches>
 	{#if matches}
-		<Box df fd="column" padding="0 var(--gap-l) var(--gap-l) var(--gap-l)" gap="var(--gap-m)">
+		<Box df fd="column" padding="0 var(--gap-l) var(--gap-l) var(--gap-l)" gap="var(--gap-m)" height="fit-content">
 			<Box cvh jsb gap="var(--gap-m)">
 				<Box width="fit-content" cvh gap="var(--gap-s)">
 					<span>Sort by:</span>
 					<Select {options} />
 				</Box>
-				<Box df tac fd="column" width="fit-content">
+				<Box df tac fd="column" transformX width="fit-content">
 					<span class="query">{query}</span>
 					<span class="results">{count === 0 ? 'no' : count} results found</span>
 				</Box>
@@ -268,13 +268,13 @@
 			{/if}
 		</Box>
 	{:else}
-		<Box df fd="column" padding="0 var(--gap-m) var(--gap-m) var(--gap-m)" gap="var(--gap-s)">
-			<Box df tac fd="column">
-				<span class="query">{query}</span>
-				<span class="results">{count === 0 ? 'no' : count} results found</span>
-			</Box>
+		<Box df fd="column" padding="0 var(--gap-m) var(--gap-m) var(--gap-m)" gap="var(--gap-s)" height="fit-content">
+				<Box df tac fd="column" >
+					<span class="query">{query}</span>
+					<span class="results">{count === 0 ? 'no' : count} results found</span>
+				</Box>
 			<Box cvh jsb gap="var(--gap-m)">
-				<Box width="fit-content" cvh gap="var(--gap-s)">
+				<Box width="fit-content" cvh  gap="var(--gap-s)">
 					<span>Sort by:</span>
 					<Select {options} />
 				</Box>

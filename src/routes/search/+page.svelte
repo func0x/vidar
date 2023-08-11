@@ -8,6 +8,7 @@
 	import { eventsStore } from 'src/stores/Data';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import tags from '$lib/jsons/tags.json';
 
 	let searched = [];
 	let query = $page.url.searchParams.get('query') || '';
@@ -23,7 +24,9 @@
 	};
 
 	onMount(() => {
-		searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
+		if ($page.url.searchParams.get('query')) {
+			searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
+		}
 	});
 
 	$: {
@@ -33,28 +36,34 @@
 	}
 </script>
 
-<Box bg="var(--grey-300)" height="80px" position="relative">
-	<form on:submit|preventDefault={redirectToSearch}>
-		<input name="query" bind:value={query} placeholder="Search..." />
-		<button type="submit"><img src={search} alt="search" /></button>
-	</form>
-</Box>
+<div class={searched.length === 0 ? 'box' : ''}>
+	<Box bg="var(--grey-300)" height="80px" position="relative">
+		<form on:submit|preventDefault={redirectToSearch}>
+			<input name="query" bind:value={query} placeholder="Search..." />
+			<button type="submit"><img src={search} alt="search" /></button>
+		</form>
+	</Box>
 
-<Box mt="80px">
-	<FilterPanelSearch
-		authors={[]}
-		tags={[]}
-		query={$page.url.searchParams.get('query') || 'Unknown parameter'}
-		count={searched.length}
-	/>
+	<div class="spacer" />
+
 	{#if searched.length > 0}
+		<FilterPanelSearch
+			authors={[]}
+			{tags}
+			query={$page.url.searchParams.get('query') || 'Unknown parameter'}
+			count={searched.length}
+		/>
 		<RecentEvents events={searched} />
 	{:else}
-		<div>
-			<img src={noFound} alt="no-found" />
+		<div class="wrapper">
+			<Box df tac fd="column" noRes width="fit-content">
+				<span class="query">{query}</span>
+				<span class="results">no results found</span>
+			</Box>
+			<img class="no-found" src={noFound} alt="no-found" />
 		</div>
 	{/if}
-</Box>
+</div>
 
 <style>
 	form {
