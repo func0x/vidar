@@ -25,7 +25,7 @@
 
 {#key $page.params.id}
 	<Player event={data.eventWithRecomendations.event} />
-<EventDetails eventCard videoFooter event={data.eventWithRecomendations.event} />
+	<EventDetails eventCard videoFooter event={data.eventWithRecomendations.event} />
 {/key}
 {#if data.eventWithRecomendations.recomendedEvents.length > 1}
 	<SectionName title="Explore Similar" />
