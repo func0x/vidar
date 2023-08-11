@@ -2,7 +2,7 @@
 	import Box from './Box.svelte';
 	import avatarPlaceholder from '$lib/images/avatar_placeholder.svg';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
-	import deleteIcon from '$lib/images/delete.svg';
+	import deleteIcon from '$lib/images/delete_white.svg';
 
 	export let author;
 	export let mw = false;
@@ -78,15 +78,24 @@
 	div {
 		padding: var(--gap-xs);
 		cursor: pointer;
-		background: var(--grey-300);
+		background: var(--aubergine);
 		display: flex;
 		gap: var(--gap-s);
 		align-items: center;
 		border-radius: var(--border-radius-xl);
 	}
 
+	div:hover {
+		background: var(--grey-700);
+	}
+
+	div:hover > span {
+		color: var(--white);
+	}
+
 	div > span {
 		font-size: var(--font-s);
+		color: white !important;
 	}
 
 	img {

@@ -111,12 +111,7 @@
 		selectedTags.delete(tagName);
 		$searchedSelectedTagsStore = $searchedSelectedTagsStore.filter((x) => x !== tagName);
 
-		if ($searchedSelectedTagsStore.length > 0) {
-			$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
-		} else {
-			$page.url.searchParams.delete('tags');
-		}
-
+		$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
 		goto(`?${$page.url.searchParams.toString()}`, {
 			noScroll: true,
 			replaceState: true
@@ -127,6 +122,7 @@
 	const deleteSpeakerFromFilter = () => {
 		author = '';
 		$searchedAuthorStore = '';
+		selectedAuthor = null;
 		$page.url.searchParams.delete('speaker');
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
@@ -135,11 +131,14 @@
 		dateFrom = null;
 		dateTo = null;
 
-		$searchedDateRangeStore = { from: null, to: null };
+		searchedDateRangeStore.set({
+			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
+			to: jsDateToLuxonTimestamp(dateTo, 'to')
+		});
 
 		$searchedDateTypeStore = 'Any Time';
 
-		$page.url.searchParams.delete('date');
+		$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
 		$page.url.searchParams.set('period', JSON.stringify('Any Time'));
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
