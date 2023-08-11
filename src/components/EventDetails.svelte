@@ -19,6 +19,7 @@
 	export let hover = false;
 	export let isLive = false;
 	export let exploreSimilar = false;
+	export let titleUnlimited = false;
 
 	const downloadSlides = (assets) => {
 		const a = document.createElement('a');
@@ -40,7 +41,7 @@
 					</TagPanel>
 				{/key}
 				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
-					<h1 class:hover class:eventCard>{event.title}</h1>
+					<h1 class:titleUnlimited class:hover class:eventCard>{event.title}</h1>
 				</a>
 				<EventAuthor authors={event.authors} timestamp={event.datetime} />
 				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
@@ -147,6 +148,10 @@
 		-webkit-box-orient: vertical;
 	}
 
+	.titleUnlimited {
+		-webkit-line-clamp: 3;
+	}
+
 	p {
 		font-size: var(--font-m);
 		color: var(--grey-700);
@@ -162,6 +167,13 @@
 
 	.hover:hover {
 		color: var(--red);
+	}
+
+	@media screen and (min-width: 1115px) and (max-width: 1750px) {
+		h1 {
+			font-size: 35px;
+			color: var(--aubergine);
+		}
 	}
 
 	@media screen and (max-width: 1114px) {
