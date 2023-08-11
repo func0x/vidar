@@ -1,0 +1,28 @@
+{
+	"upcoming": false,
+	"tags": ["tag1", "tag2"],
+	"title": "Vidar #1",
+	"datetime": 1688551200,
+	"event_photo": "vidar-thumbnail.svg",
+	"authors": [
+		{
+			"name": "Svevn Vidar",
+			"id": "svidar",
+			"avatar_photo": ""
+		}
+	],
+	"assets": {
+		"slides": "https://docs.google.com/presentation/d/1c2SCUe-3OqauydSEkdRfoE8f0lxi7yN_oZ_3dcTOknU/edit#slide=id.g257f47c476c_4_0"
+	},
+	"video": {
+		"name": "vidar_logo.mp4",
+		"timestamps": [
+			{
+				"title": "Timestamp 1",
+				"from": 0,
+				"to": 2
+			}
+		]
+	},
+	"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+}

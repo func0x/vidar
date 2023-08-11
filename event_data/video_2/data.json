@@ -1,0 +1,29 @@
+{
+	"upcoming": true,
+	"tags": ["tag1", "tag2"],
+	"title": "Vidar #2",
+	"datetime": 1689156000,
+	"event_photo": "vidar-thumbnail-upcoming.svg",
+	"livestream": "https://livestreamlink.com",
+	"authors": [
+		{
+			"name": "Svevn Vidar",
+			"id": "svidar",
+			"avatar_photo": ""
+		}
+	],
+	"assets": {
+		"slides": "Vidar features.pdf"
+	},
+	"video": {
+		"name": "",
+		"timestamps": [
+			{
+				"title": "",
+				"from": 0,
+				"to": 0
+			}
+		]
+	},
+	"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+}
