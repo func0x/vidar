@@ -18,7 +18,7 @@
 	</Box>
 </Box>
 <SectionName title="{data.author.name} Events" />
-<RecentEvents events={data.events} />
+<RecentEvents hover events={data.events} />
 
 <style>
 	img {
