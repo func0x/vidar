@@ -1,5 +1,6 @@
 <script>
 	import volumeIcon from '$lib/images/volume.svg';
+	import volumeLow from '$lib/images/volume_low.svg';
 	import muteIcon from '$lib/images/mute.svg';
 
 	export let video;
@@ -20,15 +21,25 @@
 		}
 	};
 
-	const changeVolume = (event) => {
-		video.volume = event.target.value;
+	function changeVolume() {
+		const value = (this.value - this.min) / (this.max - this.min);
+		this.style.background =
+			'linear-gradient(to right, white 0%, white ' +
+			value * 100 +
+			'%, #595959 ' +
+			value * 100 +
+			'%, #595959 100%)';
+
+		video.volume = value;
 
 		if (video.volume === 0) {
 			volumeBtn.firstChild.src = muteIcon;
+		} else if (video.volume > 0 && video.volume < 0.6) {
+			volumeBtn.firstChild.src = volumeLow;
 		} else {
 			volumeBtn.firstChild.src = volumeIcon;
 		}
-	};
+	}
 </script>
 
 <div class="volume-container">
@@ -64,7 +75,9 @@
 		width: 0;
 		transform-origin: left;
 		transform: scaleX(0);
+		accent-color: white;
 		transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+		background: linear-gradient(to right, white 0%, white 100%, #595959 100%, #595959 100%);
 	}
 
 	.volume-container {
@@ -73,66 +86,15 @@
 	}
 	.volume-container:hover .volume-slider,
 	.volume-slider:focus-within {
-		width: 50px;
 		transform: scaleX(1);
-	}
-
-	[type='range'] {
-		margin: 0;
-		padding: 5px 0;
-		background: transparent;
-	}
-	[type='range'],
-	[type='range']::-webkit-slider-thumb {
+		accent-color: white;
+		height: 6px;
+		border-radius: 2000px;
+		border: 1px solid #928f94;
+		width: 55px;
+		outline: none;
+		cursor: pointer;
 		-webkit-appearance: none;
-	}
-	[type='range']::-webkit-slider-runnable-track {
-		box-sizing: border-box;
-		border: none;
-		height: 3px;
-		background: white;
-	}
-	[type='range']::-moz-range-track {
-		box-sizing: border-box;
-		border: none;
-		height: 3px;
-		background: white;
-	}
-	[type='range']::-ms-track {
-		box-sizing: border-box;
-		border: none;
-		height: 3px;
-		background: white;
-	}
-	[type='range']::-webkit-slider-thumb {
-		margin-top: -4.5px;
-		box-sizing: border-box;
-		border: none;
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		background: var(--red);
-	}
-	[type='range']::-moz-range-thumb {
-		box-sizing: border-box;
-		border: none;
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		background: var(--red);
-	}
-	[type='range']::-ms-thumb {
-		margin-top: 0;
-		box-sizing: border-box;
-		border: none;
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		background: var(--red);
-	}
-
-	[type='range']::-ms-tooltip {
-		display: none;
 	}
 
 	@media screen and (max-width: 1115px) {

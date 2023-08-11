@@ -2,6 +2,8 @@
 	import play from '$lib/images/play.svg';
 	import pause from '$lib/images/pause.svg';
 	import fullscreen from '$lib/images/fullscreen.svg';
+	import closeFullScreen from '$lib/images/exit_fullscreen.svg';
+	import playback from '$lib/images/playback_speed.svg';
 	import Volume from './Volume.svelte';
 
 	export let videoContainer;
@@ -11,7 +13,18 @@
 	export let duration;
 	export let slider;
 	export let volumeBtn;
-	let speedBtn;
+	let fullScreenIcon;
+	let playbackListOpen = false;
+	let videoSpeed = [
+		{ key: '0.25', value: 0.25 },
+		{ key: '0.50', value: 0.5 },
+		{ key: '0.75', value: 0.75 },
+		{ key: 'Normal', value: 1 },
+		{ key: '1.25', value: 1.25 },
+		{ key: '1.50', value: 1.5 },
+		{ key: '1.75', value: 1.75 },
+		{ key: '2.00', value: 2 }
+	];
 
 	const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
 		minimumIntegerDigits: 2
@@ -34,21 +47,22 @@
 		video.paused ? video.play() : video.pause();
 	};
 
-	const changeSpeed = () => {
-		let speed = video.playbackRate + 0.25;
-		if (speed > 2) {
-			speed = 0.25;
-		}
+	const changeSpeed = (e) => {
+		playbackListOpen = !playbackListOpen;
+		const value = e.target.getAttribute('value');
 
-		video.playbackRate = speed;
-		speedBtn.textContent = `${speed}x`;
+		if (value) {
+			video.playbackRate = parseFloat(value);
+		}
 	};
 
 	const toggleFullscreen = () => {
 		if (document.fullscreenElement == null) {
 			videoContainer.requestFullscreen();
+			fullScreenIcon.src = closeFullScreen;
 		} else {
 			document.exitFullscreen();
+			fullScreenIcon.src = fullscreen;
 		}
 	};
 </script>
@@ -66,10 +80,24 @@
 			{duration ? formatDuration(duration) : '0:00'}
 		</div>
 	</div>
-	<button bind:this={speedBtn} on:click={changeSpeed} class="speed-btn wide"> 1x </button>
+	<button on:click={changeSpeed} class="speed-btn wide">
+		<img src={playback} alt="play" />
+		{#if playbackListOpen}
+			<div class="playback-choose">
+				{#each videoSpeed as speed}
+					<div class="video-speed" value={speed.value}>
+						{speed.key}
+					</div>
+				{/each}
+			</div>
+		{/if}
+		<div class="info">Playback Speed</div>
+	</button>
 	<button on:click={toggleFullscreen} class="full-screen-btn"
-		><img class="full-screen" src={fullscreen} alt="full-screen" /></button
-	>
+		><img bind:this={fullScreenIcon} class="full-screen" src={fullscreen} alt="full-screen" />
+
+		<div class="info fullscreen">Full Screen</div>
+	</button>
 </div>
 
 <style>
@@ -83,6 +111,7 @@
 		align-items: center;
 		justify-content: center;
 		color: transparent;
+		position: relative;
 	}
 
 	div {
@@ -120,9 +149,55 @@
 		align-items: center;
 	}
 
-	.controls button.wide {
+	.speed-btn {
 		width: 50px;
 		color: white;
+	}
+
+	.playback-choose {
+		position: absolute;
+		bottom: 200%;
+		border-radius: 5px;
+		overflow: hidden;
+		background: #212121;
+		z-index: 10;
+	}
+
+	.video-speed {
+		width: 95px;
+		padding: 6px 0;
+		text-align: center;
+		background: #212121;
+		font-size: 10px;
+	}
+
+	.video-speed:hover {
+		background-color: rgba(255, 255, 255, 0.15);
+	}
+
+	.playback-choose:first-child {
+		border-radius: 5px;
+	}
+
+	.info {
+		position: absolute;
+		display: none;
+		bottom: 200%;
+		white-space: nowrap;
+		width: fit-content;
+		background: #212121;
+		padding: 6px;
+		border-radius: 5px;
+		font-size: 12px;
+		pointer-events: none;
+	}
+
+	button:hover > .info {
+		display: block;
+	}
+
+	.fullscreen {
+		right: 0;
 	}
 
 	@media screen and (max-width: 1115px) {
