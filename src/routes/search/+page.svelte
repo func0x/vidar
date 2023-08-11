@@ -29,7 +29,6 @@
 		tagsSet = new Set([]);
 		const data = Object.fromEntries(new FormData(e.target).entries());
 		queryValue = data.query !== '' ? data.query : 'All results';
-		console.log(data.query);
 
 		searched = findEventsByTitle($eventsStore, data.query);
 		searched.forEach((element) => {

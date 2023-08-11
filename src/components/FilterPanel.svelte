@@ -21,9 +21,13 @@
 	const options = ['Latest', 'Earliest'];
 
 	function findAuthorByName(authorName) {
-		return authors.find((item) => {
-			return item.name === authorName;
-		});
+		if (authorName) {
+			return authors.find((item) => {
+				return item.name === authorName;
+			});
+		}
+
+		return null;
 	}
 
 	let open = false;
@@ -45,7 +49,7 @@
 
 	const initSelectTags = () => {
 		Object.entries(boxRef.children ? boxRef.children : []).forEach(([_, value]) => {
-			if (new Set(JSON.parse($page.url.searchParams.get('tags'))).has(value.textContent)) {
+			if (selectedTags.has(value.textContent)) {
 				value.style.backgroundColor = 'var(--aubergine)';
 				value.style.color = 'var(--white)';
 			} else {
@@ -99,7 +103,11 @@
 		selectedTags.delete(tagName);
 		$selectedTagsStore = $selectedTagsStore.filter((x) => x !== tagName);
 
-		$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
+		if ($selectedTagsStore.length > 0) {
+			$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
+		} else {
+			$page.url.searchParams.delete('tags');
+		}
 		goto(`?${$page.url.searchParams.toString()}`, {
 			noScroll: true,
 			replaceState: true
@@ -120,12 +128,20 @@
 
 		$dateTypeStore = 'Any Time';
 
-		$page.url.searchParams.set('date', JSON.stringify({ from: null, to: null }));
+		$page.url.searchParams.delete('date');
 		$page.url.searchParams.set('period', JSON.stringify('Any Time'));
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
 
 	onMount(() => {
+		if ($page.url.searchParams?.get('tags') && Array.isArray($page.url.searchParams?.get('tags'))) {
+			if (JSON.parse($page.url.searchParams.get('tags')).every((i) => typeof i === 'string')) {
+				selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
+			}
+		} else {
+			selectedTags = new Set();
+		}
+
 		$selectedTagsStore = Array.from(selectedTags);
 		$dateTypeStore = period;
 		$authorStore = selectedAuthor?.name ? selectedAuthor.name : '';
@@ -248,8 +264,6 @@
 			{#if open}
 				{#key $selectedTagsStore}
 					<Filters
-						bind:dateFrom
-						bind:dateTo
 						bind:selectedAuthor
 						bind:author
 						bind:boxRef

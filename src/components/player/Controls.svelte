@@ -94,7 +94,6 @@
 		document.querySelectorAll('.video-speed')[3].firstElementChild.style.visibility = 'visible';
 		document.querySelectorAll('.video-speed')[3].lastElementChild.style.fontWeight =
 			'var(--font-bold)';
-		console.log(document.querySelectorAll('.video-speed')[3]);
 	});
 </script>
 

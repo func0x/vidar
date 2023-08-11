@@ -29,7 +29,7 @@
 	const options = ['Latest', 'Earliest'];
 
 	function findAuthorByName(authorName) {
-		if (authors) {
+		if (authors && authorName) {
 			return authors.find((item) => {
 				return item.name === authorName;
 			});
@@ -47,15 +47,14 @@
 		JSON.parse($page.url.searchParams.get('date'))?.to != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).to)
 			: null;
-	let selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
-	let params = Array.from(selectedTags);
+	let selectedTags;
 	let author = JSON.parse($page.url.searchParams.get('speaker')) || '';
 	let period = JSON.parse($page.url.searchParams.get('period')) || 'Any Time';
 	let selectedAuthor = findAuthorByName(author);
 
 	const initSelectTags = () => {
 		Object.entries(boxRef.children ? boxRef.children : []).forEach(([_, value]) => {
-			if (new Set(JSON.parse($page.url.searchParams.get('tags'))).has(value.textContent)) {
+			if (selectedTags.has(value.textContent)) {
 				value.style.backgroundColor = 'var(--aubergine)';
 				value.style.color = 'var(--white)';
 			} else {
@@ -111,7 +110,12 @@
 		selectedTags.delete(tagName);
 		$searchedSelectedTagsStore = $searchedSelectedTagsStore.filter((x) => x !== tagName);
 
-		$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
+		if ($searchedSelectedTagsStore.length > 0) {
+			$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
+		} else {
+			$page.url.searchParams.delete('tags');
+		}
+
 		goto(`?${$page.url.searchParams.toString()}`, {
 			noScroll: true,
 			replaceState: true
@@ -131,19 +135,23 @@
 		dateFrom = null;
 		dateTo = null;
 
-		searchedDateRangeStore.set({
-			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-			to: jsDateToLuxonTimestamp(dateTo, 'to')
-		});
+		$searchedDateRangeStore = { from: null, to: null };
 
 		$searchedDateTypeStore = 'Any Time';
 
-		$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
+		$page.url.searchParams.delete('date');
 		$page.url.searchParams.set('period', JSON.stringify('Any Time'));
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
 
 	onMount(() => {
+		if ($page.url.searchParams?.get('tags') && Array.isArray($page.url.searchParams?.get('tags'))) {
+			if (JSON.parse($page.url.searchParams.get('tags')).every((i) => typeof i === 'string')) {
+				selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
+			}
+		} else {
+			selectedTags = new Set();
+		}
 		$searchedSelectedTagsStore = Array.from(selectedTags);
 		$searchedDateTypeStore = period;
 		$searchedAuthorStore = selectedAuthor?.name ? selectedAuthor.name : '';

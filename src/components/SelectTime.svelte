@@ -10,7 +10,9 @@
 
 	export let options;
 
-	export let selected = $dateTypeStore;
+	export let selected = options.some((t) => t === $dateTypeStore)
+		? $dateTypeStore
+		: ($dateTypeStore = 'Any Time');
 	let optionsContainer;
 
 	const changeSelectedOption = (options, value) => {

@@ -22,12 +22,14 @@
 			speakersListRef.style.display = 'flex';
 		}
 
-		return authors.filter((item) => {
-			return (
-				item.name.toLowerCase().includes(name.toLowerCase()) ||
-				item.id.toLowerCase().includes(name.toLowerCase())
-			);
-		});
+		if (typeof name === 'string' || name instanceof String) {
+			return authors.filter((item) => {
+				return (
+					item.name.toLowerCase().includes(name.toLowerCase()) ||
+					item.id.toLowerCase().includes(name.toLowerCase())
+				);
+			});
+		}
 	};
 
 	const debounce = (v) => {
@@ -52,7 +54,9 @@
 	};
 
 	onMount(() => {
-		$authorStore = value;
+		if (typeof value === 'string' || value instanceof String) {
+			$authorStore = value;
+		}
 	});
 </script>
 
