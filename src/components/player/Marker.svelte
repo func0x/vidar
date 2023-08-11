@@ -32,13 +32,11 @@
 	};
 
 	$: {
-		if (position > 5) {
-			boxCss = css`
-				left: ${position}px;
-				position: relative;
-				width: fit-content;
-			`;
-		}
+		boxCss = css`
+			left: ${position}px;
+			position: relative;
+			width: fit-content;
+		`;
 
 		if (barWatched && barLeft) {
 			const safeCurrentTime = isNaN(currentTime) ? 0 : currentTime;
@@ -130,6 +128,7 @@
 	.bars {
 		display: flex;
 		align-items: center;
+		pointer-events: none;
 	}
 	.timestamp-marker__bar {
 		height: 3px;
