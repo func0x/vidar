@@ -29,9 +29,10 @@
 	});
 
 	const clickScroll = (scrollValue) => {
+		const scrollLeftMax = boxRef.scrollWidth - boxRef.clientWidth;
 		boxRef.scrollLeft += scrollValue;
 
-		if (boxRef.scrollLeft > 0 && boxRef.scrollLeft < boxRef.scrollLeftMax) {
+		if (boxRef.scrollLeft > 0 && boxRef.scrollLeft < scrollLeftMax) {
 			leftArrowRef.style.display = 'flex';
 			leftArrowRef.style.left = `${boxRef.scrollLeft}px`;
 
@@ -42,9 +43,9 @@
 
 			rightArrrowRef.style.display = 'flex';
 			rightArrrowRef.style.right = '0';
-		} else if (boxRef.scrollLeft === boxRef.scrollLeftMax) {
+		} else if (boxRef.scrollLeft === scrollLeftMax) {
 			leftArrowRef.style.display = 'flex';
-			leftArrowRef.style.left = `${boxRef.scrollLeftMax}px`;
+			leftArrowRef.style.left = `${scrollLeftMax}px`;
 
 			rightArrrowRef.style.display = 'none';
 		}

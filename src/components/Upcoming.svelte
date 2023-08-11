@@ -21,7 +21,7 @@
 				</a>
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
 					<TagInfo text="Upcoming" />
-					<EventDetails {event} />
+					<EventDetails hover {event} />
 					<Button icon={arrow} text="Watch Live" bg="var(--grey-300)" />
 				</Box>
 			</Box>
@@ -36,7 +36,7 @@
 				</a>
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
 					<TagInfo text="Upcoming" />
-					<EventDetails {event} />
+					<EventDetails hover {event} />
 					<Button icon={arrow} text="Watch Live" bg="var(--grey-300)" />
 				</Box>
 			</Box>
@@ -68,7 +68,7 @@
 
 <style>
 	img {
-		max-height: 340px;
+		max-height: 250px;
 	}
 
 	@media screen and (max-width: 1115px) {

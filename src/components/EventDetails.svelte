@@ -9,6 +9,7 @@
 	export let eventCard = false;
 	export let open = false;
 	export let videoFooter = false;
+	export let hover = false;
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
@@ -17,7 +18,7 @@
 			<svelte:fragment>
 				<TagPanel tags={event.tags} />
 				<a href="/event/{event.id}">
-					<h1 class:eventCard>{event.title}</h1>
+					<h1 class:hover class:eventCard>{event.title}</h1>
 				</a>
 				<EventAuthor authors={event.authors} timestamp={event.datetime} />
 				<a href="/event/{event.id}">
@@ -39,7 +40,7 @@
 		>
 			<svelte:fragment>
 				<TagPanel tags={event.tags} />
-				<h1 class:eventCard>{event.title}</h1>
+				<h1 class:hover class:eventCard>{event.title}</h1>
 				<EventAuthor authors={event.authors} timestamp={event.datetime} />
 				<p>
 					{event.description}
@@ -106,6 +107,10 @@
 
 	.eventCard {
 		font-size: var(--font-l);
+	}
+
+	.hover:hover {
+		color: var(--red);
 	}
 
 	@media screen and (max-width: 1115px) {

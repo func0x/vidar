@@ -10,4 +10,4 @@
 
 <Upcoming {event} />
 <SectionName title="Explore" />
-<RecentEvents events={pastEvents} />
+<RecentEvents hover events={pastEvents} />

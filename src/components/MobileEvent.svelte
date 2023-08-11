@@ -69,6 +69,10 @@
 		-webkit-box-orient: vertical;
 	}
 
+	h1:hover {
+		color: var(--red);
+	}
+
 	img {
 		max-height: 280px;
 	}

@@ -2,10 +2,11 @@
 	import Event from 'src/components/Event.svelte';
 
 	export let events;
+	export let hover = false;
 </script>
 
 <div class="exlore-container">
-	{#each events as event (event.title)} <Event {event} /> {/each}
+	{#each events as event (event.title)} <Event {hover} {event} /> {/each}
 </div>
 
 <style>

@@ -5,6 +5,7 @@
 	import Upcoming from './Upcoming.svelte';
 
 	export let event;
+	export let hover = false;
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
@@ -16,7 +17,7 @@
 			{#if event.video.title === ''}
 				<TagInfo vna text="Not yet available" />
 			{/if}
-			<EventDetails eventCard {event} />
+			<EventDetails {hover} eventCard {event} />
 		</div>
 	{/if}
 </MediaQuery>
