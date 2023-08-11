@@ -17,7 +17,7 @@
 		padding: 0 var(--gap-l);
 	}
 
-	@media screen and (min-width: 2300px) and (max-width: 3840px) {
+	@media screen and (min-width: 2650px) and (max-width: 3840px) {
 		.exlore-container {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}

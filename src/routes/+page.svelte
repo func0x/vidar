@@ -2,7 +2,6 @@
 	import RecentEvents from 'src/components/RecentEvents.svelte';
 	import SectionName from 'src/components/SectionName.svelte';
 	import Upcoming from 'src/components/Upcoming.svelte';
-	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import { jsonEvents } from 'src/stores/Data';
 	import { onMount } from 'svelte';
 
@@ -27,11 +26,6 @@
 	});
 </script>
 
-<MediaQuery query="(max-width: 1115px)" let:matches>
-	{#if matches}
-		<SectionName title="Upcoming Livestream" />
-	{/if}
-</MediaQuery>
 <Upcoming {event} />
 <SectionName title="Explore" />
 <RecentEvents events={pastEvents} />

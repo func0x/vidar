@@ -1,6 +1,7 @@
 <script>
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import EventDetails from './EventDetails.svelte';
+	import TagInfo from './TagInfo.svelte';
 	import Upcoming from './Upcoming.svelte';
 
 	export let event;
@@ -10,6 +11,11 @@
 	{#if matches}
 		<div class="container">
 			<img src={event.event_photo} alt="event" />
+
+			{#if event.video.title === ''}
+				<TagInfo vna text="Not yet available" />
+			{/if}
+
 			<EventDetails eventCard {event} />
 		</div>
 	{/if}
@@ -25,10 +31,12 @@
 	img {
 		height: 190px;
 		border-radius: var(--border-radius);
+		position: relative;
 	}
 
 	.container {
 		display: grid;
+		position: relative;
 		width: 100%;
 		grid-template-columns: 340px 1fr;
 		grid-column-gap: var(--gap-m);

@@ -8,7 +8,6 @@
 
 	export let authors;
 	export let timestamp;
-	export let eventCard = false;
 	export let open = false;
 	let date;
 
@@ -40,8 +39,8 @@
 			{:else}
 				<span class="author-name">{authors[0].name}</span>
 			{/if}
-			<span class:eventCard>&#8226;</span>
-			<span class:eventCard>{date}</span>
+			<span>&#8226;</span>
+			<span>{date}</span>
 
 			{#if authors.length >= 2}
 				<MultipleSpeakersList {authors} />
@@ -64,15 +63,15 @@
 			{:else}
 				<span class="author-name">{authors[0].name}</span>
 			{/if}
-			<span class:eventCard>&#8226;</span>
-			<span class:eventCard>{date}</span>
+			<span>&#8226;</span>
+			<span>{date}</span>
 		</Box>
 	{/if}
 </MediaQuery>
 
 <style>
 	span {
-		color: var(--white);
+		color: var(--aubergine);
 	}
 
 	.author-name {
@@ -82,10 +81,6 @@
 		-ms-user-select: none;
 		user-select: none;
 		cursor: pointer;
-	}
-
-	.eventCard {
-		color: var(--aubergine);
 	}
 
 	@media screen and (max-width: 1115px) {

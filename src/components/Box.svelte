@@ -23,6 +23,7 @@
 	export let la = false; // left tag panel arrow
 	export let ra = false; // right tag panel arrow
 	export let boxRef = null;
+	export let border = 'unset';
 
 	let boxCss = css`
 		width: ${width};
@@ -35,6 +36,7 @@
 		position: ${position};
 		top: ${top};
 		left: ${left};
+		border: ${border};
 	`;
 
 	let filterPanelCss = css`

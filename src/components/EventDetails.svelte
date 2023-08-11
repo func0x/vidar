@@ -13,9 +13,9 @@
 	{#if matches}
 		<Box bg="transparent" df di gap="var(--gap-s)" fd="column" height="fit-content">
 			<svelte:fragment>
-				<TagPanel {eventCard} tags={event.tags} />
+				<TagPanel tags={event.tags} />
 				<h1 class:eventCard>{event.title}</h1>
-				<EventAuthor {eventCard} authors={event.authors} timestamp={event.datetime} />
+				<EventAuthor authors={event.authors} timestamp={event.datetime} />
 				<p>
 					{event.description}
 				</p>
@@ -37,7 +37,7 @@
 
 <style>
 	h1 {
-		color: var(--white);
+		color: var(--aubergine);
 		font-size: var(--font-xl);
 		overflow: hidden;
 		display: -webkit-box;
@@ -56,7 +56,6 @@
 
 	.eventCard {
 		font-size: var(--font-l);
-		color: var(--aubergine);
 	}
 
 	@media screen and (max-width: 1115px) {

@@ -41,6 +41,7 @@ body {
 	/* Border radius */
 	--border-radius: 5px;
 	--border-radius-xl: 10px;
+	--border-radius-xxl: 20px;
 
 	/* Gaps */
 	--gap-xl: 50px;
@@ -63,13 +64,9 @@ a {
 	text-decoration: unset;
 }
 
-@keyframes change-upcoming-tag-bg-color-hover {
-	from {
-		background-color: var(--white);
-	}
-	to {
-		background-color: var(--grey-700);
-	}
+::placeholder {
+	color: var(--aubergine);
+	opacity: 1;
 }
 
 @keyframes change-recent-tag-bg-color-hover {

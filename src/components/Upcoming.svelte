@@ -2,10 +2,11 @@
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import Box from './Box.svelte';
 	import Button from './Button.svelte';
-	import arrow from '$lib/images/button_icon.svg';
+	import arrow from '$lib/images/next_arrow.svg';
 	import Avatar from './Avatar.svelte';
 	import EventDetails from './EventDetails.svelte';
 	import MultipleSpeakersList from './MultipleSpeakersList.svelte';
+	import TagInfo from './TagInfo.svelte';
 
 	export let event;
 	let open = false;
@@ -14,13 +15,12 @@
 {#if event != undefined}
 	<MediaQuery query="(min-width: 1750px)" let:matches>
 		{#if matches}
-			<Box cvh height="400px" bg="var(--aubergine)" gap="150px">
+			<Box cvh height="400px" gap="150px">
 				<img src={event.event_photo} alt="upcoming" />
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
+					<TagInfo text="Upcoming" />
 					<EventDetails {event} />
-					<Box bg="transparent" ch height="unset" je>
-						<Button icon={arrow} text="Watch Live" bg="transparent" />
-					</Box>
+					<Button icon={arrow} text="Watch Live" bg="var(--grey-300)" />
 				</Box>
 			</Box>
 		{/if}
@@ -28,13 +28,12 @@
 
 	<MediaQuery query="(min-width: 1115px) and (max-width: 1750px)" let:matches>
 		{#if matches}
-			<Box cvh height="400px" bg="var(--aubergine)" padding="0 var(--gap-m)">
+			<Box cvh height="400px" gap="var(--gap-xl)" padding="0 var(--gap-m)">
 				<img src={event.event_photo} alt="upcoming" />
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
+					<TagInfo text="Upcoming" />
 					<EventDetails {event} />
-					<Box bg="transparent" ch height="unset" je>
-						<Button icon={arrow} text="Watch Live" bg="transparent" />
-					</Box>
+					<Button icon={arrow} text="Watch Live" bg="var(--grey-300)" />
 				</Box>
 			</Box>
 		{/if}
@@ -43,6 +42,11 @@
 	<MediaQuery query="(max-width: 1115px)" let:matches>
 		{#if matches}
 			<Box height="fit-content" df fd="column" gap="var(--gap-s)" position="relative">
+				{#if event.upcoming}
+					<TagInfo text="Upcoming" />
+				{:else if event.video.title === ''}
+					<TagInfo vna text="Not yet available" />
+				{/if}
 				<img src={event.event_photo} alt="upcoming" />
 				<Box df gap="var(--gap-s)" padding="0 var(--gap-m)">
 					<Avatar authors={event.authors} />

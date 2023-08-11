@@ -6,7 +6,6 @@
 	import nextArrow from '$lib/images/next_arrow.svg';
 
 	export let tags;
-	export let eventCard = false;
 
 	let boxRef;
 	let leftArrowRef;
@@ -62,7 +61,7 @@
 		/>
 	</Box>
 	{#each tags as tag}
-		<Tag {eventCard} text={tag} />
+		<Tag text={tag} />
 	{/each}
 	<Box ra bind:boxRef={rightArrrowRef}>
 		<img

@@ -14,7 +14,10 @@
 <style>
 	button {
 		border: unset;
-		color: var(--white);
+		padding: var(--gap-m);
+		border-radius: var(--border-radius-xl);
+		align-self: flex-end;
+		color: var(--aubergine);
 		text-transform: uppercase;
 		font-weight: var(--font-bold);
 		display: flex;
