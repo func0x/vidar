@@ -1,6 +1,6 @@
 import { readable } from 'svelte/store';
 
-import authorsJson from '$lib/images/authors.json';
+import authorsJson from '$lib/jsons/authors.json';
 
 const modules = import.meta.glob('../lib/event_data/*/*.json');
 
