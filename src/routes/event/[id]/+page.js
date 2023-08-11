@@ -1,9 +1,6 @@
 import { redirect } from '@sveltejs/kit';
-import { jsonEvents } from 'src/stores/Data';
 
-const findEvent = async (id) => {
-	const events = await jsonEvents();
-
+const findEvent = async (id, events) => {
 	const event = events.find((item) => {
 		return item.id === parseInt(id, 10);
 	});
@@ -19,8 +16,9 @@ const findEvent = async (id) => {
 	return null;
 };
 
-export async function load({ params }) {
-	const event = await findEvent(params.id);
+export async function load({ params, parent }) {
+	const { all } = await parent();
+	const event = await findEvent(params.id, all.events);
 
 	if (event) {
 		return {

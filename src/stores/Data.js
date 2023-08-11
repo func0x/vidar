@@ -1,10 +1,5 @@
-import { readable } from 'svelte/store';
-
-import authorsJson from '$lib/jsons/authors.json';
-
 const modules = import.meta.glob('../lib/event_data/*/*.json');
 
-export const authors = readable(authorsJson);
 const replacePath = (path) => {
 	return path.replace('../', '').replace('/data.json', '');
 };

@@ -7,7 +7,7 @@
 
 	export let data;
 
-	const { event, pastEvents } = data.events;
+	const { event, pastEvents } = data.all;
 </script>
 
 <Upcoming {event} />

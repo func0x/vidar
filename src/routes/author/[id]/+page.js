@@ -1,5 +1,4 @@
-import authors from '$lib/images/authors.json';
-import { jsonEvents } from 'src/stores/Data';
+import authors from '$lib/jsons/authors.json';
 
 const findAuthorById = (id) => {
 	return authors.find((item) => {
@@ -7,10 +6,7 @@ const findAuthorById = (id) => {
 	});
 };
 
-const findAuthorEvents = async (id) => {
-	let events = [];
-	await jsonEvents().then((res) => (events = res));
-
+const findAuthorEvents = async (id, events) => {
 	return events.filter((item) => {
 		return item.authors.find((author) => {
 			return author.id === id;
@@ -18,9 +14,11 @@ const findAuthorEvents = async (id) => {
 	});
 };
 
-export function load({ params }) {
+export async function load({ params, parent }) {
+	const { all } = await parent();
+
 	return {
 		author: findAuthorById(params.id),
-		events: findAuthorEvents(params.id)
+		events: findAuthorEvents(params.id, all.events)
 	};
 }
