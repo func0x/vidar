@@ -8,9 +8,13 @@
 	import { eventsStore } from 'src/stores/Data';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import tags from '$lib/jsons/tags.json';
+	// import tags from '$lib/jsons/tags.json';
 
 	let searched = [];
+	let authorsSet = new Set([]);
+	let tagsSet = new Set([]);
+	let authors = [];
+	let tags = [];
 	let query = $page.url.searchParams.get('query') || '';
 
 	const redirectToSearch = () => {
@@ -26,12 +30,34 @@
 	onMount(() => {
 		if ($page.url.searchParams.get('query')) {
 			searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
+			searched.forEach((element) => {
+				element.authors.forEach((author) => {
+					if (!authorsSet.has(JSON.stringify(author))) {
+						authorsSet.add(JSON.stringify(author));
+					}
+				});
+				tagsSet = new Set([...tagsSet, ...element.tags]);
+			});
+
+			authors = Array.from(authorsSet).map((x) => JSON.parse(x));
+			tags = Array.from(tagsSet);
 		}
 	});
 
 	$: {
 		if ($page.url.searchParams.get('query')) {
 			searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
+			searched.forEach((element) => {
+				element.authors.forEach((author) => {
+					if (!authorsSet.has(JSON.stringify(author))) {
+						authorsSet.add(JSON.stringify(author));
+					}
+				});
+				tagsSet = new Set([...tagsSet, ...element.tags]);
+			});
+
+			authors = Array.from(authorsSet).map((x) => JSON.parse(x));
+			tags = Array.from(tagsSet);
 		}
 	}
 </script>
@@ -47,12 +73,14 @@
 	<div class="spacer" />
 
 	{#if searched.length > 0}
-		<FilterPanelSearch
-			authors={[]}
-			{tags}
-			query={$page.url.searchParams.get('query') || 'Unknown parameter'}
-			count={searched.length}
-		/>
+		{#key $page.url.searchParams.get('query')}
+			<FilterPanelSearch
+				{authors}
+				{tags}
+				query={$page.url.searchParams.get('query') || 'Unknown parameter'}
+				count={searched.length}
+			/>
+		{/key}
 		<RecentEvents events={searched} />
 	{:else}
 		<div class="wrapper">

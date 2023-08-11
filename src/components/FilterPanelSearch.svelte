@@ -24,9 +24,11 @@
 	const options = ['Latest', 'Earliest'];
 
 	function findAuthorByName(authorName) {
-		return authors.find((item) => {
-			return item.name === authorName;
-		});
+		if (authors) {
+			return authors.find((item) => {
+				return item.name === authorName;
+			});
+		}
 	}
 
 	let open = false;
@@ -42,7 +44,7 @@
 			: null;
 	let selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
 	let params = Array.from(selectedTags);
-	let author = JSON.parse($page.url.searchParams.get('speaker'));
+	let author = JSON.parse($page.url.searchParams.get('speaker')) || '';
 	let period = JSON.parse($page.url.searchParams.get('period')) || 'Any Time';
 	let selectedAuthor = findAuthorByName(author);
 
@@ -156,7 +158,13 @@
 
 <MediaQuery query="(min-width: 1750px)" let:matches>
 	{#if matches}
-		<Box df fd="column" padding="0 var(--gap-l) var(--gap-l) var(--gap-l)" gap="var(--gap-m)" height="fit-content">
+		<Box
+			df
+			fd="column"
+			padding="0 var(--gap-l) var(--gap-l) var(--gap-l)"
+			gap="var(--gap-m)"
+			height="fit-content"
+		>
 			<Box cvh jsb gap="var(--gap-m)">
 				<Box width="fit-content" cvh gap="var(--gap-s)">
 					<span>Sort by:</span>
@@ -268,13 +276,19 @@
 			{/if}
 		</Box>
 	{:else}
-		<Box df fd="column" padding="0 var(--gap-m) var(--gap-m) var(--gap-m)" gap="var(--gap-s)" height="fit-content">
-				<Box df tac fd="column" >
-					<span class="query">{query}</span>
-					<span class="results">{count === 0 ? 'no' : count} results found</span>
-				</Box>
+		<Box
+			df
+			fd="column"
+			padding="0 var(--gap-m) var(--gap-m) var(--gap-m)"
+			gap="var(--gap-s)"
+			height="fit-content"
+		>
+			<Box df tac fd="column">
+				<span class="query">{query}</span>
+				<span class="results">{count === 0 ? 'no' : count} results found</span>
+			</Box>
 			<Box cvh jsb gap="var(--gap-m)">
-				<Box width="fit-content" cvh  gap="var(--gap-s)">
+				<Box width="fit-content" cvh gap="var(--gap-s)">
 					<span>Sort by:</span>
 					<Select {options} />
 				</Box>
