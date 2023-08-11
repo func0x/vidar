@@ -88,7 +88,7 @@
 		cursor: pointer;
 	}
 
-	@media screen and (max-width: 1115px) {
+	@media screen and (max-width: 1114px) {
 		span {
 			font-size: var(--font-m);
 			color: var(--aubergine);

@@ -85,7 +85,7 @@
 		left: 13.5%;
 	}
 
-	@media screen and (max-width: 1115px) {
+	@media screen and (max-width: 1114px) {
 		.multiple-speakers-list-mobile {
 			display: flex;
 			flex-direction: column;

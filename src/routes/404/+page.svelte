@@ -23,13 +23,13 @@
 				<MobileEvent event={recentEvents[2]} />
 			{/if}
 		</MediaQuery>
-		<MediaQuery query="(min-width: 1115px) and (max-width: 1750px)" let:matches>
+		<MediaQuery query="(min-width: 1115px) and (max-width: 1749px)" let:matches>
 			{#if matches}
 				<MobileEvent event={recentEvents[0]} />
 				<MobileEvent event={recentEvents[1]} />
 			{/if}
 		</MediaQuery>
-		<MediaQuery query="(max-width: 1115px)" let:matches>
+		<MediaQuery query="(max-width: 1114px)" let:matches>
 			{#if matches}
 				<MobileEvent event={recentEvents[0]} />
 			{/if}

@@ -11,7 +11,7 @@
 		margin: var(--gap-m) var(--gap-l);
 	}
 
-	@media screen and (max-width: 1750px) {
+	@media screen and (max-width: 1749px) {
 		h1 {
 			margin: var(--gap-m);
 		}

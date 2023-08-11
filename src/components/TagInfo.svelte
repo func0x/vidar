@@ -24,7 +24,7 @@
 		top: 15px;
 	}
 
-	@media screen and (max-width: 1115px) {
+	@media screen and (max-width: 1114px) {
 		span {
 			position: absolute;
 			left: 15px;

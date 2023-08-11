@@ -28,7 +28,7 @@
 		{/if}
 	</MediaQuery>
 
-	<MediaQuery query="(min-width: 1115px) and (max-width: 1750px)" let:matches>
+	<MediaQuery query="(min-width: 1115px) and (max-width: 1749px)" let:matches>
 		{#if matches}
 			<Box cvh height="400px" gap="var(--gap-xl)" padding="0 var(--gap-m)">
 				<a href="/event/{event.id}">
@@ -43,7 +43,7 @@
 		{/if}
 	</MediaQuery>
 
-	<MediaQuery query="(max-width: 1115px)" let:matches>
+	<MediaQuery query="(max-width: 1114px)" let:matches>
 		{#if matches}
 			<Box height="fit-content" df fd="column" gap="var(--gap-s)" position="relative">
 				{#if event.upcoming}
@@ -71,7 +71,7 @@
 		max-height: 250px;
 	}
 
-	@media screen and (max-width: 1115px) {
+	@media screen and (max-width: 1114px) {
 		img {
 			width: 100%;
 			max-height: unset;

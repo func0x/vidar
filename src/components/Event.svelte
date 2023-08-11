@@ -22,7 +22,7 @@
 	{/if}
 </MediaQuery>
 
-<MediaQuery query="(max-width: 1115px)" let:matches>
+<MediaQuery query="(max-width: 1114px)" let:matches>
 	{#if matches}
 		<Upcoming {event} />
 	{/if}

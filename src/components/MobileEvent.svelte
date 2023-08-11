@@ -77,7 +77,7 @@
 		max-height: 280px;
 	}
 
-	@media screen and (max-width: 1115px) {
+	@media screen and (max-width: 1114px) {
 		img {
 			width: 100%;
 			min-height: 170px;

@@ -50,7 +50,7 @@
 	{/if}
 </MediaQuery>
 
-<MediaQuery query="(max-width: 1115px)" let:matches>
+<MediaQuery query="(max-width: 1114px)" let:matches>
 	{#if matches && !videoFooter}
 		<Box df fd="column" gap="var(--gap-xs)">
 			<Box df gap="var(--gap-s)">
@@ -113,7 +113,7 @@
 		color: var(--red);
 	}
 
-	@media screen and (max-width: 1115px) {
+	@media screen and (max-width: 1114px) {
 		h1 {
 			font-size: var(--font-l);
 			color: var(--aubergine);
