@@ -74,7 +74,7 @@
 				<h1 class:hover class:eventCard>{event.title}</h1>
 			{/if}
 			<EventAuthor authors={event.authors} timestamp={event.datetime} />
-			<p>
+			<p class="event-video-description">
 				{event.description}
 			</p>
 			{#if !exploreSimilar}
@@ -130,7 +130,7 @@
 				</TagPanel>
 				<h1 class:hover class:eventCard>{event.title}</h1>
 				<EventAuthor videoFooter authors={event.authors} timestamp={event.datetime} />
-				<p>
+				<p class="event-video-description">
 					{event.description}
 				</p>
 			</svelte:fragment>
@@ -159,6 +159,10 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
+	}
+
+	.event-video-description {
+		-webkit-line-clamp: unset;
 	}
 
 	.eventCard {
