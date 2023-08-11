@@ -1,15 +1,19 @@
 <script>
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import AuthorName from './AuthorName.svelte';
+
 	export let authors;
+	export let notFound;
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
 	{#if matches}
-		<div class="multiple-speakers-list">
-			{#each authors as author}
-				<AuthorName {author} />
-			{/each}
+		<div class="multiple-speakers-list-wrapper">
+			<div class:notFound class="multiple-speakers-list">
+				{#each authors as author}
+					<AuthorName {author} />
+				{/each}
+			</div>
 		</div>
 	{:else}
 		<div class="multiple-speakers-list-mobile">
@@ -21,12 +25,18 @@
 </MediaQuery>
 
 <style>
-	.multiple-speakers-list {
-		position: absolute;
+	.multiple-speakers-list-wrapper {
 		display: none;
-		flex-direction: column;
+		position: absolute;
 		top: 100%;
 		left: 0;
+		width: 100%;
+		padding-top: var(--gap-s);
+	}
+
+	.multiple-speakers-list {
+		flex-direction: column;
+		display: flex;
 		width: 100%;
 		height: fit-content;
 		z-index: 5;
@@ -65,6 +75,14 @@
 		border-width: 10px;
 		left: 30%;
 		margin-left: -10px;
+	}
+
+	.notFound:after {
+		left: 13.5%;
+	}
+
+	.notFound:before {
+		left: 13.5%;
 	}
 
 	@media screen and (max-width: 1115px) {

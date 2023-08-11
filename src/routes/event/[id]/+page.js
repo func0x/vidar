@@ -1,3 +1,4 @@
+import { redirect } from '@sveltejs/kit';
 import { jsonEvents } from 'src/stores/Data';
 
 const findEvent = async (id) => {
@@ -7,15 +8,25 @@ const findEvent = async (id) => {
 		return item.id === parseInt(id, 10);
 	});
 
-	const recomendedEvents = events
-		.filter((e) => e.tags.some((t) => event.tags.indexOf(t) >= 0))
-		.filter((e) => e.title !== event.title);
+	if (event !== undefined) {
+		const recomendedEvents = events
+			.filter((e) => e.tags.some((t) => event.tags.indexOf(t) >= 0))
+			.filter((e) => e.title !== event.title);
 
-	return { event, recomendedEvents };
+		return { event, recomendedEvents };
+	}
+
+	return null;
 };
 
-export function load({ params }) {
-	return {
-		eventWithRecomendations: findEvent(params.id)
-	};
+export async function load({ params }) {
+	const event = await findEvent(params.id);
+
+	if (event) {
+		return {
+			eventWithRecomendations: event
+		};
+	}
+
+	throw redirect(307, '/404');
 }

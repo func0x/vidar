@@ -24,8 +24,10 @@
 	export let ra = false; // right tag panel arrow
 	export let boxRef = null;
 	export let border = 'unset';
+	export let mt = 'unset';
 
 	let boxCss = css`
+		margin-top: ${mt};
 		width: ${width};
 		max-width: ${mw};
 		height: ${height};
@@ -107,7 +109,7 @@
 		display: none;
 	}
 
-	.hover:hover > :global(.multiple-speakers-list) {
+	.hover:hover > :global(.multiple-speakers-list-wrapper) {
 		display: flex;
 	}
 

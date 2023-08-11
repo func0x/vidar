@@ -10,6 +10,7 @@
 	export let timestamp;
 	export let open = false;
 	export let videoFooter = false;
+	export let notFound = false;
 	let date;
 
 	onMount(() => {
@@ -18,11 +19,12 @@
 
 	const openAuthorList = () => {
 		open = !open;
+		console.log(open);
 	};
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
-	{#if matches}
+	{#if matches && !notFound}
 		<Box
 			height="unset"
 			bg="transparent"
