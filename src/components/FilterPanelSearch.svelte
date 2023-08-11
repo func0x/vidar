@@ -189,7 +189,7 @@
 					<span>Sort by:</span>
 					<SearchSelect {options} />
 				</Box>
-				<Box df tac fd="column" transformX width="fit-content">
+				<Box df tac fd="column"  width="fit-content">
 					<span class="query">{query}</span>
 					<span class="results">{count === 0 ? 'no' : count} results found</span>
 				</Box>

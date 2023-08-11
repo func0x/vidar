@@ -99,7 +99,6 @@
 
 	.noRes {
 		height: fit-content;
-		transform: translateX(50%);
 		align-self: flex-start;
 	}
 

@@ -79,12 +79,12 @@
 	{#if searched.length > 0}
 		<SearchResults bind:authors bind:tags bind:searched bind:queryValue />
 	{:else}
+		<Box df tac fd="column" noRes width="fit-content">
+			<span class="query">{queryValue}</span>
+			<span class="results">no results found</span>
+		</Box>
 		<div class="wrapper">
-			<Box df tac fd="column" noRes width="fit-content">
-				<span class="query">{queryValue}</span>
-				<span class="results">no results found</span>
-			</Box>
-			<img class="no-found" src={noFound} alt="no-found" />
+			<img src={noFound} alt="no-found" />
 		</div>
 	{/if}
 </div>
