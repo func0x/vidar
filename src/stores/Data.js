@@ -1,3 +1,8 @@
+import { readable } from 'svelte/store';
+
+import authorsJson from '$lib/images/authors.json';
+
+export const authors = readable(authorsJson);
 const replacePath = (path) => {
 	return path.replace('../', '').replace('/data.json', '');
 };
