@@ -70,7 +70,8 @@
 		height: 100%;
 	}
 
-	img:first-child {
+	img:first-child,
+	a:first-child {
 		grid-area: author1;
 	}
 </style>
