@@ -35,18 +35,14 @@
 </script>
 
 {#if ft}
-	<span class={tagCss}>
+	<span
+		on:click={onDelete !== undefined ? () => onDelete(text) : () => {}}
+		on:keyup={() => onDelete(text)}
+		class={tagCss}
+	>
 		<div class:ft>
-			<span
-				on:click={onDelete !== undefined ? () => onDelete(text) : () => {}}
-				on:keyup={() => onDelete(text)}>{text}</span
-			>
-			<img
-				src={deleteIcon}
-				on:click={() => onDelete(text)}
-				on:keyup={() => onDelete(text)}
-				alt="delete"
-			/>
+			<span>{text}</span>
+			<img src={deleteIcon} alt="delete" />
 		</div>
 	</span>
 {:else if redirect}
