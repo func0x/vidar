@@ -25,7 +25,17 @@
 
 <UseMediaQuery query="(min-width: 1115px)" let:matches>
 	{#if matches}
-		<Box border="2px solid var(--grey-300)" ch jsb height="70px" padding="0 var(--gap-l)">
+		<Box
+			border="2px solid var(--grey-300)"
+			ch
+			jsb
+			height="70px"
+			padding="0 var(--gap-l)"
+			position="sticky"
+			top="0"
+			bg="var(--white)"
+			zindex="10"
+		>
 			<img on:click={goToClearHome} on:keyup={goToClearHome} src={logo} alt="logo" />
 			{#if $page.url.pathname !== '/search/'}
 				<form on:submit|preventDefault={redirectToSearch}>
@@ -35,10 +45,18 @@
 			{/if}
 		</Box>
 	{:else}
-		<Box border="2px solid var(--grey-300)" ch jsb height="70px" padding="0 var(--gap-m)">
-			<a href="/">
-				<img src={logo} alt="logo" />
-			</a>
+		<Box
+			border="2px solid var(--grey-300)"
+			ch
+			jsb
+			height="70px"
+			padding="0 var(--gap-m)"
+			position="sticky"
+			top="0"
+			bg="var(--white)"
+			zindex="10"
+		>
+			<img on:click={goToClearHome} on:keyup={goToClearHome} src={logo} alt="logo" />
 			{#if $page.url.pathname !== '/search/'}
 				<form on:submit|preventDefault={redirectToSearch}>
 					<input name="query" bind:value={query} placeholder="Search..." />

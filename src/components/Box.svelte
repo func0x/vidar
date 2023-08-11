@@ -33,6 +33,7 @@
 	export let className = ''; // CSS class name
 	export let noRes = false; // no results (search)
 	export let bottomBorder = false;
+	export let zindex = 'unset';
 
 	let boxCss = css`
 		margin-top: ${mt};
@@ -48,6 +49,7 @@
 		left: ${left};
 		bottom: ${bottom};
 		border: ${border};
+		z-index: ${zindex};
 	`;
 
 	let filterPanelCss = css`
