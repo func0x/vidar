@@ -51,8 +51,15 @@ export const jsonEvents = async () => {
 };
 
 export const filtered = derived(
-	[eventsStore, selectedTagsStore, authorStore, dateTypeStore, dateRangeStore],
-	([$eventsStore, $selectedTagsStore, $authorStore, $dateTypeStore, $dateRangeStore]) => {
+	[eventsStore, selectedTagsStore, authorStore, dateTypeStore, dateRangeStore, sortDirectionStore],
+	([
+		$eventsStore,
+		$selectedTagsStore,
+		$authorStore,
+		$dateTypeStore,
+		$dateRangeStore,
+		$sortDirectionStore
+	]) => {
 		let events = $eventsStore;
 
 		events = events.filter((item) => {
@@ -90,7 +97,11 @@ export const filtered = derived(
 			events = events.filter(
 				(x) => x.datetime >= jsDateToLuxonTimestamp($dateRangeStore.start_date, 'to')
 			);
-		} else if ($dateTypeStore === 'Range' && $dateRangeStore.start_date && $dateRangeStore.end_date) {
+		} else if (
+			$dateTypeStore === 'Range' &&
+			$dateRangeStore.start_date &&
+			$dateRangeStore.end_date
+		) {
 			events = events.filter(
 				(x) =>
 					x.datetime >= jsDateToLuxonTimestamp($dateRangeStore.start_date, 'from') &&
@@ -98,6 +109,10 @@ export const filtered = derived(
 			);
 		}
 
-		return events;
+		if ($sortDirectionStore === 'Latest') {
+			return events.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
+		}
+
+		return events.sort((a, b) => (a.datetime < b.datetime ? -1 : 1));
 	}
 );
