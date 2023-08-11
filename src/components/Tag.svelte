@@ -1,6 +1,6 @@
 <script>
 	import { css, keyframes } from '@emotion/css';
-	import deleteIcon from '$lib/images/delete_white.svg';
+	import deleteIcon from '$lib/images/delete.svg';
 
 	export let text = '';
 	export let bg = 'var(--grey-300)';

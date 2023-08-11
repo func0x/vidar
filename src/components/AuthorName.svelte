@@ -2,7 +2,7 @@
 	import Box from './Box.svelte';
 	import avatarPlaceholder from '$lib/images/avatar_placeholder.svg';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
-	import deleteIcon from '$lib/images/delete_white.svg';
+	import deleteIcon from '$lib/images/delete.svg';
 
 	export let author;
 	export let mw = false;
