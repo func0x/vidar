@@ -10,10 +10,10 @@
 
 <style>
 	span {
-		background-color: var(--white);
+		background-color: var(--grey-300);
 		align-self: flex-start;
 		font-size: var(--font-s);
-		color: var(--black);
+		color: var(--aubergine);
 		padding: 10px;
 		text-transform: uppercase;
 		border-radius: var(--border-radius-xl);
@@ -29,7 +29,7 @@
 	}
 
 	.vna {
-		background-color: var(--grey-200);
+		background-color: var(--grey-300);
 		position: absolute;
 		left: 15px;
 		top: 15px;

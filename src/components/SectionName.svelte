@@ -9,6 +9,7 @@
 		font-size: var(--font-l);
 		font-weight: var(--font-bold);
 		margin: var(--gap-m) var(--gap-l);
+		color: var(--aubergine);
 	}
 
 	@media screen and (max-width: 1749px) {

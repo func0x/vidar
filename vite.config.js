@@ -12,7 +12,7 @@ const config = {
 	},
 	server: {
 		fs: {
-			allow: ['./event_data']
+			allow: ['./event_data', './external_assets']
 		}
 	}
 };

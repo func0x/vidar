@@ -9,16 +9,25 @@ body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
+	background-color: var(--white);
 }
 
 :root {
 	/* Colors */
-	--white: #ffffff;
-	--aubergine: #332d37;
-	--red: #e74a3c;
-	--grey-300: #f7f7f7;
+	--white: #0f0f0f;
+	--aubergine: #f1f1f1;
+	--red: #54b08b;
+	--grey-300: #272727;
 	--grey-500: #c4c2c5;
 	--grey-700: #928f94;
+	--border: #444444;
+	--active: #444444;
+	--tag-hover: #353535;
+	--tag-color: #e0e0e0;
+	--tag-font-color: #ffffff;
+	--search-bg-color: #353535;
+
+	--arrow-scroll-background: rgba(15, 15, 15, 0);
 
 	/* Font sizes */
 	--font-xl: 40px;
@@ -37,8 +46,8 @@ body {
 		contrast(87%);
 
 	/* Shadows */
-	--multiple-avatar-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-	--input-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+	--multiple-avatar-shadow: 0px 0px 30px rgba(255, 255, 255, 0.1);
+	--input-shadow: 0px 0px -32px 20px rgba(0, 0, 0, 0.1);
 
 	/* Border radius */
 	--border-radius: 5px;
@@ -78,6 +87,10 @@ a {
 input {
 	border: none;
 	height: 50px;
+}
+
+span {
+	color: var(--aubergine);
 }
 
 input:focus {

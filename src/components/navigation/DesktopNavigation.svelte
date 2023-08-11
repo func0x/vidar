@@ -74,6 +74,7 @@
 		background-color: var(--grey-300);
 		padding-left: var(--gap-m);
 		font-size: var(--font-m);
+		color: var(--aubergine);
 	}
 
 	button {

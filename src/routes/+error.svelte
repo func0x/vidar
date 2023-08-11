@@ -3,7 +3,7 @@
 	import Box from 'src/components/Box.svelte';
 	import MobileEvent from 'src/components/MobileEvent.svelte';
 	import Button from 'src/components/Button.svelte';
-	import arrow from '$lib/images/next_arrow_white.svg';
+	import arrow from '$lib/images/button_icon.svg';
 	import { jsonEvents } from '../stores/Data';
 
 	let recentEvents = [];
@@ -59,6 +59,7 @@
 		font-weight: var(--font-bold);
 		font-size: var(--font-xl);
 		text-align: center;
+		color: var(--aubergine);
 	}
 
 	span {
