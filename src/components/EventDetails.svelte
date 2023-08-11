@@ -87,7 +87,7 @@
 					/>
 				{:else if event.assets.slides.name.includes('.')}
 					<Button
-						bg="var(--white)"
+						bg="var(--grey-300)"
 						onClick={() => downloadSlides(event.assets)}
 						icon={download}
 						text="Download slides"
