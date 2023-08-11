@@ -198,7 +198,7 @@
 			<Box ch gap="var(--gap-m)" width="fit-content">
 				<span class="select-tags">SPEAKER:</span>
 				{#key author}
-					<AuthorName mw author={selectedAuthor || ''} />
+					<AuthorName disableRedirect mw author={selectedAuthor || ''} />
 				{/key}
 				<img
 					src={deleteIcon}
