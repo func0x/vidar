@@ -25,6 +25,9 @@
 	export let boxRef = null;
 	export let border = 'unset';
 	export let mt = 'unset';
+	export let fw = false; // flex-wrap
+	export let hbg = false; // change bg on hover
+	export let className = ''; // CSS class name
 
 	let boxCss = css`
 		margin-top: ${mt};
@@ -53,6 +56,9 @@
 	</div>
 {:else}
 	<div
+		bind:this={boxRef}
+		class:hbg
+		class:fw
 		class:ds
 		class:di
 		class:df
@@ -63,7 +69,7 @@
 		class:hover
 		class:la
 		class:ra
-		class={boxCss}
+		class="{boxCss} {className}"
 	>
 		<slot />
 	</div>
@@ -72,6 +78,14 @@
 <style>
 	.df {
 		display: flex;
+	}
+
+	.hbg:hover > :global(.author-name) {
+		background-color: var(--grey-300);
+	}
+
+	.fw {
+		flex-wrap: wrap;
 	}
 
 	.di {

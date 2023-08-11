@@ -17,7 +17,6 @@
 
 <style>
 	input {
-		border: none;
 		background: url(../../lib/images/search.svg) no-repeat scroll 20px 16px;
 		background-color: var(--grey-300);
 		width: 400px;
@@ -25,9 +24,5 @@
 		border-radius: var(--border-radius-xxl);
 		padding-left: var(--gap-xl);
 		font-size: var(--font-m);
-	}
-
-	input:focus {
-		outline: none;
 	}
 </style>

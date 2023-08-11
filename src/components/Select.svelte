@@ -1,18 +1,39 @@
 <script>
+	import { eventsStore, sortDirectionStore } from 'src/stores/Data';
+
 	import { onMount } from 'svelte';
 
 	export let options;
 
-	export let selected = options[0];
+	export let selected = $sortDirectionStore;
 	let optionsContainer;
 
-	const changeSelectedOption = (options, value) => {};
+	const changeSelectedOption = (options, value) => {
+		options.forEach((element) => {
+			if (element.textContent !== value) {
+				element.style.color = 'var(--aubergine)';
+			} else {
+				element.style.color = 'var(--red)';
+			}
+		});
+
+		if (value === 'Latest') {
+			eventsStore.set($eventsStore.sort((a, b) => a.datetime < b.datetime));
+		} else {
+			eventsStore.set($eventsStore.sort((a, b) => a.datetime > b.datetime));
+		}
+	};
 
 	onMount(() => {
-		changeSelectedOption(optionsContainer.childNodes, selected);
+		changeSelectedOption(optionsContainer.childNodes, $sortDirectionStore);
 	});
 
-	const changeSelected = (event) => {};
+	const changeSelected = (event) => {
+		const name = event.target.getAttribute('name');
+		selected = name;
+		sortDirectionStore.set(name);
+		changeSelectedOption(optionsContainer.childNodes, selected);
+	};
 </script>
 
 <div class="dropdown-wrapper">

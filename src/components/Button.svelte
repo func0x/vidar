@@ -1,10 +1,13 @@
 <script>
 	import { css } from '@emotion/css';
+
 	export let icon = '';
 	export let text = '';
 	export let notFound = false;
 	export let bg;
 	export let border = 'unset';
+	export let onClick = () => {};
+	export let ref = null;
 
 	let buttonCss = css`
 		background-color: ${bg};
@@ -17,7 +20,9 @@
 		{text} <img src={icon} alt="icon" />
 	</a>
 {:else}
-	<button class={buttonCss}><img src={icon} alt="icon" /> {text}</button>
+	<button class={buttonCss} bind:this={ref} on:click={onClick}
+		><img src={icon} alt="icon" /> {text}</button
+	>
 {/if}
 
 <style>

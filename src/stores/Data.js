@@ -1,4 +1,11 @@
+import { writable, derived } from 'svelte/store';
 const modules = import.meta.glob('../lib/event_data/*/*.json');
+
+export const eventsStore = writable([]);
+export const selectedTagsStore = writable([]);
+export const dateRangeStore = writable();
+export const authorStore = writable('');
+export const sortDirectionStore = writable('Latest');
 
 const replacePath = (path) => {
 	return path.replace('../', '').replace('/data.json', '');
@@ -39,3 +46,49 @@ async function importJsons() {
 export const jsonEvents = async () => {
 	return await importJsons();
 };
+
+export const filtered = derived(
+	[eventsStore, selectedTagsStore, dateRangeStore, authorStore],
+	([$eventsStore, $selectedTagsStore, $dateRangeStore, $authorStore]) => {
+		let events = $eventsStore;
+
+		if ($dateRangeStore && $dateRangeStore.from && $dateRangeStore.to) {
+			if ($dateRangeStore.from < $dateRangeStore.to) {
+				events = events.filter((item) => {
+					return item.datetime >= $dateRangeStore.from && item.datetime <= $dateRangeStore.to;
+				});
+			} else {
+				events = events.filter((item) => {
+					return item.datetime >= $dateRangeStore.to && item.datetime <= $dateRangeStore.from;
+				});
+			}
+		}
+
+		if ($dateRangeStore && $dateRangeStore.from && isNaN($dateRangeStore.to)) {
+			events = events.filter((item) => {
+				return item.datetime >= $dateRangeStore.from;
+			});
+		}
+
+		if ($dateRangeStore && $dateRangeStore.to && isNaN($dateRangeStore.from)) {
+			events = events.filter((item) => {
+				return item.datetime <= $dateRangeStore.to;
+			});
+		}
+
+		events = events.filter((item) => {
+			const isExist = item.authors.filter((y) => {
+				return y.name.toLowerCase().includes($authorStore.toLowerCase());
+			});
+			return isExist.length !== 0;
+		});
+
+		if ($selectedTagsStore.length > 0) {
+			events = events.filter((x) => {
+				return $selectedTagsStore.every((v) => x.tags.includes(v)) && x.upcoming === false;
+			});
+		}
+
+		return events;
+	}
+);

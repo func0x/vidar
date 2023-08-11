@@ -49,6 +49,15 @@ body {
 	--gap-m: 15px;
 	--gap-s: 10px;
 	--gap-xs: 7px;
+
+	/* Date Picker Svelte*/
+	--date-picker-background: var(--white);
+	--date-picker-foreground: var(--aubergine);
+	--date-picker-highlight-border: var(--grey-500);
+	--date-picker-highlight-shadow: none;
+	--date-picker-selected-color: var(--red);
+	--date-picker-selected-background: var(--w);
+	--date-input-width: 242px;
 }
 
 h1 {
@@ -62,6 +71,15 @@ p {
 a {
 	color: inherit;
 	text-decoration: unset;
+}
+
+input {
+	border: none;
+	height: 50px;
+}
+
+input:focus {
+	outline: none;
 }
 
 ::placeholder {

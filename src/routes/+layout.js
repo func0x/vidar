@@ -1,29 +1,28 @@
 import { redirect } from '@sveltejs/kit';
-import { jsonEvents } from 'src/stores/Data';
+import { eventsStore, jsonEvents } from 'src/stores/Data';
+import tags from '$lib/jsons/tags.json';
+import authors from '$lib/jsons/authors.json';
 
 export const trailingSlash = 'always';
 export const prerender = true;
 
 const importEvents = async () => {
 	let event;
-	let pastEvents = [];
 
 	const events = await jsonEvents();
+	eventsStore.set(
+		events.filter((x) => x.upcoming === false).sort((a, b) => a.datetime < b.datetime)
+	);
 
-	event = events.filter((x) => {
-		if (x.upcoming === true) {
-			return true;
-		} else {
-			pastEvents = [...pastEvents, x];
-			return false;
-		}
-	});
+	const now = Date.now() / 1000;
+
+	event = events.filter((x) => x.upcoming === true && x.datetime < now);
 
 	if (event.length !== 0) {
-		event = event.reduce((x, y) => (x.datetime < y.datetime ? x : y));
+		event = event.reduce((x, y) => (x.datetime > y.datetime ? x : y));
 	}
 
-	return { events, event, pastEvents };
+	return { events, event };
 };
 
 export async function load({ url }) {
@@ -33,7 +32,9 @@ export async function load({ url }) {
 		throw redirect(307, '/404');
 	} else {
 		return {
-			all: importEvents()
+			all: importEvents(),
+			tags,
+			authors
 		};
 	}
 }

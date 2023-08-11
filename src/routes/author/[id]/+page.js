@@ -1,6 +1,4 @@
-import authors from '$lib/jsons/authors.json';
-
-const findAuthorById = (id) => {
+const findAuthorById = (id, authors) => {
 	return authors.find((item) => {
 		return item.id === id;
 	});
@@ -15,10 +13,10 @@ const findAuthorEvents = async (id, events) => {
 };
 
 export async function load({ params, parent }) {
-	const { all } = await parent();
+	const { all, authors } = await parent();
 
 	return {
-		author: findAuthorById(params.id),
+		author: findAuthorById(params.id, authors),
 		events: findAuthorEvents(params.id, all.events)
 	};
 }
