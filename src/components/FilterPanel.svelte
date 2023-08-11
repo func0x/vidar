@@ -10,7 +10,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { authorStore, dateRangeStore, selectedTagsStore } from 'src/stores/Data';
+	import { authorStore, dateRangeStore, eventsStore, selectedTagsStore } from 'src/stores/Data';
 	import { getDayAndMonthJsDate, jsDateToLuxonTimestamp } from 'src/utils/date';
 	import deleteIcon from '$lib/images/delete.svg';
 	import AuthorName from './AuthorName.svelte';
@@ -33,11 +33,11 @@
 	let dateFrom =
 		JSON.parse($page.url.searchParams.get('date'))?.from != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).from)
-			: null;
+			: new Date($eventsStore.reduce((x, y) => (x.datetime > y.datetime ? y : x)).datetime * 1000);
 	let dateTo =
 		JSON.parse($page.url.searchParams.get('date'))?.to != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).to)
-			: null;
+			: new Date(Date.now());
 	let selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
 	let params = Array.from(selectedTags);
 	let author = JSON.parse($page.url.searchParams.get('speaker'));
