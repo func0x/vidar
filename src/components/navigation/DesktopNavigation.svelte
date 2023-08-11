@@ -5,20 +5,28 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import UseMediaQuery from 'src/hooks/UseMediaQuery.svelte';
+	import { authorStore, dateRangeStore, dateTypeStore, selectedTagsStore } from '../../stores/Data';
 
 	let query = '';
 
 	const redirectToSearch = () => {
 		goto(`/search/?query=${query}`);
 	};
+
+	const goToClearHome = () => {
+		$selectedTagsStore = [];
+		$dateRangeStore = { start_date: null, end_date: null };
+		$authorStore = '';
+		$dateTypeStore = 'Any Time';
+		query = '';
+		goto('/', { noScroll: true, replaceState: true, invalidateAll: true });
+	};
 </script>
 
 <UseMediaQuery query="(min-width: 1115px)" let:matches>
 	{#if matches}
 		<Box border="2px solid var(--grey-300)" ch jsb height="70px" padding="0 var(--gap-l)">
-			<a href="/">
-				<img src={logo} alt="logo" />
-			</a>
+			<img on:click={goToClearHome} on:keyup={goToClearHome} src={logo} alt="logo" />
 			{#if $page.url.pathname !== '/search/'}
 				<form on:submit|preventDefault={redirectToSearch}>
 					<input name="query" bind:value={query} placeholder="Search..." />
@@ -61,6 +69,10 @@
 		display: flex;
 		border-radius: var(--border-radius-xxl);
 		overflow: hidden;
+	}
+
+	img {
+		cursor: pointer;
 	}
 
 	@media screen and (max-width: 700px) {
