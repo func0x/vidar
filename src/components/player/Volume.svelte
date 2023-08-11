@@ -73,6 +73,7 @@
 
 	.volume-slider {
 		width: 0;
+		height: 6px;
 		transform-origin: left;
 		transform: scaleX(0);
 		accent-color: white;
@@ -99,7 +100,7 @@
 
 	@media screen and (max-width: 1115px) {
 		.volume-container .volume-slider {
-			width: 50px;
+			width: 55px;
 			transform: scaleX(1);
 		}
 	}
