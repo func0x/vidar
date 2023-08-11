@@ -9,6 +9,8 @@
 	export let currentTime;
 	export let totalTime;
 	export let duration;
+	export let slider;
+	export let volumeBtn;
 	let speedBtn;
 
 	const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
@@ -56,7 +58,7 @@
 		<img class="play-icon" src={play} alt="play" />
 		<img class="pause-icon" src={pause} alt="pause" />
 	</button>
-	<Volume {video} />
+	<Volume bind:slider bind:volumeBtn {video} />
 	<div class="duration-container">
 		<div bind:this={currentTime} class="current-time">0:00</div>
 		/
@@ -90,9 +92,8 @@
 	.controls {
 		display: flex;
 		gap: 1rem;
-		padding: 1rem;
 		align-items: center;
-		height: 45px;
+		height: 50px;
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		-ms-user-select: none;

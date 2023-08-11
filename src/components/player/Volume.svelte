@@ -3,8 +3,8 @@
 	import muteIcon from '$lib/images/mute.svg';
 
 	export let video;
-	let volumeBtn;
-	let slider;
+	export let slider;
+	export let volumeBtn;
 	let volume;
 
 	const muteVideo = () => {

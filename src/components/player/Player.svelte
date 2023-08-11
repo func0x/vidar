@@ -1,8 +1,11 @@
 <script>
 	import Box from 'src/components/Box.svelte';
 	import noVideo from '$lib/images/no_video.svg';
+	import volumeIcon from '$lib/images/volume.svg';
+	import muteIcon from '$lib/images/mute.svg';
 	import Controls from './Controls.svelte';
 	import Timeline from './Timeline.svelte';
+	import { onMount } from 'svelte';
 
 	export let event;
 
@@ -13,9 +16,13 @@
 	let totalTime;
 	let progress;
 	let duration;
+	let slider;
+	let volumeBtn;
 
 	const togglePlay = () => {
-		video.paused ? video.play() : video.pause();
+		if (video) {
+			video.paused ? video.play() : video.pause();
+		}
 	};
 
 	const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
@@ -42,6 +49,62 @@
 		progress.value = percent;
 		thumb.style.setProperty('--progress-position', percent);
 	};
+
+	const skip = (time) => {
+		if (video) {
+			video.currentTime += time;
+		}
+	};
+
+	const changeVolume = (volume) => {
+		if (video && slider) {
+			if (video.volume + volume >= 0 && video.volume + volume <= 1) {
+				video.volume += volume;
+				slider.value = video.volume.toFixed(1);
+			}
+
+			if (parseFloat(slider.value) === 0.0) {
+				volumeBtn.firstChild.src = muteIcon;
+			} else {
+				volumeBtn.firstChild.src = volumeIcon;
+			}
+		}
+	};
+
+	const keyDownEvent = (event) => {
+		const tagName = document.activeElement.tagName.toLowerCase();
+		if (tagName === 'input') {
+			return;
+		}
+
+		switch (event.key.toLowerCase()) {
+			case 'arrowleft':
+				skip(-10);
+				break;
+			case 'arrowright':
+				skip(10);
+				break;
+			case ' ':
+				event.preventDefault();
+				togglePlay();
+				break;
+			case 'arrowup':
+				event.preventDefault();
+				changeVolume(0.1);
+				break;
+			case 'arrowdown':
+				event.preventDefault();
+				changeVolume(-0.1);
+				break;
+
+			default:
+				break;
+		}
+	};
+
+	onMount(() => {
+		document.addEventListener('keydown', (event) => keyDownEvent(event));
+	});
 </script>
 
 {#if event.video.title === ''}
@@ -56,7 +119,15 @@
 		<div bind:this={videoContainer} class="video-container paused">
 			<div class="video-controls-container">
 				<Timeline bind:progress bind:thumb {duration} {video} timestamps={event.video.timestamps} />
-				<Controls {videoContainer} {video} {duration} bind:currentTime bind:totalTime />
+				<Controls
+					{videoContainer}
+					{video}
+					bind:slider
+					bind:volumeBtn
+					{duration}
+					bind:currentTime
+					bind:totalTime
+				/>
 			</div>
 			<video
 				bind:this={video}
