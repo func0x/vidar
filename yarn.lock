@@ -358,22 +358,22 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
-"@sveltejs/adapter-auto@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-auto/-/adapter-auto-1.0.1.tgz#63667d53145a15177d03294ac8c928f4c19514ec"
-  integrity sha512-IGek24xN1wJb+gz0hyGSxbIvM7q2K+BXquyycteCWbH9MPosjw8+LuIB2HIH20thE/647UEQBNqCM9R73lAUXA==
+"@sveltejs/adapter-auto@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-auto/-/adapter-auto-1.0.2.tgz#c44591b1b1ef75e66c158067bab9d2789836fa54"
+  integrity sha512-UXpEO/gutERZnD+Z5Vi4J/ifD3WSRuCI7xwtLJTcKNQvJ6t5Xsj1X3Mw2F8Vv/XTUuxf7xPLYUgThU331r0Y9w==
   dependencies:
     import-meta-resolve "^2.2.0"
 
-"@sveltejs/adapter-static@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-static/-/adapter-static-1.0.4.tgz#1e6fe9e9e105a89491f74fe469844d041cf6c7a2"
-  integrity sha512-L6kGg19MBHW3kv3GWAPl9tJo3ohNM+dcj9Yq1U1XVu0J0MKrusyCWQ62XOfxFgS6T8Fq0KYJ5NSSAPGppvX4xA==
+"@sveltejs/adapter-static@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-static/-/adapter-static-1.0.5.tgz#3c691b30717d73aa77f41409ed1ce1f2e3a52e48"
+  integrity sha512-W5jbgvy9sbYEHs27NQOSFEun+zQwdcL4kpk5qc2kSHl8cKsP5wfXuWDTDRmD1Co40aFcesi5Az5ZzdnPI8KCVg==
 
-"@sveltejs/kit@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.1.1.tgz#5e598fb524cafd920e40bed2c8a5c6e2da3cd634"
-  integrity sha512-5hZef6yTqiLm8fLMFD78udJI3pG9ptSndg3NNmDqxv5fS9KFABkASQwnWB25Pf1HkPNqvL+x4Tl8kyW1N8thKQ==
+"@sveltejs/kit@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.2.3.tgz#ea1e3ac4195935be56eab642ac1f85de7ab74b2e"
+  integrity sha512-VyXiFoqoxV/2gNYPGsoreqGXRfUz1ASBKH+b+1VnF4LXnOvA2h1lTAgniotlamuC6yBM94DkztQSlIRwiS+REA==
   dependencies:
     "@sveltejs/vite-plugin-svelte" "^2.0.0"
     "@types/cookie" "^0.5.1"
@@ -387,7 +387,7 @@
     set-cookie-parser "^2.5.1"
     sirv "^2.0.2"
     tiny-glob "^0.2.9"
-    undici "5.15.0"
+    undici "5.15.2"
 
 "@sveltejs/vite-plugin-svelte@^2.0.0":
   version "2.0.2"
@@ -1612,10 +1612,10 @@ typescript@^4.9.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.4.tgz#a2a3d2756c079abda241d75f149df9d561091e78"
   integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
 
-undici@5.15.0:
-  version "5.15.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-5.15.0.tgz#cb8437c43718673a8be59df0fdd4856ff6689283"
-  integrity sha512-wCAZJDyjw9Myv+Ay62LAoB+hZLPW9SmKbQkbHIhMw/acKSlpn7WohdMUc/Vd4j1iSMBO0hWwU8mjB7a5p5bl8g==
+undici@5.15.2:
+  version "5.15.2"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-5.15.2.tgz#97ac24def6cd0e04d20edec2ed58c25969282c83"
+  integrity sha512-JsN6meyJESMJaLqOuozstwrolSkLWlTIT4qpGoKepNdnZy7HJMPKB0v0Td/CepGgoiPpUSvVO9Nh/5N9QrmDgQ==
   dependencies:
     busboy "^1.6.0"
 
