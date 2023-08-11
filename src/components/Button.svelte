@@ -44,7 +44,7 @@
 <style>
 	button {
 		width: fit-content;
-		padding: var(--gap-m);
+		padding: var(--gap-s);
 		border-radius: var(--border-radius-xl);
 		color: var(--aubergine);
 		text-transform: uppercase;
