@@ -1,13 +1,11 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import path from 'path';
-import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
 
 /** @type {import('vite').UserConfig} */
 const config = {
 	plugins: [
 		sveltekit(),
-		json({ compact: true }),
 		copy({
 			targets: [
 				{

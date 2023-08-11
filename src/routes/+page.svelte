@@ -1,4 +1,5 @@
 <script>
+	import * as environment from '$app/environment';
 	import FilterPanel from 'src/components/FilterPanel.svelte';
 
 	import RecentEvents from 'src/components/RecentEvents.svelte';
@@ -24,9 +25,11 @@
 	<title>Vidar &#x2022; Home</title>
 </svelte:head>
 
-{#if event}
-	<Upcoming {event} />
+{#if environment.browser === true}
+	{#if event}
+		<Upcoming {event} />
+	{/if}
+	<SectionName title="Explore" />
+	<FilterPanel {tags} {authors} />
+	<RecentEvents hover events={event.upcoming ? $filtered.filter((x) => x.upcoming === false) : $filtered.slice(1).filter((x) => x.upcoming === false)} />
 {/if}
-<SectionName title="Explore" />
-<FilterPanel {tags} {authors} />
-<RecentEvents hover events={event.upcoming ? $filtered.filter((x) => x.upcoming === false) : $filtered.slice(1).filter((x) => x.upcoming === false)} />

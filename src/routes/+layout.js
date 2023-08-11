@@ -1,12 +1,11 @@
 import { eventsStore, jsonEvents } from 'src/stores/Data';
-import tags from '$lib/jsons/tags.json';
-import authors from '$lib/jsons/authors.json';
+
 import { authorsStore } from '../stores/Data';
 
 export const prerender = true;
 export const trailingSlash = 'always';
 
-const importEvents = async () => {
+const importEvents = async (authors) => {
 	let event;
 	const events = await jsonEvents();
 
@@ -29,12 +28,12 @@ const importEvents = async () => {
 	return { events, event };
 };
 
-export async function load({ url }) {
+export async function load({ url, data }) {
+	const { tags, authors } = data;
 	const regex = new RegExp('^((/event/[a-zA-Z]*|/author/[a-z]*/?$)|[/]$|/404|/search)', 'g');
-
 	if (regex.test(url.pathname)) {
 		return {
-			all: importEvents(),
+			all: importEvents(authors),
 			tags,
 			authors
 		};

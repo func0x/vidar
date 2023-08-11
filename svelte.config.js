@@ -28,6 +28,7 @@ export default {
 		}),
 		prerender: {
 			entries: [
+				'/',
 				...authors.map(({ id }) => `/author/${id}`),
 				...data.map((event) => `/event/${replaceParamUrl(event.title)}`),
 				'/search'
