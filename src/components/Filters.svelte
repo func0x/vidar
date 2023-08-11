@@ -1,5 +1,4 @@
 <script>
-	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import { onMount } from 'svelte';
 
 	import AuthorInput from './AuthorInput.svelte';
@@ -29,38 +28,18 @@
 	});
 </script>
 
-<MediaQuery query="(min-width: 1115px)" let:matches>
-	{#if matches}
-		<Box df fd="column" gap="var(--gap-m)">
-			<Box df gap="var(--gap-l)">
-				{#key false}
-					<DatePicker label="From" bind:date={dateFrom} />
-					<DatePicker label="To" bind:date={dateTo} />
-				{/key}
-				<AuthorInput {authors} bind:selectedAuthor bind:authorName={author} />
-			</Box>
-			<span class="select-tags">Select tags</span>
-			<Box bind:boxRef df fw gap="var(--gap-m)">
-				{#each tags as tag}
-					<Tag text={tag} bg={tagBg} {hbg} {hc} {fs} />
-				{/each}
-			</Box>
-		</Box>
-	{:else}
-		<Box df fd="column" gap="var(--gap-m)">
-			<Box df fd="column" gap="var(--gap-m)">
-				{#key false}
-					<DatePicker label="From" bind:date={dateFrom} />
-					<DatePicker label="To" bind:date={dateTo} />
-				{/key}
-				<AuthorInput {authors} bind:selectedAuthor bind:authorName={author} />
-			</Box>
-			<span class="select-tags">Select tags</span>
-			<Box bind:boxRef df fw gap="var(--gap-m)">
-				{#each tags as tag}
-					<Tag text={tag} bg={tagBg} {hbg} {hc} {fs} />
-				{/each}
-			</Box>
-		</Box>
-	{/if}
-</MediaQuery>
+<Box df fd="column" gap="var(--gap-m)">
+	<Box df gap="var(--gap-l)">
+		{#key false}
+			<DatePicker label="From" bind:date={dateFrom} />
+			<DatePicker label="To" bind:date={dateTo} />
+		{/key}
+		<AuthorInput {authors} bind:selectedAuthor bind:authorName={author} />
+	</Box>
+	<span class="select-tags">Select tags</span>
+	<Box bind:boxRef df fw gap="var(--gap-m)">
+		{#each tags as tag}
+			<Tag text={tag} bg={tagBg} {hbg} {hc} {fs} />
+		{/each}
+	</Box>
+</Box>
