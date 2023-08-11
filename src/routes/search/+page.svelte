@@ -2,13 +2,12 @@
 	import Box from 'src/components/Box.svelte';
 	import search from '$lib/images/search.svg';
 	import noFound from '$lib/images/search_no_found.svg';
-	import FilterPanelSearch from 'src/components/FilterPanelSearch.svelte';
-	import RecentEvents from 'src/components/RecentEvents.svelte';
 	import { onMount } from 'svelte';
 	import { eventsStore } from 'src/stores/Data';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { searchedEventsStore, searchedFiltered } from 'src/stores/SearchData';
+	import { searchedEventsStore } from 'src/stores/SearchData';
+	import SearchResults from 'src/components/SearchResults.svelte';
 	// import tags from '$lib/jsons/tags.json';
 
 	let searched = [];
@@ -16,7 +15,7 @@
 	let tagsSet = new Set([]);
 	let authors = [];
 	let tags = [];
-	let query = $page.url.searchParams.get('query') || '';
+	let query;
 
 	const findEventsByTitle = (eventsData, titleParam) => {
 		return eventsData.filter((item) => {
@@ -25,8 +24,9 @@
 	};
 
 	onMount(() => {
-		if ($page.url.searchParams.get('query')) {
-			searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
+		query = $page.url.searchParams.get('query') || '';
+		if (query !== '') {
+			searched = findEventsByTitle($eventsStore, query);
 			searched.forEach((element) => {
 				element.authors.forEach((author) => {
 					if (!authorsSet.has(JSON.stringify(author))) {
@@ -41,24 +41,6 @@
 			tags = Array.from(tagsSet);
 		}
 	});
-
-	$: {
-		if ($page.url.searchParams.get('query')) {
-			searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
-			searched.forEach((element) => {
-				element.authors.forEach((author) => {
-					if (!authorsSet.has(JSON.stringify(author))) {
-						authorsSet.add(JSON.stringify(author));
-					}
-				});
-				tagsSet = new Set([...tagsSet, ...element.tags]);
-			});
-
-			$searchedEventsStore = searched;
-			authors = Array.from(authorsSet).map((x) => JSON.parse(x));
-			tags = Array.from(tagsSet);
-		}
-	}
 </script>
 
 <div class={searched.length === 0 ? 'box' : ''}>
@@ -72,13 +54,9 @@
 	<div class="spacer" />
 
 	{#if searched.length > 0}
-		<FilterPanelSearch
-			{authors}
-			{tags}
-			query={$page.url.searchParams.get('query') || 'Unknown parameter'}
-			count={searched.length}
-		/>
-		<RecentEvents events={$searchedFiltered} />
+		{#key $page.url.searchParams.get('query')}
+			<SearchResults {authors} {tags} bind:searched />
+		{/key}
 	{:else}
 		<div class="wrapper">
 			<Box df tac fd="column" noRes width="fit-content">
