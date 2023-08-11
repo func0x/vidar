@@ -25,6 +25,10 @@
 		});
 
 		$dateTypeStore = value;
+
+		if ($dateTypeStore === 'Any Time') {
+			$page.url.searchParams.delete('date');
+		}
 		$page.url.searchParams.set('period', JSON.stringify(value));
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
