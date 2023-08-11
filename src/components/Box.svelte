@@ -28,6 +28,7 @@
 	export let mt = 'unset';
 	export let fw = false; // flex-wrap
 	export let hbg = false; // change bg on hover
+	export let tac = false; // text-align: center
 	export let className = ''; // CSS class name
 
 	let boxCss = css`
@@ -65,6 +66,7 @@
 		class:ds
 		class:di
 		class:df
+		class:tac
 		class:cvh
 		class:ch
 		class:jsb
@@ -81,6 +83,10 @@
 <style>
 	.df {
 		display: flex;
+	}
+
+	.tac {
+		text-align: center;
 	}
 
 	.hbg:hover > :global(.author-name) {
