@@ -2,6 +2,8 @@ import { readable } from 'svelte/store';
 
 import authorsJson from '$lib/images/authors.json';
 
+const modules = import.meta.glob('../lib/event_data/*/*.json');
+
 export const authors = readable(authorsJson);
 const replacePath = (path) => {
 	return path.replace('../', '').replace('/data.json', '');
@@ -36,8 +38,6 @@ async function getFromModules(res) {
 }
 
 async function importJsons() {
-	const modules = import.meta.glob('../lib/event_data/*/*.json');
-
 	return Promise.resolve(modules).then((res) => getFromModules(res));
 }
 
