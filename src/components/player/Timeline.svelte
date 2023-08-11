@@ -61,16 +61,18 @@
 
 		const percent = (clientX - left) / (right - left);
 
+		console.log(percent);
+
 		thumb.style.setProperty('--progress-position', percent);
 	};
 
-	const handleMouseup = (e) => {
+	const handleMouseup = () => {
 		setTimeout(function () {
 			video.play();
 		}, 150);
 	};
 
-	const handleDocumentMouseDown = (e) => {
+	const handleDocumentMouseDown = () => {
 		if (isScrubbing) {
 			isScrubbing = false;
 			video.play();

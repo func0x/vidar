@@ -5,6 +5,7 @@
 	import closeFullScreen from '$lib/images/exit_fullscreen.svg';
 	import playback from '$lib/images/playback_speed.svg';
 	import Volume from './Volume.svelte';
+	import { onMount } from 'svelte';
 
 	export let videoContainer;
 	export let video;
@@ -47,12 +48,32 @@
 		video.paused ? video.play() : video.pause();
 	};
 
-	const changeSpeed = (e) => {
+	const openPlaybackModal = (e) => {
 		playbackListOpen = !playbackListOpen;
+		if (playbackListOpen) {
+			document.querySelector('.playback-choose').style.display = 'block';
+		} else {
+			document.querySelector('.playback-choose').style.display = 'none';
+		}
+	};
+
+	const changeSpeed = (e) => {
 		const value = e.target.getAttribute('value');
 
-		if (value) {
+		if (playbackListOpen && value) {
+			const speeds = document.querySelectorAll('.video-speed');
+
+			Object.entries(speeds).forEach(([_, value]) => {
+				if (value === e.target) {
+					value.style.fontWeight = 'var(--font-bold)';
+				} else {
+					value.style.fontWeight = 'var(--font-light)';
+				}
+			});
+
 			video.playbackRate = parseFloat(value);
+			document.querySelector('.playback-choose').style.display = 'none';
+			playbackListOpen = false;
 		}
 	};
 
@@ -65,6 +86,11 @@
 			fullScreenIcon.src = fullscreen;
 		}
 	};
+
+	onMount(() => {
+		document.querySelectorAll('.video-speed')[3].style.fontWeight = 'var(--font-bold)';
+		// console.log(document.querySelectorAll('.video-speed'));
+	});
 </script>
 
 <div class="controls">
@@ -80,19 +106,19 @@
 			{duration ? formatDuration(duration) : '0:00'}
 		</div>
 	</div>
-	<button on:click={changeSpeed} class="speed-btn wide">
-		<img src={playback} alt="play" />
-		{#if playbackListOpen}
-			<div class="playback-choose">
-				{#each videoSpeed as speed}
-					<div class="video-speed" value={speed.value}>
-						{speed.key}
-					</div>
-				{/each}
-			</div>
-		{/if}
-		<div class="info">Playback Speed</div>
-	</button>
+	<div class="playback-choose-wrapper">
+		<div class="playback-choose" on:click={changeSpeed} on:keyup={changeSpeed}>
+			{#each videoSpeed as speed}
+				<div class="video-speed" value={speed.value}>
+					{speed.key}
+				</div>
+			{/each}
+		</div>
+		<button on:click={openPlaybackModal} class="speed-btn wide">
+			<img src={playback} alt="play" />
+			<div class="info">Playback Speed</div>
+		</button>
+	</div>
 	<button on:click={toggleFullscreen} class="full-screen-btn"
 		><img bind:this={fullScreenIcon} class="full-screen" src={fullscreen} alt="full-screen" />
 
@@ -162,8 +188,14 @@
 		color: white;
 	}
 
+	.playback-choose-wrapper {
+		position: relative;
+	}
+
 	.playback-choose {
+		display: none;
 		position: absolute;
+		transform: translateX(-25%);
 		bottom: 200%;
 		border-radius: 5px;
 		overflow: hidden;
