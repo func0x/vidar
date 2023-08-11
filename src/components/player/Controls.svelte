@@ -94,6 +94,14 @@
 		document.querySelectorAll('.video-speed')[3].firstElementChild.style.visibility = 'visible';
 		document.querySelectorAll('.video-speed')[3].lastElementChild.style.fontWeight =
 			'var(--font-bold)';
+
+		document.addEventListener('click', function (event) {
+			var playbackWrapper = document.querySelector('.playback-choose-wrapper');
+			if (playbackWrapper && !playbackWrapper.contains(event.target)) {
+				playbackWrapper.firstChild.style.display = 'none';
+				playbackListOpen = false;
+			}
+		});
 	});
 </script>
 
@@ -221,7 +229,7 @@
 		padding: 6px 10px;
 		text-align: center;
 		background: #212121;
-		font-size: 10px;
+		font-size: var(--font-s);
 	}
 
 	.checkmark {
