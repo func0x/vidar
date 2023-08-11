@@ -53,12 +53,7 @@
 		{:else}
 			<div class:ai class="multiple-speakers-list-mobile" bind:this={ref}>
 				{#each authors as author}
-					<div
-						class="author-name-wrapper"
-						name={author.name}
-						on:click={onSelect}
-						on:keyup={onSelect}
-					>
+					<div class="author-name-wrapper" name={author.name}>
 						<AuthorName {author} />
 					</div>
 				{/each}
@@ -68,12 +63,7 @@
 		<div class:ai class="multiple-speakers-list-wrapper">
 			<div class:ai class:notFound class="multiple-speakers-list" bind:this={ref}>
 				{#each authors as author}
-					<div
-						class="author-name-wrapper"
-						name={author.name}
-						on:click={onSelect}
-						on:keyup={onSelect}
-					>
+					<div class="author-name-wrapper" name={author.name}>
 						<AuthorName {author} />
 					</div>
 				{/each}
