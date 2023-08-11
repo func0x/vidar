@@ -1,18 +1,15 @@
 <script>
 	import Box from './Box.svelte';
 	import Button from './Button.svelte';
-	import Select from './Select.svelte';
 	import filter from '$lib/images/filter.svg';
 	import filterWhite from '$lib/images/filter_white.svg';
 	import Tag from './Tag.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { authorStore, dateRangeStore, dateTypeStore, selectedTagsStore } from 'src/stores/Data';
 	import { getDayAndMonthJsDate, jsDateToLuxonTimestamp } from 'src/utils/date';
 	import deleteIcon from '$lib/images/delete.svg';
 	import AuthorName from './AuthorName.svelte';
-	import Filters from './Filters.svelte';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import TagPanel from './TagPanel.svelte';
 	import TagInfo from './TagInfo.svelte';
@@ -97,7 +94,6 @@
 
 				params = Array.from(selectedTags);
 				$page.url.searchParams.set('tags', JSON.stringify($searchedSelectedTagsStore));
-				// searchedSelectedTagsStore.set(params);
 				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 			}
 		});
@@ -148,10 +144,6 @@
 
 	onMount(() => {
 		$searchedSelectedTagsStore = Array.from(selectedTags);
-		// searchedDateRangeStore.set({
-		// 	from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-		// 	to: jsDateToLuxonTimestamp(dateTo, 'to')
-		// });
 		$searchedDateTypeStore = period;
 		$searchedAuthorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 

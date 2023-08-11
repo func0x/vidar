@@ -4,7 +4,6 @@
 	import Select from './Select.svelte';
 	import filter from '$lib/images/filter.svg';
 	import filterWhite from '$lib/images/filter_white.svg';
-	import SelectTag from './SelectTag.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -33,13 +32,11 @@
 	let dateFrom =
 		JSON.parse($page.url.searchParams.get('date'))?.from != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).from)
-			: // : new Date($eventsStore.reduce((x, y) => (x.datetime > y.datetime ? y : x)).datetime * 1000);
-			  null;
+			: null;
 	let dateTo =
 		JSON.parse($page.url.searchParams.get('date'))?.to != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).to)
-			: // : new Date(Date.now());
-			  null;
+			: null;
 	let selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
 	let params = Array.from(selectedTags);
 	let author = JSON.parse($page.url.searchParams.get('speaker'));
@@ -85,7 +82,6 @@
 
 				params = Array.from(selectedTags);
 				$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
-				// selectedTagsStore.set(params);
 				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 			}
 		});
@@ -101,8 +97,6 @@
 
 	const deleteTagFromFilter = (tagName) => {
 		selectedTags.delete(tagName);
-		// params = params.filter((x) => x !== tagName);
-		// selectedTagsStore.set(params);
 		$selectedTagsStore = $selectedTagsStore.filter((x) => x !== tagName);
 
 		$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
@@ -138,10 +132,6 @@
 
 	onMount(() => {
 		$selectedTagsStore = Array.from(selectedTags);
-		// dateRangeStore.set({
-		// 	from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-		// 	to: jsDateToLuxonTimestamp(dateTo, 'to')
-		// });
 		$dateTypeStore = period;
 		$authorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
