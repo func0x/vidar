@@ -4,9 +4,10 @@
 
 	export let text = '';
 	export let bg = 'var(--grey-300)';
-	export let hbg = 'var(--grey-700)'; // tag hover bg color
-	export let hc = 'var(--white)'; // hover color
+	export const hbg = 'var(--tag-hover)'; // tag hover bg color
+	export const hc = 'var(--tag-font-color)'; // hover color
 	export let fs = 'var(--font-s)'; // font size
+	export let color = 'var(--aubergine)';
 	export let ft = false; // delete tag from filters
 	export let onDelete = undefined;
 	export let redirect = false;
@@ -25,6 +26,7 @@
 		background-color: ${bg};
 		font-size: ${fs};
 		cursor: pointer;
+		color: ${color};
 
 		&:hover {
 			background-color: ${hbg} !important;
@@ -70,10 +72,12 @@
 	.ft {
 		display: flex;
 		gap: var(--gap-xs);
+		align-items: center;
 	}
 
 	.ft > span {
 		padding: 0;
+		color: var(--white) !important;
 	}
 
 	.ft > img {

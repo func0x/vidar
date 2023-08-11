@@ -13,6 +13,9 @@
 	import Filters from './Filters.svelte';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import TagPanel from './TagPanel.svelte';
+	import Tag from './Tag.svelte';
+	import TagInfo from './TagInfo.svelte';
+	import deleteIcon from '$lib/images/delete.svg';
 
 	export let tags;
 	export let authors;

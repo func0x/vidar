@@ -12,8 +12,6 @@
 	const { event } = data.all;
 	const { tags, authors } = data;
 
-	const filter = event.upcoming ? $filtered.filter((x) => x.upcoming === false) : $filtered.slice(1).filter((x) => x.upcoming === false) 
-
 	onMount(() => {
 		const loader = document.querySelector('.loader');
 		const application = document.querySelector('.application');
@@ -31,4 +29,4 @@
 {/if}
 <SectionName title="Explore" />
 <FilterPanel {tags} {authors} />
-<RecentEvents hover events={filter} />
+<RecentEvents hover events={event.upcoming ? $filtered.filter((x) => x.upcoming === false) : $filtered.slice(1).filter((x) => x.upcoming === false)} />
