@@ -8,12 +8,7 @@
 
 <Box width="fit-content" df fd="column" gap="var(--gap-xs)">
 	<span>{label}</span>
-	<DateInput
-		format="yyyy-MM-dd"
-		browseWithoutSelecting
-		placeholder="yyyy-MM-dd"
-		bind:value={date}
-	/>
+	<DateInput format="yyyy-MM-dd" closeOnSelection placeholder="yyyy-MM-dd" bind:value={date} />
 </Box>
 
 <style>

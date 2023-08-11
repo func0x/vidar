@@ -136,17 +136,20 @@
 
 	onMount(() => {
 		$selectedTagsStore = Array.from(selectedTags);
-		dateRangeStore.set({
-			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-			to: jsDateToLuxonTimestamp(dateTo, 'to')
-		});
+		// dateRangeStore.set({
+		// 	from: jsDateToLuxonTimestamp(dateFrom, 'from'),
+		// 	to: jsDateToLuxonTimestamp(dateTo, 'to')
+		// });
 		$dateTypeStore = period;
 		$authorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
 		const subscribtion = dateRangeStore.subscribe(() => {
-			if (dateFrom || dateTo) {
-				$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
-				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+			if ($dateRangeStore.from || $dateRangeStore.to) {
+				$page.url.searchParams.set(
+					'date',
+					JSON.stringify({ from: $dateRangeStore.from, to: $dateRangeStore.to })
+				);
+				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true, keepFocus:true });
 			}
 		});
 
@@ -222,9 +225,9 @@
 						/>
 					{/if}
 
-					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && dateFrom}
+					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && $dateRangeStore.from}
 						<span class="select-tags">TIMEFRAME:</span>
-						<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
+						<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate($dateRangeStore.from)}`} fp />
 						<img
 							src={deleteIcon}
 							alt="delete"

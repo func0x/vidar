@@ -1,6 +1,5 @@
 <script>
 	import { dateRangeStore, dateTypeStore } from 'src/stores/Data';
-	import { jsDateToLuxonTimestamp } from 'src/utils/date';
 
 	import { onMount } from 'svelte';
 
@@ -11,8 +10,6 @@
 	import SelectTime from './SelectTime.svelte';
 	import Tag from './Tag.svelte';
 
-	export let dateFrom;
-	export let dateTo;
 	export let selectedAuthor;
 	export let author;
 	export let tags;
@@ -34,10 +31,10 @@
 	});
 
 	$: {
-		dateRangeStore.set({
-			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-			to: jsDateToLuxonTimestamp(dateTo, 'to')
-		});
+		// dateRangeStore.set({
+		// 	from: jsDateToLuxonTimestamp(dateFrom, 'from'),
+		// 	to: jsDateToLuxonTimestamp(dateTo, 'to')
+		// });
 	}
 </script>
 
@@ -47,11 +44,11 @@
 			<SelectTime {options} />
 		{/key}
 		{#if $dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After'}
-			<DatePicker label="From" bind:date={dateFrom} />
+			<DatePicker label="From" bind:date={$dateRangeStore.from} />
 		{/if}
 		{#if $dateTypeStore === 'Range'}
-			<DatePicker label="From" bind:date={dateFrom} />
-			<DatePicker label="To" bind:date={dateTo} />
+			<DatePicker label="From" bind:date={$dateRangeStore.from} />
+			<DatePicker label="To" bind:date={$dateRangeStore.to} />
 		{/if}
 		<AuthorInput {authors} bind:selectedAuthor bind:authorName={author} />
 	</Box>
