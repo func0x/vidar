@@ -16,7 +16,7 @@ const importEvents = async () => {
 
 	const now = Date.now() / 1000;
 
-	event = events.filter((x) => x.upcoming === true && x.datetime < now);
+	event = events.filter((x) => x.upcoming === true);
 
 	if (event.length !== 0) {
 		event = event.reduce((x, y) => (x.datetime > y.datetime ? x : y));

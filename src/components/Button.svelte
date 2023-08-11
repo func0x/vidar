@@ -8,6 +8,7 @@
 	export let border = 'unset';
 	export let onClick = () => {};
 	export let ref = null;
+	export let href = '';
 
 	let buttonCss = css`
 		background-color: ${bg};
@@ -19,10 +20,16 @@
 	<a class:notFound href="/">
 		{text} <img src={icon} alt="icon" />
 	</a>
-{:else}
+{:else if href === ''}
 	<button class={buttonCss} bind:this={ref} on:click={onClick}
 		><img src={icon} alt="icon" /> {text}</button
 	>
+{:else}
+	<a {href}>
+		<button class={buttonCss} bind:this={ref} on:click={onClick}
+			><img src={icon} alt="icon" /> {text}</button
+		>
+	</a>
 {/if}
 
 <style>
@@ -37,6 +44,10 @@
 		gap: var(--gap-m);
 		cursor: pointer;
 		font-size: var(--font-m);
+	}
+
+	a {
+		align-self: flex-end;
 	}
 
 	.notFound {

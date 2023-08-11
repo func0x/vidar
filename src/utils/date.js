@@ -13,6 +13,27 @@ export const luxonTimeBack = (days) => {
 	);
 };
 
+export const detectAfterLive = (eventTimestamp) => {
+	const dateAfterLive = DateTime.fromMillis(eventTimestamp * 1000).plus({ hour: 2 });
+
+	return DateTime.now() > dateAfterLive;
+};
+
+export const detectLive = (eventTimestamp) => {
+	const eventDate = DateTime.fromMillis(eventTimestamp * 1000)
+		.minus({ minute: 10 })
+		.toMillis();
+
+	return DateTime.now().toMillis() > eventDate && !detectAfterLive(eventTimestamp);
+};
+
+export const countDaysAfterLive = (eventTimestamp) => {
+	const eventDate = DateTime.fromMillis(eventTimestamp * 1000);
+	const now = DateTime.now();
+
+	return parseInt(now.diff(eventDate, 'days').toObject().days);
+};
+
 export const jsDateToLuxonTimestamp = (jsDate, type) => {
 	switch (type) {
 		case 'from':

@@ -11,6 +11,7 @@
 	export let open = false;
 	export let videoFooter = false;
 	export let hover = false;
+	export let isLive = false;
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
@@ -22,11 +23,11 @@
 						<Tag text={tag} />
 					{/each}
 				</TagPanel>
-				<a href="/event/{event.id}">
+				<a href={isLive ? event.livestream : `/event/${event.id}`}>
 					<h1 class:hover class:eventCard>{event.title}</h1>
 				</a>
 				<EventAuthor authors={event.authors} timestamp={event.datetime} />
-				<a href="/event/{event.id}">
+				<a href={isLive ? event.livestream : `/event/${event.id}`}>
 					<p>
 						{event.description}
 					</p>
@@ -65,7 +66,7 @@
 			<Box df gap="var(--gap-s)">
 				<Avatar authors={event.authors} />
 				<Box df fd="column" gap="var(--gap-xs)">
-					<a href="/event/{event.id}">
+					<a href={isLive ? event.livestream : `/event/${event.id}`}>
 						<h1>{event.title}</h1>
 					</a>
 					<EventAuthor bind:open authors={event.authors} timestamp={event.datetime} />

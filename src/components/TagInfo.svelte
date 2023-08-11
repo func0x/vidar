@@ -22,6 +22,11 @@
 		user-select: none;
 	}
 
+	.live {
+		background-color: var(--red);
+		color: var(--white);
+	}
+
 	.vna {
 		background-color: var(--grey-700);
 		position: absolute;

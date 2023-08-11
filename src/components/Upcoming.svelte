@@ -6,22 +6,42 @@
 	import EventDetails from './EventDetails.svelte';
 	import MultipleSpeakersList from './MultipleSpeakersList.svelte';
 	import TagInfo from './TagInfo.svelte';
+	import { detectLive, detectAfterLive, countDaysAfterLive } from 'src/utils/date';
 
 	export let event;
 	let open = false;
+	const isLive = detectLive(event.datetime);
+	const isAfterLive = detectAfterLive(event.datetime);
+	const numberDays = countDaysAfterLive(event.datetime);
 </script>
 
 {#if event != undefined}
 	<MediaQuery query="(min-width: 1750px)" let:matches>
 		{#if matches}
 			<Box cvh height="400px" gap="150px">
-				<a href="/event/{event.id}">
+				<a href={isLive ? event.livestream : `/event/${event.id}`}>
 					<img src={event.event_photo} alt="upcoming" />
 				</a>
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
-					<TagInfo text="Upcoming" />
-					<EventDetails hover {event} />
-					<Button icon={arrow} text="Watch Live" bg="var(--grey-300)" />
+					{#if isLive && !isAfterLive}
+						<TagInfo live text="Live" />
+					{/if}
+					{#if !isLive && !isAfterLive}
+						<TagInfo text="Upcoming" />
+					{/if}
+					{#if isAfterLive}
+						<TagInfo text={`ALREADY STREAMED ${numberDays} DAYS AGO`} />
+					{/if}
+					<EventDetails {isLive} hover {event} />
+					{#if isLive && !isAfterLive}
+						<Button
+							link
+							href={event.livestream}
+							icon={arrow}
+							text="Watch Live"
+							bg="var(--grey-300)"
+						/>
+					{/if}
 				</Box>
 			</Box>
 		{/if}
@@ -30,13 +50,29 @@
 	<MediaQuery query="(min-width: 1115px) and (max-width: 1749px)" let:matches>
 		{#if matches}
 			<Box cvh height="400px" gap="var(--gap-xl)" padding="0 var(--gap-m)">
-				<a href="/event/{event.id}">
+				<a href={isLive ? event.livestream : `/event/${event.id}`}>
 					<img src={event.event_photo} alt="upcoming" />
 				</a>
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
-					<TagInfo text="Upcoming" />
-					<EventDetails hover {event} />
-					<Button icon={arrow} text="Watch Live" bg="var(--grey-300)" />
+					{#if isLive && !isAfterLive}
+						<TagInfo live text="Live" />
+					{/if}
+					{#if !isLive && !isAfterLive}
+						<TagInfo text="Upcoming" />
+					{/if}
+					{#if isAfterLive}
+						<TagInfo text={`ALREADY STREAMED ${numberDays} DAYS AGO`} />
+					{/if}
+					<EventDetails hover {isLive} {event} />
+					{#if isLive && !isAfterLive}
+						<Button
+							link
+							href={event.livestream}
+							icon={arrow}
+							text="Watch Live"
+							bg="var(--grey-300)"
+						/>
+					{/if}
 				</Box>
 			</Box>
 		{/if}
@@ -46,15 +82,23 @@
 		{#if matches}
 			<Box height="fit-content" df fd="column" gap="var(--gap-s)" position="relative">
 				{#if event.upcoming}
-					<TagInfo text="Upcoming" />
+					{#if isLive && !isAfterLive}
+						<TagInfo live text="Live" />
+					{/if}
+					{#if !isLive && !isAfterLive}
+						<TagInfo text="Upcoming" />
+					{/if}
+					{#if isAfterLive}
+						<TagInfo text={`ALREADY STREAMED ${numberDays} DAYS AGO`} />
+					{/if}
 				{:else if event.video.title === ''}
 					<TagInfo vna text="Not yet available" />
 				{/if}
-				<a href="/event/{event.id}">
+				<a href={isLive ? event.livestream : `/event/${event.id}`}>
 					<img src={event.event_photo} alt="upcoming" />
 				</a>
 				<Box df gap="var(--gap-s)" padding=" 0 var(--gap-s)">
-					<EventDetails bind:open {event} />
+					<EventDetails bind:open {isLive} {event} />
 				</Box>
 
 				{#if event.authors.length >= 2 && open}
