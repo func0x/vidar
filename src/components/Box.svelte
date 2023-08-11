@@ -31,7 +31,8 @@
 	export let tac = false; // text-align: center
 	export let transformX = false; // tranform: translateX
 	export let className = ''; // CSS class name
-	export let noRes = false;
+	export let noRes = false; // no results (search)
+	export let bottomBorder = false;
 
 	let boxCss = css`
 		margin-top: ${mt};
@@ -70,6 +71,7 @@
 		class:noRes
 		class:df
 		class:tac
+		class:bottomBorder
 		class:cvh
 		class:transformX
 		class:ch
@@ -108,6 +110,10 @@
 
 	.fw {
 		flex-wrap: wrap;
+	}
+
+	.bottomBorder {
+		border-bottom: 2px solid var(--grey-300);
 	}
 
 	.di {

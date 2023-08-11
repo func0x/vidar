@@ -184,7 +184,7 @@
 <MediaQuery query="(min-width: 1115px)" let:matches>
 	{#if matches}
 		<Box df fd="column" padding="0 var(--gap-l) var(--gap-l) var(--gap-l)" gap="var(--gap-m)">
-			<Box cvh jsb gap="var(--gap-m)">
+			<Box cvh jsb gap="var(--gap-m)" bottomBorder padding="0 0 var(--gap-m) 0">
 				<Box width="fit-content" cvh gap="var(--gap-s)">
 					<span>Sort by:</span>
 					<Select {options} />
