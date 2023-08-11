@@ -101,11 +101,11 @@
 					{/if}
 					{#if isAfterLive}
 						{#if numberDays === 0}
-							<TagInfo text={`ALREADY STREAMED TODAY`} />
+							<TagInfo ml text={`ALREADY STREAMED TODAY`} />
 						{:else if numberDays === 1}
-							<TagInfo text={`ALREADY STREAMED YESTERDAY`} />
+							<TagInfo ml text={`ALREADY STREAMED YESTERDAY`} />
 						{:else}
-							<TagInfo text={`ALREADY STREAMED ${numberDays} DAYS AGO`} />
+							<TagInfo ml text={`ALREADY STREAMED ${numberDays} DAYS AGO`} />
 						{/if}
 					{/if}
 				{:else if event.video.title === ''}

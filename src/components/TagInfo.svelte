@@ -4,9 +4,10 @@
 	export let vna = false; // video not available
 	export let fp = false; // timeframe (filder panel)
 	export let featured = false; // ALREADY STREAMED ... DAYS AGO
+	export let ml = false; // margin left
 </script>
 
-<span class:live class:featured class:vna class:fp>{text}</span>
+<span class:live class:featured class:vna class:ml class:fp>{text}</span>
 
 <style>
 	span {
@@ -21,6 +22,10 @@
 		-moz-user-select: none;
 		-ms-user-select: none;
 		user-select: none;
+	}
+
+	.ml {
+		margin-left: 5px;
 	}
 
 	.live {
