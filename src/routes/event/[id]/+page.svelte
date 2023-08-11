@@ -15,7 +15,7 @@
 			? data.eventWithRecomendations.event.title
 			: 'Not Found'}
 	</title>
-</svelte:head>;
+</svelte:head>
 
 {#key $page.params.id}
 	<Player event={data.eventWithRecomendations.event} />

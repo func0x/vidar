@@ -49,6 +49,7 @@
 	let filterPanelCss = css`
 		display: flex;
 		gap: var(--gap-s);
+		overflow-x: 'hidden';
 	`;
 </script>
 
@@ -117,7 +118,7 @@
 		position: relative;
 		-ms-overflow-style: none;
 		scrollbar-width: none;
-		overflow-y: hidden;
+		overflow: hidden;
 	}
 
 	.ds::-webkit-scrollbar {
