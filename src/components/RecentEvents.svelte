@@ -15,7 +15,7 @@
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		grid-column-gap: var(--gap-xl);
 		grid-row-gap: var(--gap-l);
-		padding: 0 var(--gap-l);
+		padding: 0 var(--gap-l) var(--gap-l) var(--gap-l);
 	}
 
 	@media screen and (min-width: 2650px) {
@@ -28,7 +28,7 @@
 		.exlore-container {
 			grid-template-columns: repeat(1, minmax(0, 1fr));
 			grid-column-gap: unset;
-			padding: 0 var(--gap-m);
+			padding: 0 var(--gap-m) var(--gap-m) var(--gap-m);
 		}
 	}
 
@@ -37,7 +37,7 @@
 			grid-template-columns: repeat(1, minmax(0, 1fr));
 			grid-column-gap: var(--gap-l);
 			grid-row-gap: var(--gap-m);
-			padding: unset;
+			padding: 0 0 var(--gap-m) 0;
 		}
 	}
 
@@ -46,7 +46,7 @@
 			grid-template-columns: unset;
 			grid-column-gap: unset;
 			grid-row-gap: 15px;
-			padding: unset;
+			padding: 0 0 var(--gap-m) 0;
 		}
 	}
 </style>
