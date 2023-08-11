@@ -71,7 +71,7 @@
 			</p>
 			{#if event.assets.slides.name.includes('https://')}
 				<Button
-					bg="var(--white)"
+					bg="var(--grey-300)"
 					href={event.assets.slides.name}
 					icon={slides}
 					text="Open with Google Slides"
