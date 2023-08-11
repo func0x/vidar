@@ -35,7 +35,7 @@ export const countDaysAfterLive = (eventTimestamp) => {
 	});
 	const now = DateTime.now().set({ hour: 0, minute: 0, second: 0 });
 
-	return parseInt(now.diff(eventDate, 'days').toObject().days);
+	return parseInt(now.diff(eventDate, 'days').toObject().days).toFixed(0);
 };
 
 export const jsDateToLuxonTimestamp = (jsDate, type) => {
