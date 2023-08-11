@@ -225,19 +225,17 @@
 	</Box>
 
 	{#if open}
-		<Box df fd="column" gap="var(--gap-m)">
-			<Box df gap="var(--gap-l)">
-				<DatePicker label="From" bind:date={dateFrom} />
-				<DatePicker label="To" bind:date={dateTo} />
-				<AuthorInput {authors} bind:authorName={author} />
-			</Box>
-			<span class="select-tags">Select tags</span>
-			<Box bind:boxRef df fw gap="var(--gap-m)">
-				{#each tags as tag}
-					<Tag text={tag} bg={tagBg} {hbg} {hc} {fs} />
-				{/each}
-			</Box>
-		</Box>
+		<Filters
+			bind:dateFrom
+			bind:dateTo
+			bind:selectedAuthor
+			bind:author
+			bind:boxRef
+			{tags}
+			{authors}
+			tagClickEvent={addClickTagEvent}
+			{initSelectTags}
+		/>
 	{/if}
 </Box>
 
