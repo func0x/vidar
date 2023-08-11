@@ -3,6 +3,7 @@
 	import Avatar from './Avatar.svelte';
 	import Box from './Box.svelte';
 	import EventAuthor from './EventAuthor.svelte';
+	import Tag from './Tag.svelte';
 	import TagPanel from './TagPanel.svelte';
 
 	export let event;
@@ -16,7 +17,11 @@
 	{#if matches && !videoFooter}
 		<Box bg="transparent" df di gap="var(--gap-s)" fd="column" height="fit-content">
 			<svelte:fragment>
-				<TagPanel tags={event.tags} />
+				<TagPanel>
+					{#each event.tags as tag}
+						<Tag text={tag} />
+					{/each}
+				</TagPanel>
 				<a href="/event/{event.id}">
 					<h1 class:hover class:eventCard>{event.title}</h1>
 				</a>
@@ -39,7 +44,11 @@
 			height="fit-content"
 		>
 			<svelte:fragment>
-				<TagPanel tags={event.tags} />
+				<TagPanel>
+					{#each event.tags as tag}
+						<Tag text={tag} />
+					{/each}
+				</TagPanel>
 				<h1 class:hover class:eventCard>{event.title}</h1>
 				<EventAuthor authors={event.authors} timestamp={event.datetime} />
 				<p>
@@ -75,7 +84,11 @@
 			height="fit-content"
 		>
 			<svelte:fragment>
-				<TagPanel tags={event.tags} />
+				<TagPanel>
+					{#each event.tags as tag}
+						<Tag text={tag} />
+					{/each}
+				</TagPanel>
 				<h1 class:eventCard>{event.title}</h1>
 				<EventAuthor videoFooter authors={event.authors} timestamp={event.datetime} />
 				<p>

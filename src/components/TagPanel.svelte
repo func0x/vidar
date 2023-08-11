@@ -1,16 +1,10 @@
 <script>
 	import { onMount } from 'svelte';
 	import Box from './Box.svelte';
-	import Tag from './Tag.svelte';
 	import backArrow from '$lib/images/back_arrow.svg';
 	import nextArrow from '$lib/images/next_arrow.svg';
 
-	export let tags;
 	export let fp = false; // FilterPanel
-	export let tagBg = 'var(--grey-300)';
-	export let hbg = 'var(--grey-700)'; // tag hover bg color
-	export let hc = 'var(--white)'; // hover color
-	export let fs = 'var(--font-s)'; // font size
 
 	export let boxRef;
 	let leftArrowRef;
@@ -102,9 +96,7 @@
 			on:click={() => clickScroll(-120)}
 		/>
 	</Box>
-	{#each tags as tag}
-		<Tag text={tag} bg={tagBg} {hbg} {hc} {fs} />
-	{/each}
+	<slot />
 	<Box ra bind:boxRef={rightArrrowRef}>
 		<img
 			src={nextArrow}

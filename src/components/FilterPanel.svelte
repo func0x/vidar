@@ -16,6 +16,7 @@
 	import AuthorName from './AuthorName.svelte';
 	import Filters from './Filters.svelte';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
+	import TagPanel from './TagPanel.svelte';
 
 	export let tags;
 	export let authors;
@@ -178,46 +179,113 @@
 		/>
 	</Box>
 
-	<Box ch gap="var(--gap-xl)">
-		{#if params.length > 0}
-			<Box ch gap="var(--gap-m)" width="fit-content">
-				<span class="select-tags">TAGS:</span>
-				{#key params}
-					{#each params as tag (tag)}
-						<Tag ft text={tag} onDelete={deleteTagFromFilter} />
-					{/each}
-				{/key}
+	<MediaQuery query="(min-width: 1115px)" let:matches>
+		{#if matches}
+			<Box df fw gap="var(--gap-l)">
+				{#if params.length > 0}
+					<Box ch gap="var(--gap-m)" width="fit-content">
+						<span class="select-tags">TAGS:</span>
+						<Box
+							bg="transparent"
+							mw="calc(100vw - 120px)"
+							df
+							gap="var(--gap-s)"
+							fd="column"
+							height="fit-content"
+						>
+							{#key params}
+								<TagPanel>
+									{#each params as tag (tag)}
+										<Tag ft text={tag} onDelete={deleteTagFromFilter} />
+									{/each}
+								</TagPanel>
+							{/key}
+						</Box>
+					</Box>
+				{/if}
+				{#if author !== '' && selectedAuthor != null}
+					<Box ch gap="var(--gap-m)" width="fit-content">
+						<span class="select-tags">SPEAKER:</span>
+						{#key author}
+							<AuthorName disableRedirect mw author={selectedAuthor || ''} />
+						{/key}
+						<img
+							src={deleteIcon}
+							on:keyup={deleteSpeakerFromFilter}
+							alt="delete"
+							on:click={deleteSpeakerFromFilter}
+						/>
+					</Box>
+				{/if}
+				{#if dateFrom != null || dateTo != null}
+					<Box ch gap="var(--gap-m)" width="fit-content">
+						<span class="select-tags">TIMEFRAME:</span>
+						<Tag text={getDayAndMonthJsDate(dateFrom)} />
+						<span>-</span>
+						<Tag text={getDayAndMonthJsDate(dateTo)} />
+						<img
+							src={deleteIcon}
+							alt="delete"
+							on:keyup={deleteSpeakerFromFilter}
+							on:click={deleteDateFromFilter}
+						/>
+					</Box>
+				{/if}
+			</Box>
+		{:else}
+			<Box df fd="column" gap="var(--gap-m)">
+				{#if params.length > 0}
+					<Box ch gap="var(--gap-m)" width="fit-content">
+						<span class="select-tags">TAGS:</span>
+						<Box
+							bg="transparent"
+							mw="calc(100vw - 120px)"
+							df
+							gap="var(--gap-s)"
+							fd="column"
+							height="fit-content"
+						>
+							{#key params}
+								<TagPanel>
+									{#each params as tag (tag)}
+										<Tag ft text={tag} onDelete={deleteTagFromFilter} />
+									{/each}
+								</TagPanel>
+							{/key}
+						</Box>
+					</Box>
+				{/if}
+				{#if author !== '' && selectedAuthor != null}
+					<Box ch gap="var(--gap-m)" width="fit-content">
+						<span class="select-tags">SPEAKER:</span>
+						{#key author}
+							<AuthorName disableRedirect mw author={selectedAuthor || ''} />
+						{/key}
+						<img
+							src={deleteIcon}
+							on:keyup={deleteSpeakerFromFilter}
+							alt="delete"
+							on:click={deleteSpeakerFromFilter}
+						/>
+					</Box>
+				{/if}
+				{#if dateFrom != null || dateTo != null}
+					<Box ch gap="var(--gap-m)" width="fit-content">
+						<span class="select-tags">TIMEFRAME:</span>
+						<Tag text={getDayAndMonthJsDate(dateFrom)} />
+						<span>-</span>
+						<Tag text={getDayAndMonthJsDate(dateTo)} />
+						<img
+							src={deleteIcon}
+							alt="delete"
+							on:keyup={deleteSpeakerFromFilter}
+							on:click={deleteDateFromFilter}
+						/>
+					</Box>
+				{/if}
 			</Box>
 		{/if}
-		{#if author !== '' && selectedAuthor != null}
-			<Box ch gap="var(--gap-m)" width="fit-content">
-				<span class="select-tags">SPEAKER:</span>
-				{#key author}
-					<AuthorName disableRedirect mw author={selectedAuthor || ''} />
-				{/key}
-				<img
-					src={deleteIcon}
-					on:keyup={deleteSpeakerFromFilter}
-					alt="delete"
-					on:click={deleteSpeakerFromFilter}
-				/>
-			</Box>
-		{/if}
-		{#if dateFrom != null || dateTo != null}
-			<Box ch gap="var(--gap-m)" width="fit-content">
-				<span class="select-tags">TIMEFRAME:</span>
-				<Tag text={getDayAndMonthJsDate(dateFrom)} />
-				<span>-</span>
-				<Tag text={getDayAndMonthJsDate(dateTo)} />
-				<img
-					src={deleteIcon}
-					alt="delete"
-					on:keyup={deleteSpeakerFromFilter}
-					on:click={deleteDateFromFilter}
-				/>
-			</Box>
-		{/if}
-	</Box>
+	</MediaQuery>
 
 	{#if open}
 		<MediaQuery query="(min-width: 1115px)" let:matches>
