@@ -16,6 +16,7 @@
 	let previewTimestamp = 0;
 	let timeMove = 0.0;
 	let position = 0;
+	let isPaused = false;
 
 	onMount(() => {
 		wrapper = document.querySelector('.progress-wrapper');
@@ -52,6 +53,7 @@
 
 	const handleMousedown = (e) => {
 		if (e.type !== 'touchstart' && e.button !== 0) return;
+		isPaused = video.paused;
 		video.pause();
 		isScrubbing = true;
 
@@ -66,14 +68,18 @@
 
 	const handleMouseup = () => {
 		setTimeout(function () {
-			video.play();
+			if (!isPaused) {
+				video.play();
+			}
 		}, 150);
 	};
 
 	const handleDocumentMouseDown = () => {
 		if (isScrubbing) {
 			isScrubbing = false;
-			video.play();
+			if (!isPaused) {
+				video.play();
+			}
 		}
 	};
 
