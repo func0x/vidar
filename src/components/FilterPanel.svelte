@@ -10,7 +10,13 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { authorStore, dateRangeStore, eventsStore, selectedTagsStore } from 'src/stores/Data';
+	import {
+		authorStore,
+		dateRangeStore,
+		dateTypeStore,
+		eventsStore,
+		selectedTagsStore
+	} from 'src/stores/Data';
 	import { getDayAndMonthJsDate, jsDateToLuxonTimestamp } from 'src/utils/date';
 	import deleteIcon from '$lib/images/delete.svg';
 	import AuthorName from './AuthorName.svelte';
@@ -43,6 +49,7 @@
 	let selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
 	let params = Array.from(selectedTags);
 	let author = JSON.parse($page.url.searchParams.get('speaker'));
+	let period = JSON.parse($page.url.searchParams.get('period')) || 'Any Time';
 	let selectedAuthor = findAuthorByName(author);
 
 	const initSelectTags = () => {
@@ -136,6 +143,8 @@
 			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
 			to: jsDateToLuxonTimestamp(dateTo, 'to')
 		});
+		$dateTypeStore = period;
+		$authorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
 		const subscribtion = dateRangeStore.subscribe(() => {
 			$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
@@ -146,13 +155,6 @@
 			subscribtion();
 		};
 	});
-
-	$: {
-		dateRangeStore.set({
-			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-			to: jsDateToLuxonTimestamp(dateTo, 'to')
-		});
-	}
 </script>
 
 <Box df fd="column" padding="0 var(--gap-l) var(--gap-l) var(--gap-l)" gap="var(--gap-m)">
@@ -217,18 +219,37 @@
 						/>
 					</Box>
 				{/if}
-				{#if dateFrom != null || dateTo != null}
+				{#if period !== 'Any Time'}
 					<Box ch gap="var(--gap-m)" width="fit-content">
-						<span class="select-tags">TIMEFRAME:</span>
-						<TagInfo text={getDayAndMonthJsDate(dateFrom)} fp />
-						<span>-</span>
-						<TagInfo text={getDayAndMonthJsDate(dateTo)} fp />
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
-						/>
+						<!-- <TagInfo text={getDayAndMonthJsDate(dateFrom)} fp /> -->
+						<!-- <span>-</span> -->
+						<!-- <TagInfo text={getDayAndMonthJsDate(dateTo)} fp /> -->
+						{#if $dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After'}
+							<span class="select-tags">TIMEFRAME:</span>
+							<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
+							<img
+								src={deleteIcon}
+								alt="delete"
+								on:keyup={deleteSpeakerFromFilter}
+								on:click={deleteDateFromFilter}
+							/>
+						{/if}
+
+						{#if $dateTypeStore === 'Range' && dateTo != null}
+							<span class="select-tags">TIMEFRAME:</span>
+							<TagInfo
+								text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
+									dateTo
+								)}`}
+								fp
+							/>
+							<img
+								src={deleteIcon}
+								alt="delete"
+								on:keyup={deleteSpeakerFromFilter}
+								on:click={deleteDateFromFilter}
+							/>
+						{/if}
 					</Box>
 				{/if}
 			</Box>

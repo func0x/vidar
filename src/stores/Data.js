@@ -72,7 +72,7 @@ export const filtered = derived(
 			events = events.filter((x) => x.datetime >= luxonTimeBack(30));
 		} else if ($dateTypeStore === 'Last 3 months') {
 			events = events.filter((x) => x.datetime >= luxonTimeBack(90));
-		} else if ($dateTypeStore === 'On...') {
+		} else if ($dateTypeStore === 'On' && !isNaN($dateRangeStore.from)) {
 			events = events.filter(
 				(x) =>
 					x.datetime >= $dateRangeStore.from &&
@@ -82,11 +82,15 @@ export const filtered = derived(
 							.toMillis() /
 							1000
 			);
-		} else if ($dateTypeStore === 'Before...') {
+		} else if ($dateTypeStore === 'Before' && !isNaN($dateRangeStore.from)) {
 			events = events.filter((x) => x.datetime <= $dateRangeStore.from);
-		} else if ($dateTypeStore === 'After...') {
+		} else if ($dateTypeStore === 'After' && !isNaN($dateRangeStore.from)) {
 			events = events.filter((x) => x.datetime >= $dateRangeStore.from);
-		} else if ($dateTypeStore === 'Range') {
+		} else if (
+			$dateTypeStore === 'Range' &&
+			!isNaN($dateRangeStore.from) &&
+			!isNaN($dateRangeStore.to)
+		) {
 			events = events.filter(
 				(x) => x.datetime >= $dateRangeStore.from && x.datetime <= $dateRangeStore.to
 			);

@@ -28,5 +28,10 @@ export const jsDateToLuxonTimestamp = (jsDate, type) => {
 };
 
 export const getDayAndMonthJsDate = (jsDate) => {
-	return jsDate?.toLocaleString('default', { month: 'short', day: '2-digit' }) || '';
+	if (jsDate) {
+		return DateTime.fromJSDate(jsDate, {
+			zone: 'Europe/Warsaw',
+			locale: 'pl-PL'
+		}).toFormat('yyyy-MM-dd ');
+	}
 };

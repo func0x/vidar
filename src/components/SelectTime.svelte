@@ -1,4 +1,8 @@
 <script>
+	import { goto } from '$app/navigation';
+
+	import { page } from '$app/stores';
+
 	import { dateTypeStore, sortDirectionStore } from 'src/stores/Data';
 
 	import { onMount } from 'svelte';
@@ -19,6 +23,8 @@
 		});
 
 		$dateTypeStore = value;
+		$page.url.searchParams.set('period', JSON.stringify(value));
+		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
 
 	onMount(() => {

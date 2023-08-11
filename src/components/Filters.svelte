@@ -1,5 +1,6 @@
 <script>
-	import { dateTypeStore } from 'src/stores/Data';
+	import { dateRangeStore, dateTypeStore } from 'src/stores/Data';
+	import { jsDateToLuxonTimestamp } from 'src/utils/date';
 
 	import { onMount } from 'svelte';
 
@@ -25,33 +26,28 @@
 	let hbg = 'var(--grey-700)'; // tag hover bg color
 	let hc = 'var(--white)'; // hover color
 	let fs = 'var(--font-s)'; // font size
-	let options = [
-		'Any Time',
-		'Last 30 days',
-		'Last 3 months',
-		'On...',
-		'Before...',
-		'After...',
-		'Range...'
-	];
+	let options = ['Any Time', 'Last 30 days', 'Last 3 months', 'On', 'Before', 'After', 'Range'];
 
 	onMount(() => {
 		tagClickEvent();
 		initSelectTags();
 	});
+
+	$: {
+		dateRangeStore.set({
+			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
+			to: jsDateToLuxonTimestamp(dateTo, 'to')
+		});
+	}
 </script>
 
 <Box df fd="column" gap="var(--gap-m)">
 	<Box df fd={dc ? 'column' : 'row'} gap="var(--gap-l)">
-		<!-- {#key false} -->
-		<!-- 	<DatePicker label="From" bind:date={dateFrom} /> -->
-		<!-- 	<DatePicker label="To" bind:date={dateTo} /> -->
-		<!-- {/key} -->
 		<SelectTime {options} />
-		{#if $dateTypeStore === 'On...' || $dateTypeStore === 'Before...' || $dateTypeStore === 'After...'}
+		{#if $dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After'}
 			<DatePicker label="From" bind:date={dateFrom} />
 		{/if}
-		{#if $dateTypeStore === 'Range...'}
+		{#if $dateTypeStore === 'Range'}
 			<DatePicker label="From" bind:date={dateFrom} />
 			<DatePicker label="To" bind:date={dateTo} />
 		{/if}
