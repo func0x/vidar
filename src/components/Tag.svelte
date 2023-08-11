@@ -35,7 +35,7 @@
 {#if ft}
 	<span class={tagCss}>
 		<div class:ft>
-			<span>{text}</span>
+			<span on:click={() => onDelete(text)} on:keyup={() => onDelete(text)}>{text}</span>
 			<img
 				src={deleteIcon}
 				on:click={() => onDelete(text)}
