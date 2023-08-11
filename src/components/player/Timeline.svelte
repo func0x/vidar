@@ -127,12 +127,13 @@
 	.thumb-indicator {
 		--scale: 1;
 		pointer-events: none;
+		opacity: 0;
 
 		top: 0;
 		width: 10px;
 		height: 10px;
 		z-index: 100;
-		transform: translate(-50%, 0%) scale(var(--scale));
+		transform: translate(0%, 0%) scale(var(--scale));
 		left: calc(var(--progress-position) * 100%);
 		border-radius: 50%;
 		position: relative;
@@ -149,5 +150,6 @@
 	.progress-wrapper:hover .thumb-indicator,
 	.progress-wrapper:active .thumb-indicator {
 		--scale: 2;
+		opacity: 1;
 	}
 </style>

@@ -13,7 +13,6 @@
 	export let position;
 
 	let boxCss;
-	console.log(ref);
 
 	const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
 		minimumIntegerDigits: 2
