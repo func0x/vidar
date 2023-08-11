@@ -1,5 +1,5 @@
-import { redirect } from '@sveltejs/kit';
-
 export async function load() {
-	throw redirect(307, '/404');
+	throw Error('/404');
 }
+
+export const prerender = false;

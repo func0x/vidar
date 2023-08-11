@@ -1,4 +1,3 @@
-import { redirect } from '@sveltejs/kit';
 import { replaceParamUrl } from 'src/utils/replace';
 
 const findEvent = async (title, events) => {
@@ -29,5 +28,5 @@ export async function load({ params, parent }) {
 		};
 	}
 
-	throw redirect(307, '/404');
+	throw Error('/404');
 }

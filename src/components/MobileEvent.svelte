@@ -10,55 +10,57 @@
 	let open = false;
 </script>
 
-<MediaQuery query="(min-width: 1115px)" let:matches>
-	{#if matches}
-		<Box
-			mw="min-content"
-			height="fit-content"
-			df
-			fd="column"
-			gap="var(--gap-s)"
-			position="relative"
-			hover
-		>
-			<a href={`/event/${replaceParamUrl(event.title)}/`}>
-				<img src={event.event_photo} alt="upcoming" />
-			</a>
-			<Box df gap="var(--gap-s)">
-				<Avatar authors={event.authors} />
-				<Box df fd="column" gap="var(--gap-xs)">
-					<a href={`/event/${replaceParamUrl(event.title)}/`}>
-						<h1>{event.title}</h1>
-					</a>
-					<Box position="relative" hover>
-						<EventAuthor notFound authors={event.authors} timestamp={event.datetime} />
-						{#if event.authors.length >= 2}
-							<MultipleSpeakersList notFound authors={event.authors} />
-						{/if}
+{#if event}
+	<MediaQuery query="(min-width: 1115px)" let:matches>
+		{#if matches}
+			<Box
+				mw="min-content"
+				height="fit-content"
+				df
+				fd="column"
+				gap="var(--gap-s)"
+				position="relative"
+				hover
+			>
+				<a href={`/event/${replaceParamUrl(event.title)}/`}>
+					<img src={event.event_photo} alt="upcoming" />
+				</a>
+				<Box df gap="var(--gap-s)">
+					<Avatar authors={event.authors} />
+					<Box df fd="column" gap="var(--gap-xs)">
+						<a href={`/event/${replaceParamUrl(event.title)}/`}>
+							<h1>{event.title}</h1>
+						</a>
+						<Box position="relative" hover>
+							<EventAuthor notFound authors={event.authors} timestamp={event.datetime} />
+							{#if event.authors.length >= 2}
+								<MultipleSpeakersList notFound authors={event.authors} />
+							{/if}
+						</Box>
 					</Box>
 				</Box>
 			</Box>
-		</Box>
-	{:else}
-		<Box height="fit-content" df fd="column" gap="var(--gap-s)" position="relative">
-			<a href={`/event/${replaceParamUrl(event.title)}/`}>
-				<img src={event.event_photo} alt="upcoming" />
-			</a>
-			<Box df gap="var(--gap-s)">
-				<Avatar authors={event.authors} />
-				<Box df fd="column" gap="var(--gap-xs)">
-					<a href={`/event/${replaceParamUrl(event.title)}/`}>
-						<h1>{event.title}</h1>
-					</a>
-					<EventAuthor notFound bind:open authors={event.authors} timestamp={event.datetime} />
+		{:else}
+			<Box height="fit-content" df fd="column" gap="var(--gap-s)" position="relative">
+				<a href={`/event/${replaceParamUrl(event.title)}/`}>
+					<img src={event.event_photo} alt="upcoming" />
+				</a>
+				<Box df gap="var(--gap-s)">
+					<Avatar authors={event.authors} />
+					<Box df fd="column" gap="var(--gap-xs)">
+						<a href={`/event/${replaceParamUrl(event.title)}/`}>
+							<h1>{event.title}</h1>
+						</a>
+						<EventAuthor notFound bind:open authors={event.authors} timestamp={event.datetime} />
+					</Box>
 				</Box>
+				{#if event.authors.length >= 2 && open}
+					<MultipleSpeakersList authors={event.authors} />
+				{/if}
 			</Box>
-			{#if event.authors.length >= 2 && open}
-				<MultipleSpeakersList authors={event.authors} />
-			{/if}
-		</Box>
-	{/if}
-</MediaQuery>
+		{/if}
+	</MediaQuery>
+{/if}
 
 <style>
 	h1 {

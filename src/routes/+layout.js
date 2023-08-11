@@ -1,4 +1,3 @@
-import { redirect } from '@sveltejs/kit';
 import { eventsStore, jsonEvents } from 'src/stores/Data';
 import tags from '$lib/jsons/tags.json';
 import authors from '$lib/jsons/authors.json';
@@ -28,9 +27,7 @@ const importEvents = async () => {
 export async function load({ url }) {
 	const regex = new RegExp('^((/event/[a-zA-Z]*|/author/[a-z]*/?$)|[/]$|/404|/search)', 'g');
 
-	if (!regex.test(url.pathname)) {
-		throw redirect(307, '/404');
-	} else {
+	if (regex.test(url.pathname)) {
 		return {
 			all: importEvents(),
 			tags,
