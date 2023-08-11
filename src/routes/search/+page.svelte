@@ -18,9 +18,20 @@
 	let queryValue = '';
 
 	const findEventsByTitle = (eventsData, titleParam) => {
-		return eventsData.filter((item) => {
+		const eventsTitle = eventsData.filter((item) => {
 			return item.title.toLowerCase().includes(titleParam.toLowerCase());
 		});
+
+		const eventsAuthor = eventsData.filter((item) => {
+			return item.authors.find((author) => {
+				return (
+					author.name.toLowerCase().includes(titleParam.toLowerCase()) &&
+					!item.title.toLowerCase().includes(titleParam.toLowerCase())
+				);
+			});
+		});
+
+		return [...eventsTitle, ...eventsAuthor];
 	};
 
 	const redirectToSearch = (e) => {
