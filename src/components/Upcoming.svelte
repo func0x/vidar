@@ -32,15 +32,15 @@
 					{/if}
 					{#if isAfterLive}
 						{#if numberDays === 0}
-							<TagInfo text={`ALREADY STREAMED TODAY`} />
+							<TagInfo text={`STREAMED TODAY`} />
 						{:else if numberDays === 1}
-							<TagInfo text={`ALREADY STREAMED YESTERDAY`} />
+							<TagInfo text={`STREAMED YESTERDAY`} />
 						{:else if numberDays === 0}
-							<TagInfo text={`ALREADY STREAMED TODAY`} />
+							<TagInfo text={`STREAMED TODAY`} />
 						{:else if numberDays === 1}
-							<TagInfo text={`ALREADY STREAMED YESTERDAY`} />
+							<TagInfo text={`STREAMED YESTERDAY`} />
 						{:else}
-							<TagInfo text={`ALREADY STREAMED ${numberDays} DAYS AGO`} />
+							<TagInfo text={`STREAMED ${numberDays} DAYS AGO`} />
 						{/if}
 					{/if}
 					<EventDetails {isLive} hover titleUnlimited {event} />
@@ -67,11 +67,11 @@
 					{/if}
 					{#if isAfterLive}
 						{#if numberDays === 0}
-							<TagInfo text={`ALREADY STREAMED TODAY`} />
+							<TagInfo text={`STREAMED TODAY`} />
 						{:else if numberDays === 1}
-							<TagInfo text={`ALREADY STREAMED YESTERDAY`} />
+							<TagInfo text={`STREAMED YESTERDAY`} />
 						{:else}
-							<TagInfo text={`ALREADY STREAMED ${numberDays} DAYS AGO`} />
+							<TagInfo text={`STREAMED ${numberDays} DAYS AGO`} />
 						{/if}
 					{/if}
 					<EventDetails hover titleUnlimited {isLive} {event} />
@@ -101,11 +101,11 @@
 					{/if}
 					{#if isAfterLive}
 						{#if numberDays === 0}
-							<TagInfo ml text={`ALREADY STREAMED TODAY`} />
+							<TagInfo ml text={`STREAMED TODAY`} />
 						{:else if numberDays === 1}
-							<TagInfo ml text={`ALREADY STREAMED YESTERDAY`} />
+							<TagInfo ml text={`STREAMED YESTERDAY`} />
 						{:else}
-							<TagInfo ml text={`ALREADY STREAMED ${numberDays} DAYS AGO`} />
+							<TagInfo ml text={`STREAMED ${numberDays} DAYS AGO`} />
 						{/if}
 					{/if}
 				{:else if event.video.title === ''}

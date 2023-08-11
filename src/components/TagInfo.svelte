@@ -3,7 +3,7 @@
 	export let live = false;
 	export let vna = false; // video not available
 	export let fp = false; // timeframe (filder panel)
-	export let featured = false; // ALREADY STREAMED ... DAYS AGO
+	export let featured = false; // STREAMED ... DAYS AGO
 	export let ml = false; // margin left
 </script>
 
