@@ -99,7 +99,7 @@
 
 	.noRes {
 		height: fit-content;
-		align-self: flex-start;
+		align-self: center;
 	}
 
 	.hbg:hover > :global(.author-name) {
