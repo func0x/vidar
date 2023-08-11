@@ -47,7 +47,7 @@
 
 	const initSelectTags = () => {
 		Object.entries(boxRef.children ? boxRef.children : []).forEach(([_, value]) => {
-			if (selectedTags.has(value.textContent)) {
+			if (new Set($selectedTagsStore).has(value.textContent)) {
 				value.style.backgroundColor = 'var(--aubergine)';
 				value.style.color = 'var(--white)';
 			} else {
@@ -82,7 +82,6 @@
 					$selectedTagsStore = [...$selectedTagsStore, value.innerText];
 				}
 
-				params = Array.from(selectedTags);
 				$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
 				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 			}
@@ -122,7 +121,7 @@
 	};
 
 	const deleteDateFromFilter = () => {
-		$dateRangeStore = { from: null, to: null };
+		$dateRangeStore = { start_date: null, end_date: null };
 
 		$dateTypeStore = 'Any Time';
 
@@ -143,18 +142,31 @@
 			selectedTags = new Set();
 		}
 
+		if ($page.url.searchParams.get('date')) {
+			$dateRangeStore = {
+				start_date: new Date(JSON.parse($page.url.searchParams.get('date')).start_date) || null,
+				end_date: new Date(JSON.parse($page.url.searchParams.get('date')).end_date) || null
+			};
+		}
+
 		$selectedTagsStore = Array.from(selectedTags);
 		$dateTypeStore = period;
 		$authorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
 		const subscribtion = dateRangeStore.subscribe(() => {
-			if ($dateRangeStore.to && $dateTypeStore == 'Range') {
+			if ($dateRangeStore.end_date && $dateTypeStore == 'Range') {
 				$page.url.searchParams.set(
 					'date',
-					JSON.stringify({ from: $dateRangeStore.from, to: $dateRangeStore.from })
+					JSON.stringify({
+						start_date: $dateRangeStore.start_date,
+						end_date: $dateRangeStore.end_date
+					})
 				);
-			} else if ($dateRangeStore.from) {
-				$page.url.searchParams.set('date', JSON.stringify({ from: $dateRangeStore.from }));
+			} else if ($dateRangeStore.start_date) {
+				$page.url.searchParams.set(
+					'date',
+					JSON.stringify({ start_date: $dateRangeStore.start_date })
+				);
 			}
 			goto(`?${$page.url.searchParams.toString()}`, {
 				noScroll: true,
@@ -375,8 +387,6 @@
 			{#if open}
 				{#key $selectedTagsStore}
 					<Filters
-						bind:dateFrom
-						bind:dateTo
 						bind:selectedAuthor
 						bind:author
 						bind:boxRef

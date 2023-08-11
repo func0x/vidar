@@ -37,11 +37,11 @@
 			<SelectTime {options} />
 		{/key}
 		{#if $dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After'}
-			<DatePicker label="From" bind:date={$dateRangeStore.from} />
+			<DatePicker label={$dateTypeStore} bind:date={$dateRangeStore.start_date} />
 		{/if}
 		{#if $dateTypeStore === 'Range'}
-			<DatePicker label="From" bind:date={$dateRangeStore.from} />
-			<DatePicker label="To" bind:date={$dateRangeStore.to} />
+			<DatePicker label="From" bind:date={$dateRangeStore.start_date} />
+			<DatePicker label="To" bind:date={$dateRangeStore.end_date} />
 		{/if}
 		<AuthorInput {authors} bind:selectedAuthor bind:authorName={author} />
 	</Box>

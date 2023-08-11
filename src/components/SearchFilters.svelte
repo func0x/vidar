@@ -37,11 +37,11 @@
 			<SearchSelectTime {options} />
 		{/key}
 		{#if $searchedDateTypeStore === 'On' || $searchedDateTypeStore === 'Before' || $searchedDateTypeStore === 'After'}
-			<DatePicker label="From" bind:date={$searchedDateRangeStore.from} />
+			<DatePicker label={$searchedDateTypeStore} bind:date={$searchedDateRangeStore.start_date} />
 		{/if}
 		{#if $searchedDateTypeStore === 'Range'}
-			<DatePicker label="From" bind:date={$searchedDateRangeStore.from} />
-			<DatePicker label="From" bind:date={$searchedDateRangeStore.to} />
+			<DatePicker label="From" bind:date={$searchedDateRangeStore.start_date} />
+			<DatePicker label="From" bind:date={$searchedDateRangeStore.end_date} />
 		{/if}
 		<AuthorInput {authors} search bind:selectedAuthor bind:authorName={author} />
 	</Box>

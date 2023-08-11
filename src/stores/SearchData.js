@@ -4,7 +4,7 @@ import { writable, derived } from 'svelte/store';
 
 export const searchedEventsStore = writable([]);
 export const searchedSelectedTagsStore = writable([]);
-export const searchedDateRangeStore = writable({ from: null, to: null });
+export const searchedDateRangeStore = writable({ start_date: null, end_date: null });
 export const searchedAuthorStore = writable('');
 export const searchedSortDirectionStore = writable('Latest');
 export const searchedDateTypeStore = writable('Any Time');
@@ -44,33 +44,33 @@ export const searchedFiltered = derived(
 			events = events.filter((x) => x.datetime >= luxonTimeBack(30));
 		} else if ($searchedDateTypeStore === 'Last 3 months') {
 			events = events.filter((x) => x.datetime >= luxonTimeBack(90));
-		} else if ($searchedDateTypeStore === 'On' && $searchedDateRangeStore.from) {
+		} else if ($searchedDateTypeStore === 'On' && $searchedDateRangeStore.start_date) {
 			events = events.filter(
 				(x) =>
-					x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from, 'from') &&
+					x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.start_date, 'from') &&
 					x.datetime <=
-						DateTime.fromJSDate($searchedDateRangeStore.from)
+						DateTime.fromJSDate($searchedDateRangeStore.start_date)
 							.set({ hour: 23, minute: 59, second: 59 })
 							.toMillis() /
 							1000
 			);
-		} else if ($searchedDateTypeStore === 'Before' && $searchedDateRangeStore.from) {
+		} else if ($searchedDateTypeStore === 'Before' && $searchedDateRangeStore.start_date) {
 			events = events.filter(
-				(x) => x.datetime <= jsDateToLuxonTimestamp($searchedDateRangeStore.from, 'to')
+				(x) => x.datetime <= jsDateToLuxonTimestamp($searchedDateRangeStore.start_date, 'to')
 			);
-		} else if ($searchedDateTypeStore === 'After' && $searchedDateRangeStore.from) {
+		} else if ($searchedDateTypeStore === 'After' && $searchedDateRangeStore.start_date) {
 			events = events.filter(
-				(x) => x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from, 'to')
+				(x) => x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.start_date, 'to')
 			);
 		} else if (
 			$searchedDateTypeStore === 'Range' &&
-			$searchedDateRangeStore.from &&
-			$searchedDateRangeStore.to
+			$searchedDateRangeStore.start_date &&
+			$searchedDateRangeStore.end_date
 		) {
 			events = events.filter(
 				(x) =>
-					x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from, 'from') &&
-					x.datetime <= jsDateToLuxonTimestamp($searchedDateRangeStore.to, 'to')
+					x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.start_date, 'from') &&
+					x.datetime <= jsDateToLuxonTimestamp($searchedDateRangeStore.end_date, 'to')
 			);
 		}
 

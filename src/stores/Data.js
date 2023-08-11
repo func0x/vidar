@@ -5,7 +5,7 @@ const modules = import.meta.glob('../../event_data/*/*.json');
 
 export const eventsStore = writable([]);
 export const selectedTagsStore = writable([]);
-export const dateRangeStore = writable({ from: null, to: null });
+export const dateRangeStore = writable({ start_date: null, end_date: null });
 export const authorStore = writable('');
 export const sortDirectionStore = writable('Latest');
 export const dateTypeStore = writable('Any Time');
@@ -72,29 +72,29 @@ export const filtered = derived(
 			events = events.filter((x) => x.datetime >= luxonTimeBack(30));
 		} else if ($dateTypeStore === 'Last 3 months') {
 			events = events.filter((x) => x.datetime >= luxonTimeBack(90));
-		} else if ($dateTypeStore === 'On' && $dateRangeStore.from) {
+		} else if ($dateTypeStore === 'On' && $dateRangeStore.start_date) {
 			events = events.filter(
 				(x) =>
-					x.datetime >= jsDateToLuxonTimestamp($dateRangeStore.from, 'from') &&
+					x.datetime >= jsDateToLuxonTimestamp($dateRangeStore.start_date, 'from') &&
 					x.datetime <=
-						DateTime.fromJSDate($dateRangeStore.from)
+						DateTime.fromJSDate($dateRangeStore.start_date)
 							.set({ hour: 23, minute: 59, second: 59 })
 							.toMillis() /
 							1000
 			);
-		} else if ($dateTypeStore === 'Before' && $dateRangeStore.from) {
+		} else if ($dateTypeStore === 'Before' && $dateRangeStore.start_date) {
 			events = events.filter(
-				(x) => x.datetime <= jsDateToLuxonTimestamp($dateRangeStore.from, 'to')
+				(x) => x.datetime <= jsDateToLuxonTimestamp($dateRangeStore.start_date, 'to')
 			);
-		} else if ($dateTypeStore === 'After' && $dateRangeStore.from) {
+		} else if ($dateTypeStore === 'After' && $dateRangeStore.start_date) {
 			events = events.filter(
-				(x) => x.datetime >= jsDateToLuxonTimestamp($dateRangeStore.from, 'to')
+				(x) => x.datetime >= jsDateToLuxonTimestamp($dateRangeStore.start_date, 'to')
 			);
-		} else if ($dateTypeStore === 'Range' && $dateRangeStore.from && $dateRangeStore.to) {
+		} else if ($dateTypeStore === 'Range' && $dateRangeStore.start_date && $dateRangeStore.end_date) {
 			events = events.filter(
 				(x) =>
-					x.datetime >= jsDateToLuxonTimestamp($dateRangeStore.from, 'from') &&
-					x.datetime <= jsDateToLuxonTimestamp($dateRangeStore.to, 'to')
+					x.datetime >= jsDateToLuxonTimestamp($dateRangeStore.start_date, 'from') &&
+					x.datetime <= jsDateToLuxonTimestamp($dateRangeStore.end_date, 'to')
 			);
 		}
 

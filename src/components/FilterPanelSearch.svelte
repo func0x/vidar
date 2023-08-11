@@ -40,11 +40,11 @@
 	let buttonRef;
 	let dateFrom =
 		JSON.parse($page.url.searchParams.get('date'))?.from != null
-			? new Date(JSON.parse($page.url.searchParams.get('date')).from)
+			? new Date(JSON.parse($page.url.searchParams.get('date')).start_date)
 			: null;
 	let dateTo =
 		JSON.parse($page.url.searchParams.get('date'))?.to != null
-			? new Date(JSON.parse($page.url.searchParams.get('date')).to)
+			? new Date(JSON.parse($page.url.searchParams.get('date')).end_date)
 			: null;
 	let selectedTags;
 	let author = JSON.parse($page.url.searchParams.get('speaker')) || '';
@@ -53,7 +53,7 @@
 
 	const initSelectTags = () => {
 		Object.entries(boxRef.children ? boxRef.children : []).forEach(([_, value]) => {
-			if (selectedTags.has(value.textContent)) {
+			if (new Set($searchedSelectedTagsStore).has(value.textContent)) {
 				value.style.backgroundColor = 'var(--aubergine)';
 				value.style.color = 'var(--white)';
 			} else {
@@ -154,14 +154,27 @@
 		$searchedDateTypeStore = period;
 		$searchedAuthorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
+		if ($page.url.searchParams.get('date')) {
+			$searchedDateRangeStore = {
+				start_date: new Date(JSON.parse($page.url.searchParams.get('date')).start_date) || null,
+				end_date: new Date(JSON.parse($page.url.searchParams.get('date')).end_date) || null
+			};
+		}
+
 		const subscribtion = searchedDateRangeStore.subscribe(() => {
-			if ($searchedDateRangeStore.to && $searchedDateTypeStore == 'Range') {
+			if ($searchedDateRangeStore.end_date && $searchedDateTypeStore == 'Range') {
 				$page.url.searchParams.set(
 					'date',
-					JSON.stringify({ from: $searchedDateRangeStore.from, to: $searchedDateRangeStore.from })
+					JSON.stringify({
+						from: $searchedDateRangeStore.start_date,
+						to: $searchedDateRangeStore.start_date
+					})
 				);
-			} else if ($searchedDateRangeStore.from) {
-				$page.url.searchParams.set('date', JSON.stringify({ from: $searchedDateRangeStore.from }));
+			} else if ($searchedDateRangeStore.start_date) {
+				$page.url.searchParams.set(
+					'date',
+					JSON.stringify({ from: $searchedDateRangeStore.start_date })
+				);
 			}
 
 			goto(`?${$page.url.searchParams.toString()}`, {
