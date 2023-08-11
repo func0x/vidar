@@ -4,7 +4,7 @@ from types import SimpleNamespace
 tags = open('./src/lib/jsons/tags.json', 'w')
 
 uniqueTags = set()
-for filename in glob.iglob('./event_data/**/*.json', recursive=True):
+for filename in glob.iglob('./event_data/**/*.json', recursive=False):
     data = open(filename, 'r')
     jsonData = json.load(data)
     dumpData = json.dumps(jsonData)
