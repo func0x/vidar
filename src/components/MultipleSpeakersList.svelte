@@ -45,7 +45,7 @@
 							on:click={onSelect}
 							on:keyup={onSelect}
 						>
-							<AuthorName {author} />
+							<AuthorName disableRedirect {author} />
 						</div>
 					{/each}
 				</div>
@@ -60,7 +60,7 @@
 							on:click={onSelect}
 							on:keyup={onSelect}
 						>
-							<AuthorName {author} />
+							<AuthorName {author} disableRedirect />
 						</div>
 					</div>
 				{/each}
