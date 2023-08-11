@@ -14,6 +14,8 @@
 	import { getDayAndMonthJsDate, jsDateToLuxonTimestamp } from 'src/utils/date';
 	import deleteIcon from '$lib/images/delete.svg';
 	import AuthorName from './AuthorName.svelte';
+	import Filters from './Filters.svelte';
+	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 
 	export let tags;
 	export let authors;
@@ -40,10 +42,6 @@
 	let params = Array.from(selectedTags);
 	let author = JSON.parse($page.url.searchParams.get('speaker'));
 	let selectedAuthor = findAuthorByName(author);
-	let tagBg = 'var(--grey-300)';
-	let hbg = 'var(--grey-700)'; // tag hover bg color
-	let hc = 'var(--white)'; // hover color
-	let fs = 'var(--font-s)'; // font size
 
 	const initSelectTags = () => {
 		Object.entries(boxRef.children).forEach(([_, value]) => {
@@ -131,9 +129,6 @@
 	};
 
 	onMount(() => {
-		addClickTagEvent();
-		initSelectTags();
-
 		selectedTagsStore.set({ from: NaN, to: NaN });
 
 		dateRangeStore.set({
@@ -225,17 +220,34 @@
 	</Box>
 
 	{#if open}
-		<Filters
-			bind:dateFrom
-			bind:dateTo
-			bind:selectedAuthor
-			bind:author
-			bind:boxRef
-			{tags}
-			{authors}
-			tagClickEvent={addClickTagEvent}
-			{initSelectTags}
-		/>
+		<MediaQuery query="(min-width: 1115px)" let:matches>
+			{#if matches}
+				<Filters
+					bind:dateFrom
+					bind:dateTo
+					bind:selectedAuthor
+					bind:author
+					bind:boxRef
+					{tags}
+					{authors}
+					tagClickEvent={addClickTagEvent}
+					{initSelectTags}
+				/>
+			{:else}
+				<Filters
+					bind:dateFrom
+					bind:dateTo
+					bind:selectedAuthor
+					bind:author
+					bind:boxRef
+					dc
+					{tags}
+					{authors}
+					tagClickEvent={addClickTagEvent}
+					{initSelectTags}
+				/>
+			{/if}
+		</MediaQuery>
 	{/if}
 </Box>
 

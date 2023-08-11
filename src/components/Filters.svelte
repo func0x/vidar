@@ -16,6 +16,7 @@
 	export let tagClickEvent;
 	export let initSelectTags;
 	export let boxRef;
+	export let dc; // display inputs in column
 
 	let tagBg = 'var(--grey-300)';
 	let hbg = 'var(--grey-700)'; // tag hover bg color
@@ -29,7 +30,7 @@
 </script>
 
 <Box df fd="column" gap="var(--gap-m)">
-	<Box df gap="var(--gap-l)">
+	<Box df fd={dc ? 'column' : 'row'} gap="var(--gap-l)">
 		{#key false}
 			<DatePicker label="From" bind:date={dateFrom} />
 			<DatePicker label="To" bind:date={dateTo} />
@@ -43,3 +44,9 @@
 		{/each}
 	</Box>
 </Box>
+
+<style>
+	.select-tags {
+		color: var(--grey-700);
+	}
+</style>
