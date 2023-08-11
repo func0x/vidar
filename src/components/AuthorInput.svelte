@@ -23,7 +23,10 @@
 		}
 
 		return authors.filter((item) => {
-			return item.name.toLowerCase().includes(name.toLowerCase());
+			return (
+				item.name.toLowerCase().includes(name.toLowerCase()) ||
+				item.id.toLowerCase().includes(name.toLowerCase())
+			);
 		});
 	};
 
@@ -35,12 +38,16 @@
 		}, 500);
 
 		if (v === '') {
-			$authorStore = '';
-			$searchedAuthorStore = '';
+			// $authorStore = '';
+			// $searchedAuthorStore = '';
 			filterAuthors = [];
 			selectedAuthor = null;
 			$page.url.searchParams.set('speaker', JSON.stringify(null));
-			goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+			goto(`?${$page.url.searchParams.toString()}`, {
+				noScroll: true,
+				replaceState: true,
+				keepFocus: true
+			});
 		}
 	};
 
