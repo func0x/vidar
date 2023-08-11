@@ -76,7 +76,7 @@
 					icon={slides}
 					text="Open with Google Slides"
 				/>
-			{:else}
+			{:else if event.assets.slides.name.includes('.')}
 				<Button
 					bg="var(--white)"
 					onClick={() => downloadSlides(event.assets)}

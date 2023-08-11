@@ -11,7 +11,7 @@
 	<title>
 		Vidar &#x2022; {data.author !== undefined ? data.author.name : 'Not Found'}
 	</title>
-</svelte:head>;
+</svelte:head>
 
 <Box height="290px">
 	<Box cvh gap="var(--gap-m)" fd="column">
