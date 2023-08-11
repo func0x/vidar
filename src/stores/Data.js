@@ -84,9 +84,9 @@ export const filtered = derived(
 		});
 
 		if ($selectedTagsStore.length > 0) {
-			events = events.filter((x) => {
-				return $selectedTagsStore.every((v) => x.tags.includes(v)) && x.upcoming === false;
-			});
+			events = events.filter(
+				(e) => e.tags.some((t) => $selectedTagsStore.indexOf(t) >= 0) && e.upcoming === false
+			);
 		}
 
 		return events;
