@@ -17,8 +17,6 @@
 </svelte:head>
 
 <Upcoming {event} />
-<div class="explore">
-	<SectionName title="Explore" />
-	<FilterPanel {tags} {authors} />
-	<RecentEvents hover events={$filtered} />
-</div>
+<SectionName title="Explore" />
+<FilterPanel {tags} {authors} />
+<RecentEvents hover events={$filtered} />

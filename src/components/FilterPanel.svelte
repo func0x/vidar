@@ -64,8 +64,6 @@
 			buttonRef.style.backgroundColor = 'var(--aubergine)';
 			buttonRef.style.color = 'var(--white)';
 			buttonRef.firstChild.src = filterWhite;
-			const section = document.querySelector('.explore');
-			section.scrollIntoView();
 		} else {
 			buttonRef.style.backgroundColor = 'var(--white)';
 			buttonRef.style.color = 'var(--aubergine)';
