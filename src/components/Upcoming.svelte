@@ -7,6 +7,8 @@
 	import arrow from '$lib/images/button_icon.svg';
 	import { onMount } from 'svelte';
 	import { jsonEvents } from 'src/stores/Data';
+	import Avatar from './Avatar.svelte';
+	import SectionName from './SectionName.svelte';
 
 	let events = [];
 	let event;
@@ -69,6 +71,22 @@
 			</Box>
 		{/if}
 	</MediaQuery>
+
+	<MediaQuery query="(max-width: 1115px)" let:matches>
+		{#if matches}
+			<SectionName title="Upcoming Livestream" />
+			<Box height="fit-content" df fd="column" gap="var(--gap-s)">
+				<img src={event.event_photo} alt="upcoming" />
+				<Box df gap="var(--gap-s)" padding="0 var(--gap-m)">
+					<Avatar authors={event.authors} />
+					<Box df fd="column" gap="var(--gap-xs)">
+						<h1>{event.title}</h1>
+						<EventAuthor authors={event.authors} timestamp={event.datetime} />
+					</Box>
+				</Box>
+			</Box>
+		{/if}
+	</MediaQuery>
 {/if}
 
 <style>
@@ -93,5 +111,17 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
+	}
+
+	@media screen and (max-width: 1115px) {
+		img {
+			width: 100%;
+			max-height: unset;
+		}
+
+		h1 {
+			font-size: var(--font-l);
+			color: var(--aubergine);
+		}
 	}
 </style>
