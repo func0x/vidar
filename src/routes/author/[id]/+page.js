@@ -1,9 +1,9 @@
 import authors from '$lib/images/authors.json';
 import { jsonEvents } from 'src/stores/Data';
 
-const findAuthorByName = (nameParam) => {
+const findAuthorById = (id) => {
 	return authors.find((item) => {
-		return item.name === nameParam;
+		return item.id === id;
 	});
 };
 
@@ -20,7 +20,7 @@ const findAuthorEvents = async (nameParam) => {
 
 export function load({ params }) {
 	return {
-		author: findAuthorByName(params.id),
+		author: findAuthorById(params.id),
 		events: findAuthorEvents(params.id)
 	};
 }

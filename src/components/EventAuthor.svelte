@@ -38,7 +38,7 @@
 			{#if authors.length >= 2}
 				<span class="author-name">Multiple speakers</span>
 			{:else}
-				<a href="/author/{authors[0].name}"><span class="author-name">{authors[0].name}</span></a>
+				<a href="/author/{authors[0].id}"><span class="author-name">{authors[0].name}</span></a>
 			{/if}
 			<span>&#8226;</span>
 			<span>{date}</span>
@@ -65,7 +65,7 @@
 					>Multiple speakers</span
 				>
 			{:else}
-				<a href="/author/{authors[0].name}"><span class="author-name">{authors[0].name}</span></a>
+				<a href="/author/{authors[0].id}"><span class="author-name">{authors[0].name}</span></a>
 			{/if}
 			<span>&#8226;</span>
 			<span>{date}</span>

@@ -7,7 +7,7 @@
 
 <Box ch height="fit-content" gap="var(--gap-s)">
 	<img src={author.avatar_photo || avatarPlaceholder} alt="author" />
-	<span>{author.name}</span>
+	<a href="/author/{author.id}"><span>{author.name}</span></a>
 </Box>
 
 <style>

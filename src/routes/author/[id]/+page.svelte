@@ -2,16 +2,19 @@
 	import Box from 'src/components/Box.svelte';
 	import RecentEvents from 'src/components/RecentEvents.svelte';
 	import SectionName from 'src/components/SectionName.svelte';
+	import placeholder from '$lib/images/avatar_placeholder.svg';
 
 	export let data;
 
 	const { name, avatar_src, job_position, location } = data.author;
 	const { events } = data;
+
+	console.log(avatar_src);
 </script>
 
 <Box height="290px">
 	<Box cvh gap="var(--gap-m)" fd="column">
-		<img src={avatar_src} alt={name} />
+		<img src={avatar_src || placeholder} alt={name} />
 		<Box cvh bg="transparent" fd="column" width="fit-content" height="fit-content">
 			<span class="author-name">{name}</span>
 			<span class="job-position-location">{job_position}</span>
