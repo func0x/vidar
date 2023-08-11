@@ -16,11 +16,15 @@
 		<Box bg="transparent" df di gap="var(--gap-s)" fd="column" height="fit-content">
 			<svelte:fragment>
 				<TagPanel tags={event.tags} />
-				<h1 class:eventCard>{event.title}</h1>
+				<a href="/event/{event.id}">
+					<h1 class:eventCard>{event.title}</h1>
+				</a>
 				<EventAuthor authors={event.authors} timestamp={event.datetime} />
-				<p>
-					{event.description}
-				</p>
+				<a href="/event/{event.id}">
+					<p>
+						{event.description}
+					</p>
+				</a>
 			</svelte:fragment>
 		</Box>
 	{/if}
@@ -51,7 +55,9 @@
 			<Box df gap="var(--gap-s)">
 				<Avatar authors={event.authors} />
 				<Box df fd="column" gap="var(--gap-xs)">
-					<h1>{event.title}</h1>
+					<a href="/event/{event.id}">
+						<h1>{event.title}</h1>
+					</a>
 					<EventAuthor bind:open authors={event.authors} timestamp={event.datetime} />
 				</Box>
 			</Box>

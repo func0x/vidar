@@ -20,11 +20,15 @@
 			position="relative"
 			hover
 		>
-			<img src={event.event_photo} alt="upcoming" />
+			<a href="/event/{event.id}">
+				<img src={event.event_photo} alt="upcoming" />
+			</a>
 			<Box df gap="var(--gap-s)">
 				<Avatar authors={event.authors} />
 				<Box df fd="column" gap="var(--gap-xs)">
-					<h1>{event.title}</h1>
+					<a href="/event/{event.id}">
+						<h1>{event.title}</h1>
+					</a>
 					<Box position="relative" hover>
 						<EventAuthor notFound authors={event.authors} timestamp={event.datetime} />
 						{#if event.authors.length >= 2}
@@ -36,11 +40,15 @@
 		</Box>
 	{:else}
 		<Box height="fit-content" df fd="column" gap="var(--gap-s)" position="relative">
-			<img src={event.event_photo} alt="upcoming" />
+			<a href="/event/{event.id}">
+				<img src={event.event_photo} alt="upcoming" />
+			</a>
 			<Box df gap="var(--gap-s)">
 				<Avatar authors={event.authors} />
 				<Box df fd="column" gap="var(--gap-xs)">
-					<h1>{event.title}</h1>
+					<a href="/event/{event.id}">
+						<h1>{event.title}</h1>
+					</a>
 					<EventAuthor notFound bind:open authors={event.authors} timestamp={event.datetime} />
 				</Box>
 			</Box>

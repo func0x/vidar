@@ -16,7 +16,9 @@
 	<MediaQuery query="(min-width: 1750px)" let:matches>
 		{#if matches}
 			<Box cvh height="400px" gap="150px">
-				<img src={event.event_photo} alt="upcoming" />
+				<a href="/event/{event.id}">
+					<img src={event.event_photo} alt="upcoming" />
+				</a>
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
 					<TagInfo text="Upcoming" />
 					<EventDetails {event} />
@@ -29,7 +31,9 @@
 	<MediaQuery query="(min-width: 1115px) and (max-width: 1750px)" let:matches>
 		{#if matches}
 			<Box cvh height="400px" gap="var(--gap-xl)" padding="0 var(--gap-m)">
-				<img src={event.event_photo} alt="upcoming" />
+				<a href="/event/{event.id}">
+					<img src={event.event_photo} alt="upcoming" />
+				</a>
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
 					<TagInfo text="Upcoming" />
 					<EventDetails {event} />
@@ -47,7 +51,9 @@
 				{:else if event.video.title === ''}
 					<TagInfo vna text="Not yet available" />
 				{/if}
-				<img src={event.event_photo} alt="upcoming" />
+				<a href="/event/{event.id}">
+					<img src={event.event_photo} alt="upcoming" />
+				</a>
 				<Box df gap="var(--gap-s)" padding=" 0 var(--gap-s)">
 					<EventDetails bind:open {event} />
 				</Box>

@@ -9,15 +9,15 @@
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
 	{#if matches}
-		<a href="/event/{event.id}">
-			<div class="container">
+		<div class="container">
+			<a href="/event/{event.id}">
 				<img src={event.event_photo} alt="event" />
-				{#if event.video.title === ''}
-					<TagInfo vna text="Not yet available" />
-				{/if}
-				<EventDetails eventCard {event} />
-			</div>
-		</a>
+			</a>
+			{#if event.video.title === ''}
+				<TagInfo vna text="Not yet available" />
+			{/if}
+			<EventDetails eventCard {event} />
+		</div>
 	{/if}
 </MediaQuery>
 
