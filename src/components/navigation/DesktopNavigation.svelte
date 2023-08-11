@@ -2,9 +2,9 @@
 	import Box from '../Box.svelte';
 	import logo from '$lib/images/vidar.svg';
 	import search from '$lib/images/search.svg';
-	import UseMediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import UseMediaQuery from 'src/hooks/UseMediaQuery.svelte';
 
 	let query = '';
 
@@ -13,19 +13,33 @@
 	};
 </script>
 
-<Box border="2px solid var(--grey-300)" ch jsb height="70px" padding="0 var(--gap-l)">
-	<a href="/">
-		<img src={logo} alt="logo" />
-	</a>
-	<UseMediaQuery query="(min-width: 1115px)" let:matches>
-		{#if matches && $page.url.pathname !== '/search/'}
-			<form on:submit|preventDefault={redirectToSearch}>
-				<input name="query" bind:value={query} placeholder="Search..." />
-				<button type="submit"><img src={search} alt="search" /></button>
-			</form>
-		{/if}
-	</UseMediaQuery>
-</Box>
+<UseMediaQuery query="(min-width: 1115px)" let:matches>
+	{#if matches}
+		<Box border="2px solid var(--grey-300)" ch jsb height="70px" padding="0 var(--gap-l)">
+			<a href="/">
+				<img src={logo} alt="logo" />
+			</a>
+			{#if $page.url.pathname !== '/search/'}
+				<form on:submit|preventDefault={redirectToSearch}>
+					<input name="query" bind:value={query} placeholder="Search..." />
+					<button type="submit"><img src={search} alt="search" /></button>
+				</form>
+			{/if}
+		</Box>
+	{:else}
+		<Box border="2px solid var(--grey-300)" ch jsb height="70px" padding="0 var(--gap-m)">
+			<a href="/">
+				<img src={logo} alt="logo" />
+			</a>
+			{#if $page.url.pathname !== '/search/'}
+				<form on:submit|preventDefault={redirectToSearch}>
+					<input name="query" bind:value={query} placeholder="Search..." />
+					<button type="submit"><img src={search} alt="search" /></button>
+				</form>
+			{/if}
+		</Box>
+	{/if}
+</UseMediaQuery>
 
 <style>
 	input {
@@ -47,5 +61,25 @@
 		display: flex;
 		border-radius: var(--border-radius-xxl);
 		overflow: hidden;
+	}
+
+	@media screen and (max-width: 700px) {
+		input {
+			width: 240px;
+		}
+
+		button {
+			width: 45px;
+		}
+	}
+
+	@media screen and (max-width: 460px) {
+		input {
+			width: 170px;
+		}
+
+		button {
+			width: 40px;
+		}
 	}
 </style>
