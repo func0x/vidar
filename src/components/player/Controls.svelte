@@ -1,6 +1,7 @@
 <script>
 	import play from '$lib/images/play.svg';
 	import pause from '$lib/images/pause.svg';
+	import checkmark from '$lib/images/checkmark.svg';
 	import fullscreen from '$lib/images/fullscreen.svg';
 	import closeFullScreen from '$lib/images/exit_fullscreen.svg';
 	import playback from '$lib/images/playback_speed.svg';
@@ -65,9 +66,11 @@
 
 			Object.entries(speeds).forEach(([_, value]) => {
 				if (value === e.target) {
-					value.style.fontWeight = 'var(--font-bold)';
+					value.firstElementChild.style.visibility = 'visible';
+					value.lastElementChild.style.fontWeight = 'var(--font-bold)';
 				} else {
-					value.style.fontWeight = 'var(--font-light)';
+					value.firstElementChild.style.visibility = 'hidden';
+					value.lastElementChild.style.fontWeight = 'var(--font-light)';
 				}
 			});
 
@@ -88,8 +91,10 @@
 	};
 
 	onMount(() => {
-		document.querySelectorAll('.video-speed')[3].style.fontWeight = 'var(--font-bold)';
-		// console.log(document.querySelectorAll('.video-speed'));
+		document.querySelectorAll('.video-speed')[3].firstElementChild.style.visibility = 'visible';
+		document.querySelectorAll('.video-speed')[3].lastElementChild.style.fontWeight =
+			'var(--font-bold)';
+		console.log(document.querySelectorAll('.video-speed')[3]);
 	});
 </script>
 
@@ -110,7 +115,8 @@
 		<div class="playback-choose" on:click={changeSpeed} on:keyup={changeSpeed}>
 			{#each videoSpeed as speed}
 				<div class="video-speed" value={speed.value}>
-					{speed.key}
+					<img class="checkmark" src={checkmark} alt="checkmark" />
+					<span> {speed.key} </span>
 				</div>
 			{/each}
 		</div>
@@ -142,6 +148,10 @@
 
 	div {
 		color: white;
+	}
+
+	span {
+		pointer-events: none;
 	}
 
 	.controls {
@@ -205,10 +215,20 @@
 
 	.video-speed {
 		width: 95px;
-		padding: 6px 0;
+		display: grid;
+		grid-template-areas: 'checkmark speed';
+		grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+		align-items: center;
+		padding: 6px 10px;
 		text-align: center;
 		background: #212121;
 		font-size: 10px;
+	}
+
+	.checkmark {
+		visibility: hidden;
+		grid-area: checkmark;
+		text-align: center;
 	}
 
 	.video-speed:hover {

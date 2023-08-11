@@ -61,8 +61,6 @@
 
 		const percent = (clientX - left) / (right - left);
 
-		console.log(percent);
-
 		thumb.style.setProperty('--progress-position', percent);
 	};
 
