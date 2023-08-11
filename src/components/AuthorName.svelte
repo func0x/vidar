@@ -54,15 +54,21 @@
 			gap="var(--gap-s)"
 		>
 			{#if filterSpeaker}
-				<img class:filterSpeaker src={author.avatar_photo || avatarPlaceholder} alt="author" />
-				<span class:disableRedirect>{author.name}</span>
-				<img
-					class="delete"
-					src={deleteIcon}
-					on:keyup={deleteSpeakerFromFilter}
-					alt="delete"
-					on:click={deleteSpeakerFromFilter}
-				/>
+				<div>
+					<img class:filterSpeaker src={author.avatar_photo || avatarPlaceholder} alt="author" />
+					<span
+						class:disableRedirect
+						on:keyup={deleteSpeakerFromFilter}
+						on:click={deleteSpeakerFromFilter}>{author.name}</span
+					>
+					<img
+						class="delete"
+						src={deleteIcon}
+						on:keyup={deleteSpeakerFromFilter}
+						alt="delete"
+						on:click={deleteSpeakerFromFilter}
+					/>
+				</div>
 			{:else if disableRedirect}
 				<img src={author.avatar_photo || avatarPlaceholder} alt="author" />
 				<span class:disableRedirect>{author.name}</span>
