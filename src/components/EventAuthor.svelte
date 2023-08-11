@@ -57,6 +57,7 @@
 			gap="var(--gap-xs)"
 			width="fit-content"
 			hover
+			position="relative"
 		>
 			{#if videoFooter}
 				<Avatar {authors} />
@@ -70,6 +71,10 @@
 			{/if}
 			<span>&#8226;</span>
 			<span>{date}</span>
+
+			{#if authors.length >= 2 && open}
+				<MultipleSpeakersList {authors} />
+			{/if}
 		</Box>
 	{/if}
 </MediaQuery>
