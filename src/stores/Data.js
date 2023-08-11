@@ -4,6 +4,7 @@ import { writable, derived } from 'svelte/store';
 const modules = import.meta.glob('../../event_data/*/*.json');
 
 export const eventsStore = writable([]);
+export const authorsStore = writable([]);
 export const selectedTagsStore = writable([]);
 export const dateRangeStore = writable({ start_date: null, end_date: null });
 export const authorStore = writable('');

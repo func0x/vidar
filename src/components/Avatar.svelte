@@ -1,12 +1,20 @@
 <script>
+	import { page } from '$app/stores';
 	import avatarPlaceholder from '$lib/images/avatar_placeholder.svg';
 
 	export let authors;
+	const pageUrl = $page.url.pathname.includes('/author/');
 </script>
 
 <div class="authors-photos" authors-count={authors.length}>
 	{#each authors as author}
-		<img src={author.avatar_photo || avatarPlaceholder} alt={author.name} />
+		{#if !pageUrl}
+			<a href={`/author/${author.id}`}>
+				<img src={author.avatar_photo || avatarPlaceholder} alt={author.name} />
+			</a>
+		{:else}
+			<img src={author.avatar_photo || avatarPlaceholder} alt={author.name} />
+		{/if}
 	{/each}
 </div>
 
