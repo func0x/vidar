@@ -8,18 +8,23 @@ export const trailingSlash = 'always';
 
 const importEvents = async () => {
 	let event;
+	const events = await jsonEvents();
 
 	authorsStore.set(authors);
-	const events = await jsonEvents();
-	eventsStore.set(
-		events.filter((x) => x.upcoming === false).sort((a, b) => (a.datetime < b.datetime ? 1 : -1))
-	);
+
+	const filteredEvents = events.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
 
 	event = events.filter((x) => x.upcoming === true);
 
-	if (event.length !== 0) {
+	if (event.length === 0) {
+		event = filteredEvents[0];
+	}
+
+	if (event.length > 0) {
 		event = event.reduce((x, y) => (x.datetime > y.datetime ? x : y));
 	}
+
+	eventsStore.set(filteredEvents);
 
 	return { events, event };
 };

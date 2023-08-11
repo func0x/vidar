@@ -12,6 +12,8 @@
 	const { event } = data.all;
 	const { tags, authors } = data;
 
+	const filter = event.upcoming ? $filtered.filter((x) => x.upcoming === false) : $filtered.slice(1).filter((x) => x.upcoming === false) 
+
 	onMount(() => {
 		const loader = document.querySelector('.loader');
 		const application = document.querySelector('.application');
@@ -24,7 +26,9 @@
 	<title>Vidar &#x2022; Home</title>
 </svelte:head>
 
-<Upcoming {event} />
+{#if event}
+	<Upcoming {event} />
+{/if}
 <SectionName title="Explore" />
 <FilterPanel {tags} {authors} />
-<RecentEvents hover events={$filtered} />
+<RecentEvents hover events={filter} />

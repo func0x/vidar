@@ -9,7 +9,6 @@ const findEvent = async (title, events) => {
 		const recomendedEvents = events
 			.filter((e) => e.tags.some((t) => event.tags.indexOf(t) >= 0))
 			.filter((e) => e.title !== event.title)
-			.filter((e) => e.upcoming === false)
 			.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
 
 		return { event, recomendedEvents };
