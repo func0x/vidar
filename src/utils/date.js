@@ -28,8 +28,12 @@ export const detectLive = (eventTimestamp) => {
 };
 
 export const countDaysAfterLive = (eventTimestamp) => {
-	const eventDate = DateTime.fromMillis(eventTimestamp * 1000);
-	const now = DateTime.now();
+	const eventDate = DateTime.fromMillis(eventTimestamp * 1000).set({
+		hour: 0,
+		minute: 0,
+		second: 0
+	});
+	const now = DateTime.now().set({ hour: 0, minute: 0, second: 0 });
 
 	return parseInt(now.diff(eventDate, 'days').toObject().days);
 };
