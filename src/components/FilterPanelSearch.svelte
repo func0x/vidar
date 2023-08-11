@@ -85,15 +85,19 @@
 	const changeSelected = (event) => {
 		Object.entries(boxRef.children).forEach(([_, value]) => {
 			if (value === event.target) {
-				if (selectedTags.has(value.textContent)) {
+				if (new Set(JSON.parse($page.url.searchParams.get('tags'))).has(value.textContent)) {
 					selectedTags.delete(value.textContent);
+					$searchedSelectedTagsStore = $searchedSelectedTagsStore.filter(
+						(x) => x !== value.textContent
+					);
 				} else {
 					selectedTags.add(value.textContent);
+					$searchedSelectedTagsStore = [...$searchedSelectedTagsStore, value.innerText];
 				}
 
 				params = Array.from(selectedTags);
-				$page.url.searchParams.set('tags', JSON.stringify(params));
-				searchedSelectedTagsStore.set(params);
+				$page.url.searchParams.set('tags', JSON.stringify($searchedSelectedTagsStore));
+				// searchedSelectedTagsStore.set(params);
 				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 			}
 		});
@@ -282,17 +286,19 @@
 			</Box>
 
 			{#if open}
-				<SearchFilters
-					bind:dateFrom
-					bind:dateTo
-					bind:selectedAuthor
-					bind:author
-					bind:boxRef
-					{tags}
-					{authors}
-					tagClickEvent={addClickTagEvent}
-					{initSelectTags}
-				/>
+				{#key $searchedSelectedTagsStore}
+					<SearchFilters
+						bind:dateFrom
+						bind:dateTo
+						bind:selectedAuthor
+						bind:author
+						bind:boxRef
+						{tags}
+						{authors}
+						tagClickEvent={addClickTagEvent}
+						{initSelectTags}
+					/>
+				{/key}
 			{/if}
 		</Box>
 	{:else}
@@ -400,18 +406,20 @@
 			</Box>
 
 			{#if open}
-				<SearchFilters
-					bind:dateFrom
-					bind:dateTo
-					bind:selectedAuthor
-					bind:author
-					bind:boxRef
-					dc
-					{tags}
-					{authors}
-					tagClickEvent={addClickTagEvent}
-					{initSelectTags}
-				/>
+				{#key $searchedSelectedTagsStore}
+					<SearchFilters
+						bind:dateFrom
+						bind:dateTo
+						bind:selectedAuthor
+						bind:author
+						bind:boxRef
+						dc
+						{tags}
+						{authors}
+						tagClickEvent={addClickTagEvent}
+						{initSelectTags}
+					/>
+				{/key}
 			{/if}
 		</Box>
 	{/if}

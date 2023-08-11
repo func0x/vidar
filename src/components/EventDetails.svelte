@@ -10,6 +10,7 @@
 	import Tag from './Tag.svelte';
 	import TagPanel from './TagPanel.svelte';
 	import { selectedTagsStore } from '../stores/Data';
+	import { searchedSelectedTagsStore } from '../stores/SearchData';
 
 	export let event;
 	export let eventCard = false;
@@ -30,7 +31,7 @@
 	{#if matches && !videoFooter}
 		<Box bg="transparent" df di gap="var(--gap-s)" fd="column" height="fit-content">
 			<svelte:fragment>
-				{#key $selectedTagsStore}
+				{#key $selectedTagsStore || $searchedSelectedTagsStore}
 					<TagPanel>
 						{#each event.tags as tag}
 							<Tag text={tag} />

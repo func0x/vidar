@@ -6,6 +6,7 @@
 	import { selectedTagsStore } from '../stores/Data';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { searchedSelectedTagsStore } from '../stores/SearchData';
 
 	export let fp = false; // FilterPanel
 	export let disableSelect = false;
@@ -28,15 +29,31 @@
 
 	const initSelectedTag = () => {
 		Object.entries(boxRef.children).forEach(([_, value]) => {
-			if (value.localName === 'span' && $selectedTagsStore.includes(value.innerText)) {
-				value.style.backgroundColor = 'var(--aubergine)';
-				value.style.color = 'var(--white)';
-				// value.style.pointerEvents = 'none';
-			} else if (value.localName === 'span' && !$selectedTagsStore.includes(value.innerText)) {
-				value.style.backgroundColor = 'var(--grey-300)';
-				value.style.color = 'var(--aubergine)';
+			if ($page.url.pathname.includes('/search/')) {
+				if (value.localName === 'span' && $searchedSelectedTagsStore.includes(value.innerText)) {
+					value.style.backgroundColor = 'var(--aubergine)';
+					value.style.color = 'var(--white)';
+					// value.style.pointerEvents = 'none';
+				} else if (
+					value.localName === 'span' &&
+					!$searchedSelectedTagsStore.includes(value.innerText)
+				) {
+					value.style.backgroundColor = 'var(--grey-300)';
+					value.style.color = 'var(--aubergine)';
 
-				// value.style.pointerEvents = 'auto';
+					// value.style.pointerEvents = 'auto';
+				}
+			} else {
+				if (value.localName === 'span' && $selectedTagsStore.includes(value.innerText)) {
+					value.style.backgroundColor = 'var(--aubergine)';
+					value.style.color = 'var(--white)';
+					// value.style.pointerEvents = 'none';
+				} else if (value.localName === 'span' && !$selectedTagsStore.includes(value.innerText)) {
+					value.style.backgroundColor = 'var(--grey-300)';
+					value.style.color = 'var(--aubergine)';
+
+					// value.style.pointerEvents = 'auto';
+				}
 			}
 		});
 	};
@@ -45,17 +62,34 @@
 		Object.entries(boxRef.children).forEach(([_, value]) => {
 			if (value.localName === 'span') {
 				if (value === event.target) {
-					if (!$selectedTagsStore.includes(value.innerText)) {
-						value.style.backgroundColor = 'var(--aubergine)';
-						value.style.color = 'var(--white)';
-						// value.style.pointerEvents = 'none';
-						$selectedTagsStore = [...$selectedTagsStore, value.innerText];
-						$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
-						goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+					if ($page.url.pathname.includes('/search/')) {
+						if (!$searchedSelectedTagsStore.includes(value.innerText)) {
+							value.style.backgroundColor = 'var(--aubergine)';
+							value.style.color = 'var(--white)';
+							// value.style.pointerEvents = 'none';
+							$searchedSelectedTagsStore = [...$searchedSelectedTagsStore, value.innerText];
+							$page.url.searchParams.set('tags', JSON.stringify($searchedSelectedTagsStore));
+							goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+						} else {
+							$searchedSelectedTagsStore = $searchedSelectedTagsStore.filter(
+								(x) => x !== value.innerText
+							);
+							$page.url.searchParams.set('tags', JSON.stringify($searchedSelectedTagsStore));
+							goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+						}
 					} else {
-						$selectedTagsStore = $selectedTagsStore.filter((x) => x !== value.innerText);
-						$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
-						goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+						if (!$selectedTagsStore.includes(value.innerText)) {
+							value.style.backgroundColor = 'var(--aubergine)';
+							value.style.color = 'var(--white)';
+							// value.style.pointerEvents = 'none';
+							$selectedTagsStore = [...$selectedTagsStore, value.innerText];
+							$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
+							goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+						} else {
+							$selectedTagsStore = $selectedTagsStore.filter((x) => x !== value.innerText);
+							$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
+							goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+						}
 					}
 				} else {
 					value.style.backgroundColor = 'var(--grey-300)';
