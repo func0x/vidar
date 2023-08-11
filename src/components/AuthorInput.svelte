@@ -78,6 +78,8 @@
 
 	input {
 		border: 1px solid rgba(103, 113, 137, 0.3);
+		background-color: var(--white);
+		color: var(--aubergine);
 		padding: 4px 6px;
 		border-radius: 3px;
 		width: 241px;

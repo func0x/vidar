@@ -112,7 +112,7 @@
 		padding: var(--gap-xs) 0;
 		border-radius: var(--border-radius-xl);
 		animation: dropdown-fade-in 0.35s;
-		border: 1px solid white;
+		border: 1px solid var(--white);
 		-webkit-filter: drop-shadow(var(--multiple-avatar-shadow));
 		box-shadow: var(--multiple-avatar-shadow);
 		filter: drop-shadow(var(--multiple-avatar-shadow));

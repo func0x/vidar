@@ -28,7 +28,7 @@
 		$searchedDateTypeStore = value;
 
 		if ($searchedDateTypeStore === 'Any Time') {
-			$searchedDateRangeStore = { from: null, to: null };
+			$searchedDateRangeStore = { start_date: null, end_date: null };
 			$page.url.searchParams.delete('date');
 		}
 

@@ -20,6 +20,8 @@
 	} from 'src/stores/SearchData';
 	import SearchFilters from './SearchFilters.svelte';
 	import SearchSelect from './SearchSelect.svelte';
+	import TagInfo from './TagInfo.svelte';
+	import Tag from './Tag.svelte';
 
 	export let tags;
 	export let authors;
@@ -40,11 +42,11 @@
 	let buttonRef;
 	let dateFrom =
 		JSON.parse($page.url.searchParams.get('date'))?.from != null
-			? new Date(JSON.parse($page.url.searchParams.get('date')).start_date)
+			? new Date(JSON.parse($page.url.searchParams.get('date')).from)
 			: null;
 	let dateTo =
-		JSON.parse($page.url.searchParams.get('date'))?.to != null
-			? new Date(JSON.parse($page.url.searchParams.get('date')).end_date)
+		JSON.parse($page.url.searchParams.get('date'))?.end != null
+			? new Date(JSON.parse($page.url.searchParams.get('date')).end)
 			: null;
 	let selectedTags;
 	let author = JSON.parse($page.url.searchParams.get('speaker')) || '';
@@ -121,27 +123,6 @@
 		initSelectTags();
 	};
 
-	const deleteSpeakerFromFilter = () => {
-		author = '';
-		$searchedAuthorStore = '';
-		selectedAuthor = null;
-		$page.url.searchParams.delete('speaker');
-		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
-	};
-
-	const deleteDateFromFilter = () => {
-		dateFrom = null;
-		dateTo = null;
-
-		$searchedDateRangeStore = { from: null, to: null };
-
-		$searchedDateTypeStore = 'Any Time';
-
-		$page.url.searchParams.delete('date');
-		$page.url.searchParams.set('period', JSON.stringify('Any Time'));
-		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
-	};
-
 	onMount(() => {
 		if ($page.url.searchParams?.get('tags') && Array.isArray($page.url.searchParams?.get('tags'))) {
 			if (JSON.parse($page.url.searchParams.get('tags')).every((i) => typeof i === 'string')) {
@@ -156,8 +137,8 @@
 
 		if ($page.url.searchParams.get('date')) {
 			$searchedDateRangeStore = {
-				start_date: new Date(JSON.parse($page.url.searchParams.get('date')).start_date) || null,
-				end_date: new Date(JSON.parse($page.url.searchParams.get('date')).end_date) || null
+				start_date: new Date(JSON.parse($page.url.searchParams.get('date')).from) || null,
+				end_date: new Date(JSON.parse($page.url.searchParams.get('date')).end) || null
 			};
 		}
 
@@ -246,41 +227,23 @@
 					<Box ch gap="var(--gap-m)" width="fit-content">
 						<span class="select-tags">SPEAKER:</span>
 						{#key author}
-							<AuthorName disableRedirect mw author={selectedAuthor || ''} />
+							<AuthorName filterSpeaker disableRedirect mw author={selectedAuthor || ''} />
 						{/key}
-						<img
-							src={deleteIcon}
-							on:keyup={deleteSpeakerFromFilter}
-							alt="delete"
-							on:click={deleteSpeakerFromFilter}
-						/>
 					</Box>
 				{/if}
 				<Box ch gap="var(--gap-m)" width="fit-content">
 					{#if $searchedDateTypeStore === 'Last 30 days' || $searchedDateTypeStore === 'Last 3 months'}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo text={$searchedDateTypeStore} fp />
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
-						/>
 					{/if}
 
-					{#if ($searchedDateTypeStore === 'On' || $searchedDateTypeStore === 'Before' || $searchedDateTypeStore === 'After') && $searchedDateRangeStore.from}
+					{#if ($searchedDateTypeStore === 'On' || $searchedDateTypeStore === 'Before' || $searchedDateTypeStore === 'After') && $searchedDateRangeStore.start_date}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo
 							text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(
-								$searchedDateRangeStore.from
+								$searchedDateRangeStore.start_date
 							)}`}
 							fp
-						/>
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
 						/>
 					{/if}
 
@@ -291,12 +254,6 @@
 								dateFrom
 							)} - ${getDayAndMonthJsDate(dateTo)}`}
 							fp
-						/>
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
 						/>
 					{/if}
 				</Box>
@@ -371,37 +328,19 @@
 					<Box ch gap="var(--gap-m)" width="fit-content">
 						<span class="select-tags">SPEAKER:</span>
 						{#key author}
-							<AuthorName disableRedirect mw author={selectedAuthor || ''} />
+							<AuthorName filterSpeaker disableRedirect mw author={selectedAuthor || ''} />
 						{/key}
-						<img
-							src={deleteIcon}
-							on:keyup={deleteSpeakerFromFilter}
-							alt="delete"
-							on:click={deleteSpeakerFromFilter}
-						/>
 					</Box>
 				{/if}
 				<Box ch gap="var(--gap-m)" width="fit-content">
 					{#if $searchedDateTypeStore === 'Last 30 days' || $searchedDateTypeStore === 'Last 3 months'}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo text={$searchedDateTypeStore} fp />
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
-						/>
 					{/if}
 
 					{#if ($searchedDateTypeStore === 'On' || $searchedDateTypeStore === 'Before' || $searchedDateTypeStore === 'After') && dateFrom}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
-						/>
 					{/if}
 
 					{#if $searchedDateTypeStore === 'Range' && dateTo}
@@ -411,12 +350,6 @@
 								dateFrom
 							)} - ${getDayAndMonthJsDate(dateTo)}`}
 							fp
-						/>
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
 						/>
 					{/if}
 				</Box>

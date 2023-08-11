@@ -25,6 +25,7 @@
 				<div>
 					<img class:filterSpeaker src={author.avatar_photo || avatarPlaceholder} alt="author" />
 					<span
+						class="span-color"
 						class:disableRedirect
 						on:keyup={deleteSpeakerFromFilter}
 						on:click={deleteSpeakerFromFilter}>{author.name}</span
@@ -57,6 +58,7 @@
 				<div>
 					<img class:filterSpeaker src={author.avatar_photo || avatarPlaceholder} alt="author" />
 					<span
+						class="span-color"
 						class:disableRedirect
 						on:keyup={deleteSpeakerFromFilter}
 						on:click={deleteSpeakerFromFilter}>{author.name}</span
@@ -122,6 +124,10 @@
 	.filterSpeaker {
 		width: 22px;
 		height: 22px;
+	}
+
+	.span-color {
+		color: var(--white) !important;
 	}
 
 	.delete {

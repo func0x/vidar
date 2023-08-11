@@ -67,6 +67,7 @@
 		font-weight: var(--font-bold);
 		font-size: var(--font-xl);
 		text-align: center;
+		color: var(--aubergine);
 	}
 
 	span {

@@ -15,7 +15,6 @@
 	import TagPanel from './TagPanel.svelte';
 	import Tag from './Tag.svelte';
 	import TagInfo from './TagInfo.svelte';
-	import deleteIcon from '$lib/images/delete.svg';
 
 	export let tags;
 	export let authors;
@@ -115,24 +114,6 @@
 		initSelectTags();
 	};
 
-	const deleteSpeakerFromFilter = () => {
-		author = '';
-		$authorStore = '';
-		selectedAuthor = null;
-		$page.url.searchParams.delete('speaker');
-		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
-	};
-
-	const deleteDateFromFilter = () => {
-		$dateRangeStore = { start_date: null, end_date: null };
-
-		$dateTypeStore = 'Any Time';
-
-		$page.url.searchParams.delete('date');
-		$page.url.searchParams.set('period', JSON.stringify('Any Time'));
-		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
-	};
-
 	onMount(() => {
 		if (
 			$page.url.searchParams.get('tags') &&
@@ -228,36 +209,21 @@
 					<Box ch gap="var(--gap-m)" width="fit-content">
 						<span class="select-tags">SPEAKER:</span>
 						{#key author}
-							<AuthorName disableRedirect mw author={selectedAuthor || ''} />
+							<AuthorName filterSpeaker disableRedirect mw author={selectedAuthor || ''} />
 						{/key}
-						<img
-							src={deleteIcon}
-							on:keyup={deleteSpeakerFromFilter}
-							alt="delete"
-							on:click={deleteSpeakerFromFilter}
-						/>
 					</Box>
 				{/if}
 				<Box ch gap="var(--gap-m)" width="fit-content">
 					{#if $dateTypeStore === 'Last 30 days' || $dateTypeStore === 'Last 3 months'}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo text={$dateTypeStore} fp />
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
-						/>
 					{/if}
 
-					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && $dateRangeStore.from}
+					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && $dateRangeStore.start_date}
 						<span class="select-tags">TIMEFRAME:</span>
-						<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate($dateRangeStore.from)}`} fp />
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
+						<TagInfo
+							text={`${$dateTypeStore} ${getDayAndMonthJsDate($dateRangeStore.start_date)}`}
+							fp
 						/>
 					{/if}
 
@@ -268,12 +234,6 @@
 								dateTo
 							)}`}
 							fp
-						/>
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
 						/>
 					{/if}
 				</Box>
@@ -338,35 +298,17 @@
 						{#key author}
 							<AuthorName disableRedirect mw author={selectedAuthor || ''} />
 						{/key}
-						<img
-							src={deleteIcon}
-							on:keyup={deleteSpeakerFromFilter}
-							alt="delete"
-							on:click={deleteSpeakerFromFilter}
-						/>
 					</Box>
 				{/if}
 				<Box ch gap="var(--gap-m)" width="fit-content">
 					{#if $dateTypeStore === 'Last 30 days' || $dateTypeStore === 'Last 3 months'}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo text={$dateTypeStore} fp />
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
-						/>
 					{/if}
 
 					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && dateFrom}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
-						/>
 					{/if}
 
 					{#if $dateTypeStore === 'Range' && dateTo}
@@ -376,12 +318,6 @@
 								dateTo
 							)}`}
 							fp
-						/>
-						<img
-							src={deleteIcon}
-							alt="delete"
-							on:keyup={deleteSpeakerFromFilter}
-							on:click={deleteDateFromFilter}
 						/>
 					{/if}
 				</Box>

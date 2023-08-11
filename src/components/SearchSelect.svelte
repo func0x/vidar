@@ -56,7 +56,7 @@
 		border: 1px solid var(--grey-500);
 		border-radius: var(--border-radius);
 		height: 40px;
-		width: 120px;
+		width: 90px;
 		display: flex;
 		align-items: center;
 		padding: 12px 16px;
@@ -80,7 +80,7 @@
 		border: 1px solid var(--grey-500);
 		background-color: var(--white);
 		border-radius: var(--border-radius);
-		width: 120px;
+		width: 90px;
 		z-index: 1;
 	}
 

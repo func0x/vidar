@@ -76,7 +76,7 @@
 		border: 1px solid var(--grey-500);
 		background-color: var(--white);
 		border-radius: var(--border-radius);
-		width: 120px;
+		width: 90px;
 		z-index: 1;
 	}
 

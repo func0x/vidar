@@ -26,7 +26,7 @@ export const searchedFiltered = derived(
 		$searchedDateRangeStore,
 		$searchedSortDirectionStore
 	]) => {
-		let events = $searchedEventsStore;
+		let events = [...$searchedEventsStore];
 
 		events = events.filter((item) => {
 			const isExist = item.authors.filter((y) => {
@@ -76,10 +76,6 @@ export const searchedFiltered = derived(
 			);
 		}
 
-		if ($searchedSortDirectionStore === 'Latest') {
-			return events.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
-		}
-
-		return events.sort((a, b) => (a.datetime < b.datetime ? -1 : 1));
+		return events.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
 	}
 );
