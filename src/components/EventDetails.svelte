@@ -36,15 +36,15 @@
 				{#key $selectedTagsStore || $searchedSelectedTagsStore}
 					<TagPanel>
 						{#each event.tags as tag}
-							<Tag redirect text={tag} />
+							<Tag text={tag} />
 						{/each}
 					</TagPanel>
 				{/key}
-				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}/`}>
 					<h1 class:titleUnlimited class:hover class:eventCard>{event.title}</h1>
 				</a>
 				<EventAuthor authors={event.authors} timestamp={event.datetime} />
-				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}/`}>
 					<p>
 						{event.description}
 					</p>
@@ -67,7 +67,7 @@
 				{/each}
 			</TagPanel>
 			{#if exploreSimilar}
-				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}/`}>
 					<h1 class:hover class:eventCard>{event.title}</h1>
 				</a>
 			{:else}
@@ -104,8 +104,8 @@
 			<Box df gap="var(--gap-s)">
 				<Avatar authors={event.authors} />
 				<Box df fd="column" gap="var(--gap-xs)">
-					<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
-						<h1>{event.title}</h1>
+					<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}/`}>
+						<h1 class:hover>{event.title}</h1>
 					</a>
 					<EventAuthor bind:open authors={event.authors} timestamp={event.datetime} />
 				</Box>
@@ -128,7 +128,7 @@
 						<Tag text={tag} redirect />
 					{/each}
 				</TagPanel>
-				<h1 class:eventCard>{event.title}</h1>
+				<h1 class:hover class:eventCard>{event.title}</h1>
 				<EventAuthor videoFooter authors={event.authors} timestamp={event.datetime} />
 				<p>
 					{event.description}

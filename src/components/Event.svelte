@@ -13,7 +13,7 @@
 <MediaQuery query="(min-width: 1115px)" let:matches>
 	{#if matches}
 		<div class="container">
-			<a href={`/event/${replaceParamUrl(event.title)}`}>
+			<a href={`/event/${replaceParamUrl(event.title)}/`}>
 				<img src={event.event_photo} alt="event" />
 			</a>
 			{#if event.video.title === ''}

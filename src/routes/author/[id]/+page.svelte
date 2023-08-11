@@ -15,7 +15,7 @@
 
 <Box height="290px">
 	<Box cvh gap="var(--gap-m)" fd="column">
-		<a href={data.author.contact.profile}>
+		<a href={`${data.author.contact.profile}/`}>
 			<img src={data.author.avatar_photo || placeholder} alt={data.author.name} />
 		</a>
 		<Box cvh bg="transparent" fd="column" width="fit-content" height="fit-content">

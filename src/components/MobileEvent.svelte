@@ -1,5 +1,6 @@
 <script>
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
+	import { replaceParamUrl } from '../utils/replace';
 	import Avatar from './Avatar.svelte';
 	import Box from './Box.svelte';
 	import EventAuthor from './EventAuthor.svelte';
@@ -20,13 +21,13 @@
 			position="relative"
 			hover
 		>
-			<a href="/event/{event.id}">
+			<a href={`/event/${replaceParamUrl(event.title)}/`}>
 				<img src={event.event_photo} alt="upcoming" />
 			</a>
 			<Box df gap="var(--gap-s)">
 				<Avatar authors={event.authors} />
 				<Box df fd="column" gap="var(--gap-xs)">
-					<a href="/event/{event.id}">
+					<a href={`/event/${replaceParamUrl(event.title)}/`}>
 						<h1>{event.title}</h1>
 					</a>
 					<Box position="relative" hover>
@@ -40,13 +41,13 @@
 		</Box>
 	{:else}
 		<Box height="fit-content" df fd="column" gap="var(--gap-s)" position="relative">
-			<a href="/event/{event.id}">
+			<a href={`/event/${replaceParamUrl(event.title)}/`}>
 				<img src={event.event_photo} alt="upcoming" />
 			</a>
 			<Box df gap="var(--gap-s)">
 				<Avatar authors={event.authors} />
 				<Box df fd="column" gap="var(--gap-xs)">
-					<a href="/event/{event.id}">
+					<a href={`/event/${replaceParamUrl(event.title)}/`}>
 						<h1>{event.title}</h1>
 					</a>
 					<EventAuthor notFound bind:open authors={event.authors} timestamp={event.datetime} />

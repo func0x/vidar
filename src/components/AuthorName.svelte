@@ -42,7 +42,7 @@
 				<span class:disableRedirect>{author.name}</span>
 			{:else}
 				<img src={author.avatar_photo || avatarPlaceholder} alt="author" />
-				<a href="/author/{author.id}"><span>{author.name}</span></a>
+				<a href={`/author/${author.id}/`}><span>{author.name}</span></a>
 			{/if}
 		</Box>
 	{:else}
@@ -74,7 +74,7 @@
 				<span class:disableRedirect>{author.name}</span>
 			{:else}
 				<img src={author.avatar_photo || avatarPlaceholder} alt="author" />
-				<a href="/author/{author.id}"><span>{author.name}</span></a>
+				<a href={`/author/${author.id}/`}><span>{author.name}</span></a>
 			{/if}
 		</Box>
 	{/if}
