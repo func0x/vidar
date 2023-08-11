@@ -7,17 +7,26 @@
 	export let slider;
 	export let volumeBtn;
 	let volume;
+	let background;
 
 	const muteVideo = () => {
 		if (video.volume !== 0) {
 			volume = video.volume;
+			background = slider.style.background;
 			video.volume = 0;
 			volumeBtn.firstChild.src = muteIcon;
 			slider.value = 0;
+			slider.style.background =
+				'linear-gradient(to right, white 0%, white ' +
+				0 * 100 +
+				'%, #595959 ' +
+				0 * 100 +
+				'%, #595959 100%)';
 		} else {
 			video.volume = volume;
 			volumeBtn.firstChild.src = volumeIcon;
 			slider.value = volume;
+			slider.style.background = background;
 		}
 	};
 
@@ -98,7 +107,6 @@
 		accent-color: white;
 		height: 6px;
 		border-radius: 2000px;
-		border: 1px solid #928f94;
 		width: 55px;
 		outline: none;
 		cursor: pointer;
