@@ -69,15 +69,6 @@ a {
 	opacity: 1;
 }
 
-@keyframes change-recent-tag-bg-color-hover {
-	from {
-		background-color: var(--grey-300);
-	}
-	to {
-		background-color: var(--grey-700);
-	}
-}
-
 @keyframes dropdown-fade-in {
 	0% {
 		opacity: 0;

@@ -20,6 +20,7 @@
 	export let ds = false; // disable display scroll
 	export let di = false; // display: inherit
 	export let tp = false; // TagPanel component box
+	export let fp = false; // TagPanel component box - FilterPanel
 	export let la = false; // left tag panel arrow
 	export let ra = false; // right tag panel arrow
 	export let boxRef = null;
@@ -48,7 +49,7 @@
 </script>
 
 {#if tp || la || ra}
-	<div bind:this={boxRef} class={filterPanelCss} class:la class:ra class:ds>
+	<div bind:this={boxRef} class={filterPanelCss} class:la class:ra class:ds class:fp>
 		<slot />
 	</div>
 {:else}
@@ -61,7 +62,6 @@
 		class:jsb
 		class:je
 		class:hover
-		class:tp
 		class:la
 		class:ra
 		class={boxCss}
@@ -111,6 +111,11 @@
 
 	.hover:hover > :global(.multiple-speakers-list-wrapper) {
 		display: flex;
+	}
+
+	.fp > :global(span:first-of-type) {
+		background-color: var(--aubergine);
+		color: var(--white);
 	}
 
 	.la {

@@ -6,6 +6,11 @@
 	import nextArrow from '$lib/images/next_arrow.svg';
 
 	export let tags;
+	export let fp = false; // FilterPanel
+	export let tagBg = 'var(--grey-300)';
+	export let hbg = 'var(--grey-700)'; // tag hover bg color
+	export let hc = 'var(--white)'; // hover color
+	export let fs = 'var(--font-s)'; // font size
 
 	let boxRef;
 	let leftArrowRef;
@@ -52,7 +57,7 @@
 	};
 </script>
 
-<Box tp ds bind:boxRef>
+<Box tp {fp} ds bind:boxRef>
 	<Box la bind:boxRef={leftArrowRef}>
 		<img
 			src={backArrow}
@@ -62,7 +67,7 @@
 		/>
 	</Box>
 	{#each tags as tag}
-		<Tag text={tag} />
+		<Tag text={tag} bg={tagBg} {hbg} {hc} {fs} />
 	{/each}
 	<Box ra bind:boxRef={rightArrrowRef}>
 		<img
