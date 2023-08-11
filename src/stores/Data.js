@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-const modules = import.meta.glob('../lib/event_data/*/*.json');
+const modules = import.meta.glob('../../event_data/*/*.json');
 
 export const eventsStore = writable([]);
 export const selectedTagsStore = writable([]);
@@ -8,7 +8,7 @@ export const authorStore = writable('');
 export const sortDirectionStore = writable('Latest');
 
 const replacePath = (path) => {
-	return path.replace('../', '').replace('/data.json', '');
+	return path.replace('../..', '').replace('/data.json', '');
 };
 
 async function getFromModules(res) {
@@ -22,7 +22,7 @@ async function getFromModules(res) {
 				{
 					...mod.default,
 					id: i,
-					event_photo: `/src/${replacePath(path)}/${mod.event_photo}`,
+					event_photo: `${replacePath(path)}/${mod.event_photo}`,
 					assets: {
 						slides: { path: `${replacePath(path)}/${mod.assets.slides}`, name: mod.assets.slides }
 					},

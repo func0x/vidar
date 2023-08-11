@@ -1,6 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import path from 'path';
 import json from '@rollup/plugin-json';
+import { searchForWorkspaceRoot } from 'vite';
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -8,6 +9,11 @@ const config = {
 	resolve: {
 		alias: {
 			src: path.resolve('src/')
+		}
+	},
+	server: {
+		fs: {
+			allow: ['./event_data']
 		}
 	}
 };
