@@ -115,17 +115,11 @@
 	};
 
 	const deleteDateFromFilter = () => {
-		dateFrom = null;
-		dateTo = null;
-
-		dateRangeStore.set({
-			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-			to: jsDateToLuxonTimestamp(dateTo, 'to')
-		});
+		$dateRangeStore = { from: null, to: null };
 
 		$dateTypeStore = 'Any Time';
 
-		$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
+		$page.url.searchParams.set('date', JSON.stringify({ from: null, to: null }));
 		$page.url.searchParams.set('period', JSON.stringify('Any Time'));
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};

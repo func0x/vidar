@@ -50,7 +50,7 @@
 		text-transform: uppercase;
 		display: flex;
 		align-items: center;
-		gap: var(--gap-m);
+		gap: var(--gap-s);
 		cursor: pointer;
 		font-size: var(--font-m);
 	}
