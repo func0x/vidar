@@ -13,7 +13,7 @@
 	export let duration;
 	export let slider;
 	export let volumeBtn;
-	let fullScreenIcon;
+	export let fullScreenIcon;
 	let playbackListOpen = false;
 	let videoSpeed = [
 		{ key: '0.25', value: 0.25 },

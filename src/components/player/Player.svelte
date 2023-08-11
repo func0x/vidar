@@ -3,6 +3,8 @@
 	import noVideo from '$lib/images/no_video.svg';
 	import volumeIcon from '$lib/images/volume.svg';
 	import muteIcon from '$lib/images/mute.svg';
+	import fullscreen from '$lib/images/fullscreen.svg';
+	import closeFullScreen from '$lib/images/exit_fullscreen.svg';
 	import Controls from './Controls.svelte';
 	import Timeline from './Timeline.svelte';
 	import { onMount } from 'svelte';
@@ -18,6 +20,7 @@
 	let duration;
 	let slider;
 	let volumeBtn;
+	let fullScreenIcon;
 
 	const togglePlay = () => {
 		if (video) {
@@ -71,6 +74,14 @@
 		}
 	};
 
+	const toggleFullscreen = () => {
+		if (document.fullscreenElement == null) {
+			fullScreenIcon.src = fullscreen;
+		} else {
+			fullScreenIcon.src = closeFullScreen;
+		}
+	};
+
 	const keyDownEvent = (event) => {
 		const tagName = document.activeElement.tagName.toLowerCase();
 		if (tagName === 'input') {
@@ -116,12 +127,17 @@
 	</Box>
 {:else}
 	<div class="video-section-container">
-		<div bind:this={videoContainer} class="video-container paused">
+		<div
+			bind:this={videoContainer}
+			on:fullscreenchange={toggleFullscreen}
+			class="video-container paused"
+		>
 			<div class="video-controls-container">
 				<Timeline bind:progress bind:thumb {duration} {video} timestamps={event.video.timestamps} />
 				<Controls
 					{videoContainer}
 					{video}
+					bind:fullScreenIcon
 					bind:slider
 					bind:volumeBtn
 					{duration}
