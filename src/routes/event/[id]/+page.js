@@ -1,8 +1,9 @@
 import { redirect } from '@sveltejs/kit';
+import { replaceParamUrl } from 'src/utils/replace';
 
-const findEvent = async (id, events) => {
+const findEvent = async (title, events) => {
 	const event = events.find((item) => {
-		return item.id === parseInt(id, 10);
+		return replaceParamUrl(item.title) === title;
 	});
 
 	if (event !== undefined) {

@@ -1,5 +1,6 @@
 <script>
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
+	import { replaceParamUrl } from 'src/utils/replace';
 	import EventDetails from './EventDetails.svelte';
 	import TagInfo from './TagInfo.svelte';
 	import Upcoming from './Upcoming.svelte';
@@ -11,7 +12,7 @@
 <MediaQuery query="(min-width: 1115px)" let:matches>
 	{#if matches}
 		<div class="container">
-			<a href="/event/{event.id}">
+			<a href={`/event/${replaceParamUrl(event.title)}`}>
 				<img src={event.event_photo} alt="event" />
 			</a>
 			{#if event.video.title === ''}

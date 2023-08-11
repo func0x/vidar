@@ -1,5 +1,6 @@
 <script>
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
+	import { replaceParamUrl } from 'src/utils/replace';
 	import Avatar from './Avatar.svelte';
 	import Box from './Box.svelte';
 	import EventAuthor from './EventAuthor.svelte';
@@ -23,11 +24,11 @@
 						<Tag text={tag} />
 					{/each}
 				</TagPanel>
-				<a href={isLive ? event.livestream : `/event/${event.id}`}>
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
 					<h1 class:hover class:eventCard>{event.title}</h1>
 				</a>
 				<EventAuthor authors={event.authors} timestamp={event.datetime} />
-				<a href={isLive ? event.livestream : `/event/${event.id}`}>
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
 					<p>
 						{event.description}
 					</p>
@@ -66,7 +67,7 @@
 			<Box df gap="var(--gap-s)">
 				<Avatar authors={event.authors} />
 				<Box df fd="column" gap="var(--gap-xs)">
-					<a href={isLive ? event.livestream : `/event/${event.id}`}>
+					<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
 						<h1>{event.title}</h1>
 					</a>
 					<EventAuthor bind:open authors={event.authors} timestamp={event.datetime} />

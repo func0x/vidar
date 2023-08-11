@@ -26,7 +26,7 @@ const importEvents = async () => {
 };
 
 export async function load({ url }) {
-	const regex = new RegExp('^((/event/d*|/author/[a-z]*/?$)|[/]$|/404)', 'g');
+	const regex = new RegExp('^((/event/[a-zA-Z]*|/author/[a-z]*/?$)|[/]$|/404)', 'g');
 
 	if (!regex.test(url.pathname)) {
 		throw redirect(307, '/404');

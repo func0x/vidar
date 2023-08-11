@@ -7,6 +7,7 @@
 	import MultipleSpeakersList from './MultipleSpeakersList.svelte';
 	import TagInfo from './TagInfo.svelte';
 	import { detectLive, detectAfterLive, countDaysAfterLive } from 'src/utils/date';
+	import { replaceParamUrl } from 'src/utils/replace';
 
 	export let event;
 	let open = false;
@@ -19,7 +20,7 @@
 	<MediaQuery query="(min-width: 1750px)" let:matches>
 		{#if matches}
 			<Box cvh height="400px" gap="150px">
-				<a href={isLive ? event.livestream : `/event/${event.id}`}>
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
 					<img src={event.event_photo} alt="upcoming" />
 				</a>
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
@@ -50,7 +51,7 @@
 	<MediaQuery query="(min-width: 1115px) and (max-width: 1749px)" let:matches>
 		{#if matches}
 			<Box cvh height="400px" gap="var(--gap-xl)" padding="0 var(--gap-m)">
-				<a href={isLive ? event.livestream : `/event/${event.id}`}>
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
 					<img src={event.event_photo} alt="upcoming" />
 				</a>
 				<Box height="340px" cvh mw="600px" bg="transparent" gap="10px" fd="column">
@@ -94,7 +95,7 @@
 				{:else if event.video.title === ''}
 					<TagInfo vna text="Not yet available" />
 				{/if}
-				<a href={isLive ? event.livestream : `/event/${event.id}`}>
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
 					<img src={event.event_photo} alt="upcoming" />
 				</a>
 				<Box df gap="var(--gap-s)" padding=" 0 var(--gap-s)">
