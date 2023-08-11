@@ -1,0 +1,11 @@
+# JSON
+src/lib/jsons
+
+### Svelte ###
+node_modules/*
+.svelte-kit/
+package
+dist
+build
+/src/assets/tags.json
+event_data
