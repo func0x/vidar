@@ -25,8 +25,8 @@
 
 {#key $page.params.id}
 	<Player event={data.eventWithRecomendations.event} />
-{/key}
 <EventDetails eventCard videoFooter event={data.eventWithRecomendations.event} />
+{/key}
 {#if data.eventWithRecomendations.recomendedEvents.length > 1}
 	<SectionName title="Explore Similar" />
 	<RecentEvents hover exploreSimilar events={data.eventWithRecomendations.recomendedEvents} />
