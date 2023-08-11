@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import Box from 'src/components/Box.svelte';
 	import MobileEvent from 'src/components/MobileEvent.svelte';
@@ -18,6 +19,13 @@
 	};
 
 	findEvent();
+
+	onMount(() => {
+		const loader = document.querySelector('.loader');
+		const application = document.querySelector('.application');
+		loader.style.display = 'none';
+		application.style.display = 'block';
+	});
 </script>
 
 <svelte:head>

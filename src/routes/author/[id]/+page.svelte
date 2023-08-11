@@ -23,9 +23,13 @@
 
 <Box height="290px">
 	<Box cvh gap="var(--gap-m)" fd="column">
-		<a href={`${data.author.contact.profile}/`}>
+		{#if data.author.contact.profile}
+			<a href={`${data.author.contact.profile}/`}>
+				<img src={data.author.avatar_photo || placeholder} alt={data.author.name} />
+			</a>
+		{:else}
 			<img src={data.author.avatar_photo || placeholder} alt={data.author.name} />
-		</a>
+		{/if}
 		<Box cvh bg="transparent" fd="column" width="fit-content" height="fit-content">
 			<span class="author-name">{data.author.name}</span>
 			<span class="job-position-location">{data.author.job_position}</span>
