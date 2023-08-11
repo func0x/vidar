@@ -29,8 +29,8 @@
 	}
 
 	.live {
-		background-color: var(--green);
-		color: var(--black);
+		background-color: var(--red);
+		color: var(--white);
 	}
 
 	.vna {
