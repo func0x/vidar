@@ -161,24 +161,22 @@
 					bind:totalTime
 				/>
 			</div>
-			<div class="video-wrapper">
-				<video
-					bind:this={video}
-					bind:duration
-					on:click={togglePlay}
-					on:timeupdate={currentTimeVideo}
-					on:play={() => {
-						videoContainer.classList.remove('paused');
-					}}
-					on:pause={() => {
-						videoContainer.classList.add('paused');
-					}}
-					type="video/mp4"
-					src={event.video.name}
-				>
-					<track kind="captions" />
-				</video>
-			</div>
+			<video
+				bind:this={video}
+				bind:duration
+				on:click={togglePlay}
+				on:timeupdate={currentTimeVideo}
+				on:play={() => {
+					videoContainer.classList.remove('paused');
+				}}
+				on:pause={() => {
+					videoContainer.classList.add('paused');
+				}}
+				type="video/mp4"
+				src={event.video.name}
+			>
+				<track kind="captions" />
+			</video>
 		</div>
 	</div>
 {/if}
@@ -223,13 +221,6 @@
 		display: flex;
 		position: relative;
 		justify-content: center;
-	}
-
-	.video-wrapper {
-		display: grid;
-		justify-content: center;
-		align-items: center;
-		grid-area: video;
 	}
 
 	.video-controls-container {
