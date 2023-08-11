@@ -14,6 +14,7 @@
 	export let je = false; // justify-content: end
 	export let position = 'static';
 	export let top = 'unset';
+	export let bottom = 'unset';
 	export let left = 'unset';
 	export let df = false; // display: flex
 	export let hover = false; // on container hover efect
@@ -41,6 +42,7 @@
 		position: ${position};
 		top: ${top};
 		left: ${left};
+		bottom: ${bottom};
 		border: ${border};
 	`;
 
