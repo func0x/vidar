@@ -3,8 +3,12 @@
 	import Box from './Box.svelte';
 	import backArrow from '$lib/images/back_arrow.svg';
 	import nextArrow from '$lib/images/next_arrow.svg';
+	import { selectedTagsStore } from '../stores/Data';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let fp = false; // FilterPanel
+	export let disableSelect = false;
 
 	export let boxRef;
 	let leftArrowRef;
@@ -23,22 +27,40 @@
 	};
 
 	const initSelectedTag = () => {
-		boxRef.children[1].style.backgroundColor = 'var(--aubergine)';
-		boxRef.children[1].style.color = 'var(--white)';
-		boxRef.children[1].style.pointerEvents = 'none';
+		Object.entries(boxRef.children).forEach(([_, value]) => {
+			if (value.localName === 'span' && $selectedTagsStore.includes(value.innerText)) {
+				value.style.backgroundColor = 'var(--aubergine)';
+				value.style.color = 'var(--white)';
+				// value.style.pointerEvents = 'none';
+			} else if (value.localName === 'span' && !$selectedTagsStore.includes(value.innerText)) {
+				value.style.backgroundColor = 'var(--grey-300)';
+				value.style.color = 'var(--aubergine)';
+
+				// value.style.pointerEvents = 'auto';
+			}
+		});
 	};
 
 	const changeSelected = (event) => {
 		Object.entries(boxRef.children).forEach(([_, value]) => {
 			if (value.localName === 'span') {
 				if (value === event.target) {
-					value.style.backgroundColor = 'var(--aubergine)';
-					value.style.color = 'var(--white)';
-					value.style.pointerEvents = 'none';
+					if (!$selectedTagsStore.includes(value.innerText)) {
+						value.style.backgroundColor = 'var(--aubergine)';
+						value.style.color = 'var(--white)';
+						// value.style.pointerEvents = 'none';
+						$selectedTagsStore = [...$selectedTagsStore, value.innerText];
+						$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
+						goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+					} else {
+						$selectedTagsStore = $selectedTagsStore.filter((x) => x !== value.innerText);
+						$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
+						goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+					}
 				} else {
-					value.style.backgroundColor = 'var(--white)';
+					value.style.backgroundColor = 'var(--grey-300)';
 					value.style.color = 'var(--aubergine)';
-					value.style.pointerEvents = 'auto';
+					// value.style.pointerEvents = 'auto';
 				}
 			}
 		});
@@ -57,7 +79,12 @@
 
 		window.addEventListener('resize', () => showArrows());
 
-		if (fp) {
+		// if (fp) {
+		// 	initSelectedTag();
+		// 	addClickTagEvent();
+		// }
+		// initSelectedTag();
+		if (!$page.url.pathname.includes('/event/')) {
 			initSelectedTag();
 			addClickTagEvent();
 		}

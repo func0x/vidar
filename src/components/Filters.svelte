@@ -55,7 +55,7 @@
 	<span class="select-tags">Select tags</span>
 	<Box bind:boxRef df fw gap="var(--gap-m)">
 		{#each tags as tag}
-			<Tag nh text={tag} bg={tagBg} {hbg} {hc} {fs} />
+			<Tag text={tag} bg={tagBg} {hbg} {hc} {fs} />
 		{/each}
 	</Box>
 </Box>

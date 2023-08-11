@@ -9,6 +9,7 @@
 	import EventAuthor from './EventAuthor.svelte';
 	import Tag from './Tag.svelte';
 	import TagPanel from './TagPanel.svelte';
+	import { selectedTagsStore } from '../stores/Data';
 
 	export let event;
 	export let eventCard = false;
@@ -29,11 +30,13 @@
 	{#if matches && !videoFooter}
 		<Box bg="transparent" df di gap="var(--gap-s)" fd="column" height="fit-content">
 			<svelte:fragment>
-				<TagPanel>
-					{#each event.tags as tag}
-						<Tag text={tag} />
-					{/each}
-				</TagPanel>
+				{#key $selectedTagsStore}
+					<TagPanel>
+						{#each event.tags as tag}
+							<Tag text={tag} />
+						{/each}
+					</TagPanel>
+				{/key}
 				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
 					<h1 class:hover class:eventCard>{event.title}</h1>
 				</a>

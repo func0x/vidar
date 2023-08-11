@@ -1,6 +1,6 @@
 <script>
 	import { css, keyframes } from '@emotion/css';
-	import deleteIcon from '$lib/images/delete.svg';
+	import deleteIcon from '$lib/images/delete_white.svg';
 	import { selectedTagsStore } from 'src/stores/Data';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
@@ -11,8 +11,8 @@
 	export let hc = 'var(--white)'; // hover color
 	export let fs = 'var(--font-s)'; // font size
 	export let ft = false; // delete tag from filters
-	export let onDelete = () => {};
-	export let nh = false; // no hover effect
+	export let onDelete = undefined;
+	// export let nh = false; // no hover effect
 
 	const changeTagColorHover = keyframes`
 		from {
@@ -24,29 +24,26 @@
 		}
 `;
 
-	const tagCss =
-		nh === false
-			? css`
-					background-color: ${bg};
-					font-size: ${fs};
-			  `
-			: css`
-					background-color: ${bg};
-					font-size: ${fs};
-					cursor: pointer;
+	const tagCss = css`
+		background-color: ${bg};
+		font-size: ${fs};
+		cursor: pointer;
 
-					&:hover {
-						background-color: ${hbg} !important;
-						color: ${hc} !important;
-						animation: ${changeTagColorHover} 0.75s;
-					}
-			  `;
+		&:hover {
+			background-color: ${hbg} !important;
+			color: ${hc} !important;
+			animation: ${changeTagColorHover} 0.75s;
+		}
+	`;
 </script>
 
 {#if ft}
 	<span class={tagCss}>
 		<div class:ft>
-			<span on:click={() => onDelete(text)} on:keyup={() => onDelete(text)}>{text}</span>
+			<span
+				on:click={onDelete !== undefined ? () => onDelete(text) : () => {}}
+				on:keyup={() => onDelete(text)}>{text}</span
+			>
 			<img
 				src={deleteIcon}
 				on:click={() => onDelete(text)}
@@ -67,10 +64,10 @@
 		border-radius: var(--border-radius-xl);
 		display: flex;
 		white-space: nowrap;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
+		/* -webkit-user-select: none; */
+		/* -moz-user-select: none; */
+		/* -ms-user-select: none; */
+		/* user-select: none; */
 	}
 
 	.ft {

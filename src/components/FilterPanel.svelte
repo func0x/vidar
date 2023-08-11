@@ -75,15 +75,17 @@
 	const changeSelected = (event) => {
 		Object.entries(boxRef.children).forEach(([_, value]) => {
 			if (value === event.target) {
-				if (selectedTags.has(value.textContent)) {
+				if (new Set(JSON.parse($page.url.searchParams.get('tags'))).has(value.textContent)) {
 					selectedTags.delete(value.textContent);
+					$selectedTagsStore = $selectedTagsStore.filter((x) => x !== value.textContent);
 				} else {
 					selectedTags.add(value.textContent);
+					$selectedTagsStore = [...$selectedTagsStore, value.innerText];
 				}
 
 				params = Array.from(selectedTags);
-				$page.url.searchParams.set('tags', JSON.stringify(params));
-				selectedTagsStore.set(params);
+				$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
+				// selectedTagsStore.set(params);
 				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 			}
 		});
@@ -149,7 +151,11 @@
 					'date',
 					JSON.stringify({ from: $dateRangeStore.from, to: $dateRangeStore.to })
 				);
-				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true, keepFocus:true });
+				goto(`?${$page.url.searchParams.toString()}`, {
+					noScroll: true,
+					replaceState: true,
+					keepFocus: true
+				});
 			}
 		});
 
@@ -255,17 +261,19 @@
 			</Box>
 
 			{#if open}
-				<Filters
-					bind:dateFrom
-					bind:dateTo
-					bind:selectedAuthor
-					bind:author
-					bind:boxRef
-					{tags}
-					{authors}
-					tagClickEvent={addClickTagEvent}
-					{initSelectTags}
-				/>
+				{#key $selectedTagsStore}
+					<Filters
+						bind:dateFrom
+						bind:dateTo
+						bind:selectedAuthor
+						bind:author
+						bind:boxRef
+						{tags}
+						{authors}
+						tagClickEvent={addClickTagEvent}
+						{initSelectTags}
+					/>
+				{/key}
 			{/if}
 		</Box>
 	{:else}
@@ -363,18 +371,20 @@
 			</Box>
 
 			{#if open}
-				<Filters
-					bind:dateFrom
-					bind:dateTo
-					bind:selectedAuthor
-					bind:author
-					bind:boxRef
-					dc
-					{tags}
-					{authors}
-					tagClickEvent={addClickTagEvent}
-					{initSelectTags}
-				/>
+				{#key $selectedTagsStore}
+					<Filters
+						bind:dateFrom
+						bind:dateTo
+						bind:selectedAuthor
+						bind:author
+						bind:boxRef
+						dc
+						{tags}
+						{authors}
+						tagClickEvent={addClickTagEvent}
+						{initSelectTags}
+					/>
+				{/key}
 			{/if}
 		</Box>
 	{/if}
