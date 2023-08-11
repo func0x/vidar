@@ -36,7 +36,9 @@
 			bg="var(--white)"
 			zindex="10"
 		>
-			<img on:click={goToClearHome} on:keyup={goToClearHome} src={logo} alt="logo" />
+			<a href="/" on:click={goToClearHome}>
+				<img src={logo} alt="logo" />
+			</a>
 			{#if $page.url.pathname !== '/search/'}
 				<form on:submit|preventDefault={redirectToSearch}>
 					<input name="query" bind:value={query} placeholder="Search..." />
