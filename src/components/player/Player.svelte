@@ -1,4 +1,5 @@
 <script>
+	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import Box from 'src/components/Box.svelte';
 	import noVideo from '$lib/images/no_video.svg';
 	import volumeIcon from '$lib/images/volume.svg';
@@ -117,10 +118,27 @@
 
 {#if event.video.title === ''}
 	<Box height="720px" bg="black" cvh>
-		<Box df gap="var(--gap-xl)" width="fit-content" height="fit-content" bg="transparent" ch>
-			<img src={noVideo} alt="no-video" />
-			<span>VIDEO NOT YET AVAILABLE</span>
-		</Box>
+		<MediaQuery query="(min-width: 1115px)" let:matches>
+			{#if matches}
+				<Box df gap="var(--gap-xl)" width="fit-content" height="fit-content" bg="transparent" ch>
+					<img src={noVideo} alt="no-video" />
+					<span>VIDEO NOT YET AVAILABLE</span>
+				</Box>
+			{:else}
+				<Box
+					df
+					fd="column"
+					gap="var(--gap-xl)"
+					width="fit-content"
+					height="fit-content"
+					bg="transparent"
+					ch
+				>
+					<img src={noVideo} alt="no-video" />
+					<span>VIDEO NOT YET AVAILABLE</span>
+				</Box>
+			{/if}
+		</MediaQuery>
 	</Box>
 {:else}
 	<div class="video-section-container">
