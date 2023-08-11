@@ -2,16 +2,21 @@
 	import Box from '../Box.svelte';
 	import logo from '$lib/images/vidar.svg';
 	import search from '$lib/images/search.svg';
+	import UseMediaQuery from 'src/hooks/UseMediaQuery.svelte';
 </script>
 
 <Box ch jsb height="70px" padding="0 var(--gap-l)">
 	<a href="/">
 		<img src={logo} alt="logo" />
 	</a>
-	<div>
-		<input />
-		<button><img class="search-icon" src={search} alt="search" /></button>
-	</div>
+	<UseMediaQuery query="(min-width: 1115px)" let:matches>
+		{#if matches}
+			<div>
+				<input />
+				<button><img class="search-icon" src={search} alt="search" /></button>
+			</div>
+		{/if}
+	</UseMediaQuery>
 </Box>
 
 <style>
