@@ -6,6 +6,7 @@
 	import { searchedDateTypeStore, searchedSortDirectionStore } from 'src/stores/SearchData';
 
 	import { onMount } from 'svelte';
+	import { searchedDateRangeStore } from '../stores/SearchData';
 	import Box from './Box.svelte';
 
 	export let options;
@@ -27,6 +28,7 @@
 		$searchedDateTypeStore = value;
 
 		if ($searchedDateTypeStore === 'Any Time') {
+			$searchedDateRangeStore = { from: null, to: null };
 			$page.url.searchParams.delete('date');
 		}
 

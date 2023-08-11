@@ -3,9 +3,10 @@
 
 	import { page } from '$app/stores';
 
-	import { dateTypeStore, sortDirectionStore } from 'src/stores/Data';
+	import { dateTypeStore } from 'src/stores/Data';
 
 	import { onMount } from 'svelte';
+	import { dateRangeStore } from '../stores/Data';
 	import Box from './Box.svelte';
 
 	export let options;
@@ -28,6 +29,7 @@
 
 		if ($dateTypeStore === 'Any Time') {
 			$page.url.searchParams.delete('date');
+			$dateRangeStore = { from: null, to: null };
 		}
 		$page.url.searchParams.set('period', JSON.stringify(value));
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
@@ -40,7 +42,7 @@
 	const changeSelected = (event) => {
 		const name = event.target.getAttribute('name');
 		selected = name;
-		sortDirectionStore.set(name);
+		dateTypeStore.set(name);
 		changeSelectedOption(optionsContainer.childNodes, selected);
 	};
 </script>

@@ -116,6 +116,7 @@
 	const deleteSpeakerFromFilter = () => {
 		author = '';
 		$authorStore = '';
+		selectedAuthor = null;
 		$page.url.searchParams.delete('speaker');
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
