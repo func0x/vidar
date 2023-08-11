@@ -11,7 +11,7 @@ const importEvents = async () => {
 
 	const events = await jsonEvents();
 	eventsStore.set(
-		events.filter((x) => x.upcoming === false).sort((a, b) => a.datetime < b.datetime)
+		events.filter((x) => x.upcoming === false).sort((a, b) => (a.datetime < b.datetime ? 1 : -1))
 	);
 
 	const now = Date.now() / 1000;

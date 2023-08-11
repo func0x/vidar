@@ -4,19 +4,11 @@
 	import Select from './Select.svelte';
 	import filter from '$lib/images/filter.svg';
 	import filterWhite from '$lib/images/filter_white.svg';
-	import Tag from './Tag.svelte';
-	import DatePicker from './DatePicker.svelte';
-	import AuthorInput from './AuthorInput.svelte';
+	import SelectTag from './SelectTag.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import {
-		authorStore,
-		dateRangeStore,
-		dateTypeStore,
-		eventsStore,
-		selectedTagsStore
-	} from 'src/stores/Data';
+	import { authorStore, dateRangeStore, dateTypeStore, selectedTagsStore } from 'src/stores/Data';
 	import { getDayAndMonthJsDate, jsDateToLuxonTimestamp } from 'src/utils/date';
 	import deleteIcon from '$lib/images/delete.svg';
 	import AuthorName from './AuthorName.svelte';
@@ -41,11 +33,13 @@
 	let dateFrom =
 		JSON.parse($page.url.searchParams.get('date'))?.from != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).from)
-			: new Date($eventsStore.reduce((x, y) => (x.datetime > y.datetime ? y : x)).datetime * 1000);
+			: // : new Date($eventsStore.reduce((x, y) => (x.datetime > y.datetime ? y : x)).datetime * 1000);
+			  null;
 	let dateTo =
 		JSON.parse($page.url.searchParams.get('date'))?.to != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).to)
-			: new Date(Date.now());
+			: // : new Date(Date.now());
+			  null;
 	let selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
 	let params = Array.from(selectedTags);
 	let author = JSON.parse($page.url.searchParams.get('speaker'));
@@ -150,8 +144,10 @@
 		$authorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
 		const subscribtion = dateRangeStore.subscribe(() => {
-			$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
-			goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+			if (dateFrom || dateTo) {
+				$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
+				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+			}
 		});
 
 		return () => {
@@ -160,32 +156,24 @@
 	});
 </script>
 
-<Box df fd="column" padding="0 var(--gap-l) var(--gap-l) var(--gap-l)" gap="var(--gap-m)">
-	<Box cvh jsb gap="var(--gap-m)">
-		<Box width="fit-content" cvh gap="var(--gap-s)">
-			<span>Sort by:</span>
-			<Select {options} />
-		</Box>
-		<!-- <TagPanel -->
-		<!-- 	tags={categories} -->
-		<!-- 	fp -->
-		<!-- 	tagBg="var(--white)" -->
-		<!-- 	hbg="var(--grey-500)" -->
-		<!-- 	hc="var(--aubergine)" -->
-		<!-- 	fs="var(--font-m)" -->
-		<!-- /> -->
-		<Button
-			icon={filter}
-			bind:ref={buttonRef}
-			onClick={onFiltersButtonClick}
-			text="Filters"
-			bg="var(--white)"
-			border="1px solid var(--grey-500)"
-		/>
-	</Box>
+<MediaQuery query="(min-width: 1750px)" let:matches>
+	{#if matches}
+		<Box df fd="column" padding="0 var(--gap-l) var(--gap-l) var(--gap-l)" gap="var(--gap-m)">
+			<Box cvh jsb gap="var(--gap-m)">
+				<Box width="fit-content" cvh gap="var(--gap-s)">
+					<span>Sort by:</span>
+					<Select {options} />
+				</Box>
+				<Button
+					icon={filter}
+					bind:ref={buttonRef}
+					onClick={onFiltersButtonClick}
+					text="Filters"
+					bg="var(--white)"
+					border="1px solid var(--grey-500)"
+				/>
+			</Box>
 
-	<MediaQuery query="(min-width: 1115px)" let:matches>
-		{#if matches}
 			<Box df fw gap="var(--gap-l)">
 				{#if $selectedTagsStore.length > 0}
 					<Box ch gap="var(--gap-m)" width="fit-content">
@@ -198,11 +186,13 @@
 							fd="column"
 							height="fit-content"
 						>
-							<TagPanel>
-								{#each $selectedTagsStore as tag (tag)}
-									<Tag ft text={tag} onDelete={deleteTagFromFilter} />
-								{/each}
-							</TagPanel>
+							{#key $selectedTagsStore}
+								<TagPanel>
+									{#each $selectedTagsStore as tag (tag)}
+										<Tag ft text={tag} onDelete={deleteTagFromFilter} />
+									{/each}
+								</TagPanel>
+							{/key}
 						</Box>
 					</Box>
 				{/if}
@@ -260,22 +250,53 @@
 					{/if}
 				</Box>
 			</Box>
-		{:else}
+
+			{#if open}
+				<Filters
+					bind:dateFrom
+					bind:dateTo
+					bind:selectedAuthor
+					bind:author
+					bind:boxRef
+					{tags}
+					{authors}
+					tagClickEvent={addClickTagEvent}
+					{initSelectTags}
+				/>
+			{/if}
+		</Box>
+	{:else}
+		<Box df fd="column" padding="0 var(--gap-m) var(--gap-m) var(--gap-m)" gap="var(--gap-s)">
+			<Box cvh jsb gap="var(--gap-m)">
+				<Box width="fit-content" cvh gap="var(--gap-s)">
+					<span>Sort by:</span>
+					<Select {options} />
+				</Box>
+				<Button
+					icon={filter}
+					bind:ref={buttonRef}
+					onClick={onFiltersButtonClick}
+					text="Filters"
+					bg="var(--white)"
+					border="1px solid var(--grey-500)"
+				/>
+			</Box>
+
 			<Box df fd="column" gap="var(--gap-m)">
-				{#if params.length > 0}
+				{#if $selectedTagsStore.length > 0}
 					<Box ch gap="var(--gap-m)" width="fit-content">
 						<span class="select-tags">TAGS:</span>
 						<Box
 							bg="transparent"
-							mw="calc(100vw - 120px)"
+							mw="calc(100vw - 90px)"
 							df
 							gap="var(--gap-s)"
 							fd="column"
 							height="fit-content"
 						>
-							{#key params}
+							{#key $selectedTagsStore}
 								<TagPanel>
-									{#each params as tag (tag)}
+									{#each $selectedTagsStore as tag (tag)}
 										<Tag ft text={tag} onDelete={deleteTagFromFilter} />
 									{/each}
 								</TagPanel>
@@ -297,39 +318,48 @@
 						/>
 					</Box>
 				{/if}
-				{#if dateFrom != null || dateTo != null}
-					<Box ch gap="var(--gap-m)" width="fit-content">
+				<Box ch gap="var(--gap-m)" width="fit-content">
+					{#if $dateTypeStore === 'Last 30 days' || $dateTypeStore === 'Last 3 months'}
 						<span class="select-tags">TIMEFRAME:</span>
-						<Tag text={getDayAndMonthJsDate(dateFrom)} />
-						<span>-</span>
-						<Tag text={getDayAndMonthJsDate(dateTo)} />
+						<TagInfo text={$dateTypeStore} fp />
 						<img
 							src={deleteIcon}
 							alt="delete"
 							on:keyup={deleteSpeakerFromFilter}
 							on:click={deleteDateFromFilter}
 						/>
-					</Box>
-				{/if}
-			</Box>
-		{/if}
-	</MediaQuery>
+					{/if}
 
-	{#if open}
-		<MediaQuery query="(min-width: 1115px)" let:matches>
-			{#if matches}
-				<Filters
-					bind:dateFrom
-					bind:dateTo
-					bind:selectedAuthor
-					bind:author
-					bind:boxRef
-					{tags}
-					{authors}
-					tagClickEvent={addClickTagEvent}
-					{initSelectTags}
-				/>
-			{:else}
+					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && dateFrom}
+						<span class="select-tags">TIMEFRAME:</span>
+						<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
+						<img
+							src={deleteIcon}
+							alt="delete"
+							on:keyup={deleteSpeakerFromFilter}
+							on:click={deleteDateFromFilter}
+						/>
+					{/if}
+
+					{#if $dateTypeStore === 'Range' && dateTo}
+						<span class="select-tags">TIMEFRAME:</span>
+						<TagInfo
+							text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
+								dateTo
+							)}`}
+							fp
+						/>
+						<img
+							src={deleteIcon}
+							alt="delete"
+							on:keyup={deleteSpeakerFromFilter}
+							on:click={deleteDateFromFilter}
+						/>
+					{/if}
+				</Box>
+			</Box>
+
+			{#if open}
 				<Filters
 					bind:dateFrom
 					bind:dateTo
@@ -343,9 +373,9 @@
 					{initSelectTags}
 				/>
 			{/if}
-		</MediaQuery>
+		</Box>
 	{/if}
-</Box>
+</MediaQuery>
 
 <style>
 	span {

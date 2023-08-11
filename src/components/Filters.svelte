@@ -42,7 +42,7 @@
 </script>
 
 <Box df fd="column" gap="var(--gap-m)">
-	<Box df fd={dc ? 'column' : 'row'} gap="var(--gap-l)">
+	<Box df fd={dc ? 'column' : 'row'} gap={dc ? 'var(--gap-m)' : 'var(--gap-l)'}>
 		{#key $dateTypeStore}
 			<SelectTime {options} />
 		{/key}

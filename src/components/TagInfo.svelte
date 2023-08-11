@@ -45,5 +45,9 @@
 			left: 15px;
 			top: 15px;
 		}
+
+		.fp {
+			position: static;
+		}
 	}
 </style>

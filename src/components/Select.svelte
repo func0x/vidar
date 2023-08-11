@@ -18,9 +18,9 @@
 		});
 
 		if (value === 'Latest') {
-			eventsStore.set($eventsStore.sort((a, b) => a.datetime < b.datetime));
+			eventsStore.set($eventsStore.sort((a, b) => (a.datetime < b.datetime ? 1 : -1)));
 		} else {
-			eventsStore.set($eventsStore.sort((a, b) => a.datetime > b.datetime));
+			eventsStore.set($eventsStore.sort((a, b) => (a.datetime < b.datetime ? -1 : 1)));
 		}
 	};
 
