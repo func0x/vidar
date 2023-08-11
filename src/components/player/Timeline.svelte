@@ -66,7 +66,7 @@
 		width: 100%;
 		height: 3px;
 		z-index: 10;
-		background: var(--grey-300);
+		background: rgba(255, 255, 255, 0.35);
 	}
 
 	progress::-moz-progress-bar {
@@ -74,7 +74,7 @@
 	}
 
 	progress::-webkit-progress-bar {
-		background: var(--grey-300);
+		background: rgba(0, 0, 0, 0.35);
 	}
 
 	progress::-webkit-progress-value {
@@ -114,4 +114,3 @@
 		--scale: 2;
 	}
 </style>
-
