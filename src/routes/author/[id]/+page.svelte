@@ -9,7 +9,7 @@
 
 <Box height="290px">
 	<Box cvh gap="var(--gap-m)" fd="column">
-		<img src={data.author.avatar_src || placeholder} alt={data.author.name} />
+		<img src={data.author.avatar_photo || placeholder} alt={data.author.name} />
 		<Box cvh bg="transparent" fd="column" width="fit-content" height="fit-content">
 			<span class="author-name">{data.author.name}</span>
 			<span class="job-position-location">{data.author.job_position}</span>
