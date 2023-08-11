@@ -355,4 +355,8 @@
 	.select-tags {
 		color: var(--grey-700);
 	}
+
+	img {
+		cursor: pointer;
+	}
 </style>
