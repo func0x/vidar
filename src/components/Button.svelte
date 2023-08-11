@@ -11,8 +11,8 @@
 </script>
 
 {#if notFound}
-	<a href="/">
-		<button class:notFound class={buttonCss}>{text} <img src={icon} alt="icon" /></button>
+	<a class:notFound href="/">
+		{text} <img src={icon} alt="icon" />
 	</a>
 {:else}
 	<button class={buttonCss}><img src={icon} alt="icon" /> {text}</button>
@@ -39,6 +39,9 @@
 		color: var(--white);
 		border-radius: 2000px;
 		padding: var(--gap-l);
+		display: flex;
+		align-items: center;
 		gap: var(--gap-xl);
+		background-color: var(--aubergine);
 	}
 </style>
