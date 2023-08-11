@@ -48,8 +48,7 @@
 					<TagInfo vna text="Not yet available" />
 				{/if}
 				<img src={event.event_photo} alt="upcoming" />
-				<Box df gap="var(--gap-s)" padding="0 var(--gap-m)">
-					<Avatar authors={event.authors} />
+				<Box df gap="var(--gap-s)" padding=" 0 var(--gap-s)">
 					<EventDetails bind:open {event} />
 				</Box>
 

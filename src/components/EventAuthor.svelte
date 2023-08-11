@@ -9,6 +9,7 @@
 	export let authors;
 	export let timestamp;
 	export let open = false;
+	export let videoFooter = false;
 	let date;
 
 	onMount(() => {
@@ -56,6 +57,9 @@
 			width="fit-content"
 			hover
 		>
+			{#if videoFooter}
+				<Avatar {authors} />
+			{/if}
 			{#if authors.length >= 2}
 				<span on:click={openAuthorList} on:keyup={openAuthorList} class="author-name"
 					>Multiple speakers</span

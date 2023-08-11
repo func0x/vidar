@@ -1,5 +1,6 @@
 <script>
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
+	import Avatar from './Avatar.svelte';
 	import Box from './Box.svelte';
 	import EventAuthor from './EventAuthor.svelte';
 	import TagPanel from './TagPanel.svelte';
@@ -7,11 +8,31 @@
 	export let event;
 	export let eventCard = false;
 	export let open = false;
+	export let videoFooter = false;
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
-	{#if matches}
+	{#if matches && !videoFooter}
 		<Box bg="transparent" df di gap="var(--gap-s)" fd="column" height="fit-content">
+			<svelte:fragment>
+				<TagPanel tags={event.tags} />
+				<h1 class:eventCard>{event.title}</h1>
+				<EventAuthor authors={event.authors} timestamp={event.datetime} />
+				<p>
+					{event.description}
+				</p>
+			</svelte:fragment>
+		</Box>
+	{/if}
+	{#if matches && videoFooter}
+		<Box
+			bg="transparent"
+			df
+			padding="var(--gap-m) var(--gap-l)"
+			gap="var(--gap-s)"
+			fd="column"
+			height="fit-content"
+		>
 			<svelte:fragment>
 				<TagPanel tags={event.tags} />
 				<h1 class:eventCard>{event.title}</h1>
@@ -25,11 +46,34 @@
 </MediaQuery>
 
 <MediaQuery query="(max-width: 1115px)" let:matches>
-	{#if matches}
+	{#if matches && !videoFooter}
 		<Box df fd="column" gap="var(--gap-xs)">
+			<Box df gap="var(--gap-s)">
+				<Avatar authors={event.authors} />
+				<Box df fd="column" gap="var(--gap-xs)">
+					<h1>{event.title}</h1>
+					<EventAuthor bind:open authors={event.authors} timestamp={event.datetime} />
+				</Box>
+			</Box>
+		</Box>
+	{/if}
+
+	{#if matches && videoFooter}
+		<Box
+			bg="transparent"
+			df
+			gap="var(--gap-s)"
+			padding="var(--gap-s)"
+			fd="column"
+			height="fit-content"
+		>
 			<svelte:fragment>
-				<h1>{event.title}</h1>
-				<EventAuthor bind:open authors={event.authors} timestamp={event.datetime} />
+				<TagPanel tags={event.tags} />
+				<h1 class:eventCard>{event.title}</h1>
+				<EventAuthor videoFooter authors={event.authors} timestamp={event.datetime} />
+				<p>
+					{event.description}
+				</p>
 			</svelte:fragment>
 		</Box>
 	{/if}
