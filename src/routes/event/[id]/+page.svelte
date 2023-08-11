@@ -9,5 +9,7 @@
 
 <Player />
 <EventDetails eventCard videoFooter event={data.eventWithRecomendations.event} />
-<SectionName title="Explore Similar" />
-<RecentEvents events={data.eventWithRecomendations.recomendedEvents} />
+{#if data.eventWithRecomendations.recomendedEvents.length > 1}
+	<SectionName title="Explore Similar" />
+	<RecentEvents events={data.eventWithRecomendations.recomendedEvents} />
+{/if}
