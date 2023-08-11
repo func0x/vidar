@@ -177,7 +177,7 @@
 	});
 </script>
 
-<MediaQuery query="(min-width: 1750px)" let:matches>
+<MediaQuery query="(min-width: 1115px)" let:matches>
 	{#if matches}
 		<Box
 			df
