@@ -3,7 +3,6 @@
 	import Box from './Box.svelte';
 	import Button from './Button.svelte';
 	import arrow from '$lib/images/next_arrow.svg';
-	import Avatar from './Avatar.svelte';
 	import EventDetails from './EventDetails.svelte';
 	import MultipleSpeakersList from './MultipleSpeakersList.svelte';
 	import TagInfo from './TagInfo.svelte';
@@ -68,7 +67,13 @@
 
 <style>
 	img {
-		max-height: 250px;
+		max-height: 340px;
+	}
+
+	@media screen and (max-width: 1749px) {
+		img {
+			max-height: 250px;
+		}
 	}
 
 	@media screen and (max-width: 1114px) {
