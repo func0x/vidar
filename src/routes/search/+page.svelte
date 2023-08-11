@@ -1,14 +1,20 @@
 <script>
 	import Box from 'src/components/Box.svelte';
 	import search from '$lib/images/search.svg';
+	import noFound from '$lib/images/search_no_found.svg';
 	import FilterPanelSearch from 'src/components/FilterPanelSearch.svelte';
 	import RecentEvents from 'src/components/RecentEvents.svelte';
 	import { onMount } from 'svelte';
 	import { eventsStore } from 'src/stores/Data';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	let searched = [];
 	let query = $page.url.searchParams.get('query') || '';
+
+	const redirectToSearch = () => {
+		goto(`/search/?query=${query}`);
+	};
 
 	const findEventsByTitle = (eventsData, titleParam) => {
 		return eventsData.filter((item) => {
@@ -19,22 +25,39 @@
 	onMount(() => {
 		searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
 	});
+
+	$: {
+		if ($page.url.searchParams.get('query')) {
+			searched = findEventsByTitle($eventsStore, $page.url.searchParams.get('query'));
+		}
+	}
 </script>
 
 <Box bg="var(--grey-300)" height="80px" position="relative">
-	<div>
-		<input value={query} />
-		<button><img src={search} alt="search" /></button>
-	</div>
+	<form on:submit|preventDefault={redirectToSearch}>
+		<input name="query" bind:value={query} placeholder="Search..." />
+		<button type="submit"><img src={search} alt="search" /></button>
+	</form>
 </Box>
 
 <Box mt="80px">
-	<FilterPanelSearch authors={[]} tags={[]} {query} count={searched.length} />
-	<RecentEvents events={searched} />
+	<FilterPanelSearch
+		authors={[]}
+		tags={[]}
+		query={$page.url.searchParams.get('query') || 'Unknown parameter'}
+		count={searched.length}
+	/>
+	{#if searched.length > 0}
+		<RecentEvents events={searched} />
+	{:else}
+		<div>
+			<img src={noFound} alt="no-found" />
+		</div>
+	{/if}
 </Box>
 
 <style>
-	div {
+	form {
 		position: absolute;
 		bottom: 0;
 		left: 50%;
