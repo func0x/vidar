@@ -9,7 +9,7 @@
 	const tags = [];
 </script>
 
-<Box cvh jsb padding="0 var(--gap-l)">
+<Box cvh jsb padding="0 var(--gap-l) var(--gap-l) var(--gap-l)">
 	<Box width="fit-content" cvh gap="var(--gap-s)">
 		<span>Sort by:</span>
 		<Select {options} />

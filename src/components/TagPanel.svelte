@@ -12,7 +12,7 @@
 	export let hc = 'var(--white)'; // hover color
 	export let fs = 'var(--font-s)'; // font size
 
-	let boxRef;
+	export let boxRef;
 	let leftArrowRef;
 	let rightArrrowRef;
 
@@ -28,9 +28,45 @@
 		}
 	};
 
+	const initSelectedTag = () => {
+		boxRef.children[1].style.backgroundColor = 'var(--aubergine)';
+		boxRef.children[1].style.color = 'var(--white)';
+		boxRef.children[1].style.pointerEvents = 'none';
+	};
+
+	const changeSelected = (event) => {
+		Object.entries(boxRef.children).forEach(([_, value]) => {
+			if (value.localName === 'span') {
+				if (value === event.target) {
+					value.style.backgroundColor = 'var(--aubergine)';
+					value.style.color = 'var(--white)';
+					value.style.pointerEvents = 'none';
+				} else {
+					value.style.backgroundColor = 'var(--white)';
+					value.style.color = 'var(--aubergine)';
+					value.style.pointerEvents = 'auto';
+				}
+			}
+		});
+	};
+
+	const addClickTagEvent = () => {
+		Object.entries(boxRef.children).forEach(([_, value]) => {
+			if (value.localName === 'span') {
+				value.addEventListener('click', (event) => changeSelected(event));
+			}
+		});
+	};
+
 	onMount(() => {
 		showArrows();
+
 		window.addEventListener('resize', () => showArrows());
+
+		if (fp) {
+			initSelectedTag();
+			addClickTagEvent();
+		}
 	});
 
 	const clickScroll = (scrollValue) => {
@@ -57,7 +93,7 @@
 	};
 </script>
 
-<Box tp {fp} ds bind:boxRef>
+<Box tp ds bind:boxRef>
 	<Box la bind:boxRef={leftArrowRef}>
 		<img
 			src={backArrow}
