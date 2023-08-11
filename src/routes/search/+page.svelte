@@ -72,6 +72,11 @@
 		$searchedEventsStore = searched;
 		authors = Array.from(authorsSet).map((x) => JSON.parse(x));
 		tags = Array.from(tagsSet).sort((a, b) => a.localeCompare(b));
+
+		const loader = document.querySelector('.loader');
+		const application = document.querySelector('.application');
+		loader.style.display = 'none';
+		application.style.display = 'block';
 	});
 </script>
 

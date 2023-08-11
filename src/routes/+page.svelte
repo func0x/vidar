@@ -5,11 +5,19 @@
 	import SectionName from 'src/components/SectionName.svelte';
 	import Upcoming from 'src/components/Upcoming.svelte';
 	import { filtered } from 'src/stores/Data';
+	import { onMount } from 'svelte';
 
 	export let data;
 
 	const { event } = data.all;
 	const { tags, authors } = data;
+
+	onMount(() => {
+		const loader = document.querySelector('.loader');
+		const application = document.querySelector('.application');
+		loader.style.display = 'none';
+		application.style.display = 'block';
+	});
 </script>
 
 <svelte:head>

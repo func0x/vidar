@@ -3,8 +3,16 @@
 	import RecentEvents from 'src/components/RecentEvents.svelte';
 	import SectionName from 'src/components/SectionName.svelte';
 	import placeholder from '$lib/images/avatar_placeholder.svg';
+	import { onMount } from 'svelte';
 
 	export let data;
+
+	onMount(() => {
+		const loader = document.querySelector('.loader');
+		const application = document.querySelector('.application');
+		loader.style.display = 'none';
+		application.style.display = 'block';
+	});
 </script>
 
 <svelte:head>

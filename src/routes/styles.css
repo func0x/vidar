@@ -89,6 +89,53 @@ input:focus {
 	opacity: 1;
 }
 
+.application {
+	display: none;
+}
+
+.loader {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.spinner {
+	position: relative;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+}
+
+.spinner::before,
+.spinner:after {
+	content: '';
+	position: absolute;
+	border-radius: inherit;
+}
+
+.spinner:before {
+	width: 100%;
+	height: 100%;
+	background-image: linear-gradient(0deg, var(--red) 0%, var(--aubergine) 100%);
+	animation: spin 0.5s infinite linear;
+}
+
+.spinner:after {
+	width: 85%;
+	height: 85%;
+	background-color: var(--white);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 @keyframes dropdown-fade-in {
 	0% {
 		opacity: 0;
