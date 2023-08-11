@@ -33,6 +33,7 @@
 	export let className = ''; // CSS class name
 	export let noRes = false; // no results (search)
 	export let bottomBorder = false;
+	export let ar = false; // aspect ratio
 	export let zindex = 'unset';
 
 	let boxCss = css`
@@ -82,6 +83,7 @@
 		class:hover
 		class:la
 		class:ra
+		class:ar
 		class="{boxCss} {className}"
 	>
 		<slot />
@@ -120,6 +122,10 @@
 
 	.di {
 		display: inherit;
+	}
+
+	.ar {
+		aspect-ratio: 16 / 9;
 	}
 
 	.cvh {

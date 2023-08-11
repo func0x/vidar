@@ -120,7 +120,7 @@
 	<Box height="720px" bg="black" cvh>
 		<MediaQuery query="(min-width: 1115px)" let:matches>
 			{#if matches}
-				<Box df gap="var(--gap-xl)" width="fit-content" height="fit-content" bg="transparent" ch>
+				<Box df ar gap="var(--gap-xl)" width="fit-content" height="fit-content" bg="transparent" ch>
 					<img src={noVideo} alt="no-video" />
 					<span>VIDEO NOT YET AVAILABLE</span>
 				</Box>
