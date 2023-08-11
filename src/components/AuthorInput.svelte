@@ -5,10 +5,12 @@
 	import { onMount } from 'svelte';
 	import { authorStore } from 'src/stores/Data';
 	import { goto } from '$app/navigation';
+	import { searchedAuthorStore } from 'src/stores/SearchData';
 
 	export let authors;
 	export let authorName;
 	export let selectedAuthor = null;
+	export let search = false;
 
 	let timer;
 	let filterAuthors = [];
@@ -34,6 +36,7 @@
 
 		if (v === '') {
 			$authorStore = '';
+			$searchedAuthorStore = '';
 			filterAuthors = [];
 			selectedAuthor = null;
 			$page.url.searchParams.set('speaker', JSON.stringify(null));
@@ -52,6 +55,7 @@
 	{#if filterAuthors.length > 0 && authorName !== ''}
 		<MultipleSpeakersList
 			ai
+			{search}
 			authors={filterAuthors}
 			bind:selectedAuthor
 			bind:authorName

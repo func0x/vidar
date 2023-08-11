@@ -55,7 +55,7 @@
 			<DatePicker label="From" bind:date={$searchedDateRangeStore.from} />
 			<DatePicker label="From" bind:date={$searchedDateRangeStore.to} />
 		{/if}
-		<AuthorInput {authors} bind:selectedAuthor bind:authorName={author} />
+		<AuthorInput {authors} search bind:selectedAuthor bind:authorName={author} />
 	</Box>
 	<span class="select-tags">Select tags</span>
 	<Box bind:boxRef df fw gap="var(--gap-m)">

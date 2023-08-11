@@ -155,9 +155,13 @@
 			if ($searchedDateRangeStore.from || $searchedDateRangeStore.to) {
 				$page.url.searchParams.set(
 					'date',
-					JSON.stringify({ from: $searchedDateRangeStore.from, to: $searchedDateRangeStore.to})
+					JSON.stringify({ from: $searchedDateRangeStore.from, to: $searchedDateRangeStore.to })
 				);
-				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true, keepFocus: true});
+				goto(`?${$page.url.searchParams.toString()}`, {
+					noScroll: true,
+					replaceState: true,
+					keepFocus: true
+				});
 			}
 		});
 
@@ -196,7 +200,7 @@
 			</Box>
 
 			<Box df fw gap="var(--gap-l)">
-				{#if $selectedTagsStore.length > 0}
+				{#if $searchedSelectedTagsStore.length > 0}
 					<Box ch gap="var(--gap-m)" width="fit-content">
 						<span class="select-tags">TAGS:</span>
 						<Box
@@ -207,9 +211,9 @@
 							fd="column"
 							height="fit-content"
 						>
-							{#key $selectedTagsStore}
+							{#key $searchedSelectedTagsStore}
 								<TagPanel>
-									{#each $selectedTagsStore as tag (tag)}
+									{#each $searchedSelectedTagsStore as tag (tag)}
 										<Tag ft text={tag} onDelete={deleteTagFromFilter} />
 									{/each}
 								</TagPanel>
@@ -245,7 +249,12 @@
 
 					{#if ($searchedDateTypeStore === 'On' || $searchedDateTypeStore === 'Before' || $searchedDateTypeStore === 'After') && $searchedDateRangeStore.from}
 						<span class="select-tags">TIMEFRAME:</span>
-						<TagInfo text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate($searchedDateRangeStore.from)}`} fp />
+						<TagInfo
+							text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(
+								$searchedDateRangeStore.from
+							)}`}
+							fp
+						/>
 						<img
 							src={deleteIcon}
 							alt="delete"
@@ -257,9 +266,9 @@
 					{#if $searchedDateTypeStore === 'Range' && dateTo}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo
-							text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
-								dateTo
-							)}`}
+							text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(
+								dateFrom
+							)} - ${getDayAndMonthJsDate(dateTo)}`}
 							fp
 						/>
 						<img
@@ -314,7 +323,7 @@
 			</Box>
 
 			<Box df fd="column" gap="var(--gap-m)">
-				{#if $selectedTagsStore.length > 0}
+				{#if $searchedSelectedTagsStore.length > 0}
 					<Box ch gap="var(--gap-m)" width="fit-content">
 						<span class="select-tags">TAGS:</span>
 						<Box
@@ -325,9 +334,9 @@
 							fd="column"
 							height="fit-content"
 						>
-							{#key $selectedTagsStore}
+							{#key $searchedSelectedTagsStore}
 								<TagPanel>
-									{#each $selectedTagsStore as tag (tag)}
+									{#each $searchedSelectedTagsStore as tag (tag)}
 										<Tag ft text={tag} onDelete={deleteTagFromFilter} />
 									{/each}
 								</TagPanel>
@@ -375,9 +384,9 @@
 					{#if $searchedDateTypeStore === 'Range' && dateTo}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo
-							text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
-								dateTo
-							)}`}
+							text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(
+								dateFrom
+							)} - ${getDayAndMonthJsDate(dateTo)}`}
 							fp
 						/>
 						<img

@@ -4,12 +4,14 @@
 	import AuthorName from './AuthorName.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { searchedAuthorStore } from 'src/stores/SearchData';
 
 	export let authors;
 	export let notFound = false;
 	export let ai = false;
 	export let authorName = '';
 	export let selectedAuthor = null;
+	export let search = false;
 
 	export let ref = null;
 
@@ -22,7 +24,12 @@
 	const onSelect = (event) => {
 		const { innerText } = event.target;
 
-		authorStore.set(innerText);
+		if (search) {
+			searchedAuthorStore.set(innerText);
+		} else {
+			authorStore.set(innerText);
+		}
+
 		authorName = innerText;
 		selectedAuthor = findAuthorByName(innerText);
 

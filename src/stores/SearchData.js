@@ -47,7 +47,7 @@ export const searchedFiltered = derived(
 		} else if ($searchedDateTypeStore === 'On' && $searchedDateRangeStore.from) {
 			events = events.filter(
 				(x) =>
-					x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from) &&
+					x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from, 'from') &&
 					x.datetime <=
 						DateTime.fromJSDate($searchedDateRangeStore.from)
 							.set({ hour: 23, minute: 59, second: 59 })
@@ -56,11 +56,11 @@ export const searchedFiltered = derived(
 			);
 		} else if ($searchedDateTypeStore === 'Before' && $searchedDateRangeStore.from) {
 			events = events.filter(
-				(x) => x.datetime <= jsDateToLuxonTimestamp($searchedDateRangeStore.from)
+				(x) => x.datetime <= jsDateToLuxonTimestamp($searchedDateRangeStore.from, 'to')
 			);
 		} else if ($searchedDateTypeStore === 'After' && $searchedDateRangeStore.from) {
 			events = events.filter(
-				(x) => x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from)
+				(x) => x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from, 'to')
 			);
 		} else if (
 			$searchedDateTypeStore === 'Range' &&
@@ -69,8 +69,8 @@ export const searchedFiltered = derived(
 		) {
 			events = events.filter(
 				(x) =>
-					x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from) &&
-					x.datetime <= jsDateToLuxonTimestamp($searchedDateRangeStore.to)
+					x.datetime >= jsDateToLuxonTimestamp($searchedDateRangeStore.from, 'from') &&
+					x.datetime <= jsDateToLuxonTimestamp($searchedDateRangeStore.to, 'to')
 			);
 		}
 
