@@ -7,9 +7,13 @@ export default {
 			// these options are set automatically — see below
 			pages: 'build',
 			assets: 'build',
-			fallback: null,
+			fallback: 'index.html',
 			precompress: false,
 			strict: true
-		})
+		}),
+		prerender: {
+			entries: ['/author/[id]', '/event/[id]', '/author', '/event'],
+			crawl: true
+		}
 	}
 };

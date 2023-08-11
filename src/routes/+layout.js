@@ -4,7 +4,7 @@ import tags from '$lib/jsons/tags.json';
 import authors from '$lib/jsons/authors.json';
 
 export const trailingSlash = 'always';
-export const prerender = true;
+export const prerender = 'auto';
 
 const importEvents = async () => {
 	let event;
