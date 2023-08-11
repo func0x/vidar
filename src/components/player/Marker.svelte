@@ -1,18 +1,13 @@
 <script>
-	import { css } from '@emotion/css';
-	let ref;
 	let barWatched;
 	let barLeft;
 	let barPreview;
 
 	export let timestamp;
-	export let duration;
 	export let currentTime;
 	export let previewTime;
 	export let timeMove;
 	export let position;
-
-	let boxCss;
 
 	const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
 		minimumIntegerDigits: 2
@@ -32,18 +27,9 @@
 	};
 
 	$: {
-		boxCss = css`
-			left: ${position}px;
-			position: relative;
-			width: fit-content;
-		`;
-
 		if (barWatched && barLeft) {
 			const safeCurrentTime = isNaN(currentTime) ? 0 : currentTime;
 
-			// TODO:
-			// Refactor! The if cases wre created by checking all possible combinations.
-			// This can be simplified.
 			if (safeCurrentTime <= timestamp.from) {
 				if (previewTime <= timestamp.from) {
 					barWatched.style.flex = '0';
@@ -107,7 +93,10 @@
 </script>
 
 <div class="general-marker timestamp-marker" style={`flex: ${timestamp.to - timestamp.from} 0 0;`}>
-	<div class={`timestamp-marker__tooltip ${boxCss} `}>
+	<div
+		class={`timestamp-marker__tooltip`}
+		style={`transform: translate(calc(${position}px - 50%), calc(-100% - 5px));`}
+	>
 		<span>{timestamp.title}</span><span>{formatDuration(timeMove)}</span>
 	</div>
 	<div class="bars">
@@ -158,7 +147,7 @@
 	.timestamp-marker__tooltip {
 		pointer-events: none;
 		text-align: center;
-		transform: translate(-50%, calc(-100% - 5px));
+		position: absolute;
 		opacity: 0;
 		display: flex;
 		flex-direction: column;
