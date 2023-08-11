@@ -3,18 +3,20 @@
 	import search from '$lib/images/search.svg';
 	import FilterPanelSearch from 'src/components/FilterPanelSearch.svelte';
 	import RecentEvents from 'src/components/RecentEvents.svelte';
+
+	export let data;
 </script>
 
 <Box bg="var(--grey-300)" height="80px" position="relative">
 	<div>
-		<input />
+		<input value={data.query} />
 		<button><img src={search} alt="search" /></button>
 	</div>
 </Box>
 
 <Box mt="80px">
-	<FilterPanelSearch authors={[]} tags={[]} />
-	<RecentEvents events={[]} />
+	<FilterPanelSearch authors={[]} tags={[]} query={data.query} count={data.results.length} />
+	<RecentEvents events={data.results} />
 </Box>
 
 <style>

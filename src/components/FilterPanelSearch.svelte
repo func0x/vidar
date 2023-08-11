@@ -19,6 +19,8 @@
 
 	export let tags;
 	export let authors;
+	export let query;
+	export let count;
 	const options = ['Latest', 'Earliest'];
 
 	function findAuthorByName(authorName) {
@@ -33,13 +35,11 @@
 	let dateFrom =
 		JSON.parse($page.url.searchParams.get('date'))?.from != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).from)
-			: // : new Date($eventsStore.reduce((x, y) => (x.datetime > y.datetime ? y : x)).datetime * 1000);
-			  null;
+			: null;
 	let dateTo =
 		JSON.parse($page.url.searchParams.get('date'))?.to != null
 			? new Date(JSON.parse($page.url.searchParams.get('date')).to)
-			: // : new Date(Date.now());
-			  null;
+			: null;
 	let selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
 	let params = Array.from(selectedTags);
 	let author = JSON.parse($page.url.searchParams.get('speaker'));
@@ -99,8 +99,6 @@
 
 	const deleteTagFromFilter = (tagName) => {
 		selectedTags.delete(tagName);
-		// params = params.filter((x) => x !== tagName);
-		// selectedTagsStore.set(params);
 		$selectedTagsStore = $selectedTagsStore.filter((x) => x !== tagName);
 
 		$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
@@ -165,8 +163,8 @@
 					<Select {options} />
 				</Box>
 				<Box df tac fd="column" width="fit-content">
-					<span class="query">Lorem Ipsum</span>
-					<span class="results">no results found</span>
+					<span class="query">{query}</span>
+					<span class="results">{count === 0 ? 'no' : count} results found</span>
 				</Box>
 				<Button
 					icon={filter}
@@ -271,10 +269,10 @@
 		</Box>
 	{:else}
 		<Box df fd="column" padding="0 var(--gap-m) var(--gap-m) var(--gap-m)" gap="var(--gap-s)">
-				<Box df tac fd="column" >
-					<span class="query">Lorem Ipsum</span>
-					<span class="results">no results found</span>
-				</Box>
+			<Box df tac fd="column">
+				<span class="query">{query}</span>
+				<span class="results">{count === 0 ? 'no' : count} results found</span>
+			</Box>
 			<Box cvh jsb gap="var(--gap-m)">
 				<Box width="fit-content" cvh gap="var(--gap-s)">
 					<span>Sort by:</span>
