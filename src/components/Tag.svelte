@@ -64,10 +64,10 @@
 		border-radius: var(--border-radius-xl);
 		display: flex;
 		white-space: nowrap;
-		/* -webkit-user-select: none; */
-		/* -moz-user-select: none; */
-		/* -ms-user-select: none; */
-		/* user-select: none; */
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 	}
 
 	.ft {
