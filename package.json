@@ -29,6 +29,8 @@
 	"type": "module",
 	"dependencies": {
 		"@emotion/css": "^11.10.5",
-		"@sveltejs/adapter-static": "^1.0.0-next.48"
+		"@rollup/plugin-json": "^5.0.1",
+		"@sveltejs/adapter-static": "^1.0.0-next.48",
+		"luxon": "^3.1.0"
 	}
 }
