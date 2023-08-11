@@ -5,25 +5,20 @@
 	import placeholder from '$lib/images/avatar_placeholder.svg';
 
 	export let data;
-
-	const { name, avatar_src, job_position, location } = data.author;
-	const { events } = data;
-
-	console.log(avatar_src);
 </script>
 
 <Box height="290px">
 	<Box cvh gap="var(--gap-m)" fd="column">
-		<img src={avatar_src || placeholder} alt={name} />
+		<img src={data.author.avatar_src || placeholder} alt={data.author.name} />
 		<Box cvh bg="transparent" fd="column" width="fit-content" height="fit-content">
-			<span class="author-name">{name}</span>
-			<span class="job-position-location">{job_position}</span>
-			<span class="job-position-location">{location}</span>
+			<span class="author-name">{data.author.name}</span>
+			<span class="job-position-location">{data.author.job_position}</span>
+			<span class="job-position-location">{data.author.location}</span>
 		</Box>
 	</Box>
 </Box>
-<SectionName title="{name} Events" />
-<RecentEvents {events} />
+<SectionName title="{data.author.name} Events" />
+<RecentEvents events={data.events} />
 
 <style>
 	img {

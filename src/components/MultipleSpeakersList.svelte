@@ -3,7 +3,7 @@
 	import AuthorName from './AuthorName.svelte';
 
 	export let authors;
-	export let notFound;
+	export let notFound = false;
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>

@@ -7,13 +7,13 @@ const findAuthorById = (id) => {
 	});
 };
 
-const findAuthorEvents = async (nameParam) => {
+const findAuthorEvents = async (id) => {
 	let events = [];
 	await jsonEvents().then((res) => (events = res));
 
 	return events.filter((item) => {
 		return item.authors.find((author) => {
-			return author.name === nameParam;
+			return author.id === id;
 		});
 	});
 };

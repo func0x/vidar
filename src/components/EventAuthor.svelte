@@ -19,7 +19,6 @@
 
 	const openAuthorList = () => {
 		open = !open;
-		console.log(open);
 	};
 </script>
 
