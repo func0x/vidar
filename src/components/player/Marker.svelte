@@ -95,7 +95,7 @@
 <div class="general-marker timestamp-marker" style={`flex: ${timestamp.to - timestamp.from} 0 0;`}>
 	<div
 		class={`timestamp-marker__tooltip`}
-		style={`transform: translate(calc(${position}px - 50%), calc(-100% - 5px));`}
+		style={`transform: translate(calc(${position}px - 50%), calc(-40px));`}
 	>
 		<span>{timestamp.title}</span><span>{formatDuration(timeMove)}</span>
 	</div>
