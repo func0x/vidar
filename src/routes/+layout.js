@@ -3,8 +3,8 @@ import { eventsStore, jsonEvents } from 'src/stores/Data';
 import tags from '$lib/jsons/tags.json';
 import authors from '$lib/jsons/authors.json';
 
+export const prerender = true;
 export const trailingSlash = 'always';
-export const prerender = 'auto';
 
 const importEvents = async () => {
 	let event;
