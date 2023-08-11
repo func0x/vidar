@@ -8,9 +8,6 @@
 	import { goto } from '$app/navigation';
 	import { searchedSelectedTagsStore } from '../stores/SearchData';
 
-	export let fp = false; // FilterPanel
-	export let disableSelect = false;
-
 	export let boxRef;
 	let leftArrowRef;
 	let rightArrrowRef;
@@ -33,26 +30,20 @@
 				if (value.localName === 'span' && $searchedSelectedTagsStore.includes(value.innerText)) {
 					value.style.backgroundColor = 'var(--aubergine)';
 					value.style.color = 'var(--white)';
-					// value.style.pointerEvents = 'none';
 				} else if (
 					value.localName === 'span' &&
 					!$searchedSelectedTagsStore.includes(value.innerText)
 				) {
 					value.style.backgroundColor = 'var(--grey-300)';
 					value.style.color = 'var(--aubergine)';
-
-					// value.style.pointerEvents = 'auto';
 				}
 			} else {
 				if (value.localName === 'span' && $selectedTagsStore.includes(value.innerText)) {
 					value.style.backgroundColor = 'var(--aubergine)';
 					value.style.color = 'var(--white)';
-					// value.style.pointerEvents = 'none';
 				} else if (value.localName === 'span' && !$selectedTagsStore.includes(value.innerText)) {
 					value.style.backgroundColor = 'var(--grey-300)';
 					value.style.color = 'var(--aubergine)';
-
-					// value.style.pointerEvents = 'auto';
 				}
 			}
 		});
@@ -66,7 +57,6 @@
 						if (!$searchedSelectedTagsStore.includes(value.innerText)) {
 							value.style.backgroundColor = 'var(--aubergine)';
 							value.style.color = 'var(--white)';
-							// value.style.pointerEvents = 'none';
 							$searchedSelectedTagsStore = [...$searchedSelectedTagsStore, value.innerText];
 							$page.url.searchParams.set('tags', JSON.stringify($searchedSelectedTagsStore));
 							goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
@@ -81,7 +71,6 @@
 						if (!$selectedTagsStore.includes(value.innerText)) {
 							value.style.backgroundColor = 'var(--aubergine)';
 							value.style.color = 'var(--white)';
-							// value.style.pointerEvents = 'none';
 							$selectedTagsStore = [...$selectedTagsStore, value.innerText];
 							$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
 							goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
@@ -94,7 +83,6 @@
 				} else {
 					value.style.backgroundColor = 'var(--grey-300)';
 					value.style.color = 'var(--aubergine)';
-					// value.style.pointerEvents = 'auto';
 				}
 			}
 		});
@@ -113,11 +101,6 @@
 
 		window.addEventListener('resize', () => showArrows());
 
-		// if (fp) {
-		// 	initSelectedTag();
-		// 	addClickTagEvent();
-		// }
-		// initSelectedTag();
 		if (!$page.url.pathname.includes('/event/')) {
 			initSelectedTag();
 			addClickTagEvent();

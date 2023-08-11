@@ -3,7 +3,7 @@
 	import Button from './Button.svelte';
 	import filter from '$lib/images/filter.svg';
 	import filterWhite from '$lib/images/filter_white.svg';
-	import Tag from './Tag.svelte';
+	import SelectTag from './SelectTag.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -12,7 +12,6 @@
 	import AuthorName from './AuthorName.svelte';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import TagPanel from './TagPanel.svelte';
-	import TagInfo from './TagInfo.svelte';
 	import {
 		searchedAuthorStore,
 		searchedDateRangeStore,
@@ -91,7 +90,6 @@
 					$searchedSelectedTagsStore = [...$searchedSelectedTagsStore, value.innerText];
 				}
 
-				params = Array.from(selectedTags);
 				$page.url.searchParams.set('tags', JSON.stringify($searchedSelectedTagsStore));
 				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 			}

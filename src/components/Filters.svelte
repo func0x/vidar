@@ -29,13 +29,6 @@
 		tagClickEvent();
 		initSelectTags();
 	});
-
-	$: {
-		// dateRangeStore.set({
-		// 	from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-		// 	to: jsDateToLuxonTimestamp(dateTo, 'to')
-		// });
-	}
 </script>
 
 <Box df fd="column" gap="var(--gap-m)">

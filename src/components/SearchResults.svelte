@@ -1,7 +1,6 @@
 <script>
 	import FilterPanelSearch from './FilterPanelSearch.svelte';
 	import RecentEvents from './RecentEvents.svelte';
-	import { page } from '$app/stores';
 	import { searchedFiltered } from 'src/stores/SearchData';
 
 	export let authors;

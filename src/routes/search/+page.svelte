@@ -8,7 +8,6 @@
 	import { page } from '$app/stores';
 	import { searchedEventsStore } from 'src/stores/SearchData';
 	import SearchResults from 'src/components/SearchResults.svelte';
-	// import tags from '$lib/jsons/tags.json';
 
 	let searched = [];
 	let authorsSet = new Set([]);

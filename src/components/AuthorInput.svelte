@@ -5,7 +5,6 @@
 	import { onMount } from 'svelte';
 	import { authorStore } from 'src/stores/Data';
 	import { goto } from '$app/navigation';
-	import { searchedAuthorStore } from 'src/stores/SearchData';
 
 	export let authors;
 	export let authorName;
@@ -40,8 +39,6 @@
 		}, 500);
 
 		if (v === '') {
-			// $authorStore = '';
-			// $searchedAuthorStore = '';
 			filterAuthors = [];
 			selectedAuthor = null;
 			$page.url.searchParams.set('speaker', JSON.stringify(null));

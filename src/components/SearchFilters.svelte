@@ -1,7 +1,5 @@
 <script>
-	import { dateRangeStore, dateTypeStore } from 'src/stores/Data';
 	import { searchedDateRangeStore, searchedDateTypeStore } from 'src/stores/SearchData';
-	import { jsDateToLuxonTimestamp } from 'src/utils/date';
 
 	import { onMount } from 'svelte';
 
@@ -10,11 +8,8 @@
 	import Box from './Box.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import SearchSelectTime from './SearchSelectTime.svelte';
-	import SelectTime from './SelectTime.svelte';
 	import Tag from './Tag.svelte';
 
-	export let dateFrom;
-	export let dateTo;
 	export let selectedAuthor;
 	export let author;
 	export let tags;
@@ -34,13 +29,6 @@
 		tagClickEvent();
 		initSelectTags();
 	});
-
-	// $: {
-	// 	searchedDateRangeStore.set({
-	// 		from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-	// 		to: jsDateToLuxonTimestamp(dateTo, 'to')
-	// 	});
-	// }
 </script>
 
 <Box df fd="column" gap="var(--gap-m)">

@@ -3,7 +3,6 @@
 
 	import { page } from '$app/stores';
 
-	import { dateTypeStore, sortDirectionStore } from 'src/stores/Data';
 	import { searchedDateTypeStore, searchedSortDirectionStore } from 'src/stores/SearchData';
 
 	import { onMount } from 'svelte';

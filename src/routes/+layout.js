@@ -14,8 +14,6 @@ const importEvents = async () => {
 		events.filter((x) => x.upcoming === false).sort((a, b) => (a.datetime < b.datetime ? 1 : -1))
 	);
 
-	const now = Date.now() / 1000;
-
 	event = events.filter((x) => x.upcoming === true);
 
 	if (event.length !== 0) {

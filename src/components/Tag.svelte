@@ -1,9 +1,6 @@
 <script>
 	import { css, keyframes } from '@emotion/css';
 	import deleteIcon from '$lib/images/delete_white.svg';
-	import { selectedTagsStore } from 'src/stores/Data';
-	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 
 	export let text = '';
 	export let bg = 'var(--grey-300)';
@@ -13,7 +10,6 @@
 	export let ft = false; // delete tag from filters
 	export let onDelete = undefined;
 	export let redirect = false;
-	// export let nh = false; // no hover effect
 
 	const changeTagColorHover = keyframes`
 		from {

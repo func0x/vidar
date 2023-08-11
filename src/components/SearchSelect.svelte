@@ -1,5 +1,4 @@
 <script>
-	import { eventsStore, sortDirectionStore } from 'src/stores/Data';
 	import { searchedEventsStore, searchedSortDirectionStore } from 'src/stores/SearchData';
 
 	import { onMount } from 'svelte';
