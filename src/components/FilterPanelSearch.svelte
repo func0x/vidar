@@ -16,6 +16,14 @@
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import TagPanel from './TagPanel.svelte';
 	import TagInfo from './TagInfo.svelte';
+	import {
+		searchedAuthorStore,
+		searchedDateRangeStore,
+		searchedDateTypeStore,
+		searchedSelectedTagsStore
+	} from 'src/stores/SearchData';
+	import SearchFilters from './SearchFilters.svelte';
+	import SearchSelect from './SearchSelect.svelte';
 
 	export let tags;
 	export let authors;
@@ -85,7 +93,7 @@
 
 				params = Array.from(selectedTags);
 				$page.url.searchParams.set('tags', JSON.stringify(params));
-				selectedTagsStore.set(params);
+				searchedSelectedTagsStore.set(params);
 				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 			}
 		});
@@ -101,7 +109,7 @@
 
 	const deleteTagFromFilter = (tagName) => {
 		selectedTags.delete(tagName);
-		$selectedTagsStore = $selectedTagsStore.filter((x) => x !== tagName);
+		$searchedSelectedTagsStore = $searchedSelectedTagsStore.filter((x) => x !== tagName);
 
 		$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
 		goto(`?${$page.url.searchParams.toString()}`, {
@@ -113,7 +121,7 @@
 
 	const deleteSpeakerFromFilter = () => {
 		author = '';
-		$authorStore = '';
+		$searchedAuthorStore = '';
 		$page.url.searchParams.set('speaker', JSON.stringify(''));
 		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
 	};
@@ -122,12 +130,12 @@
 		dateFrom = null;
 		dateTo = null;
 
-		dateRangeStore.set({
+		searchedDateRangeStore.set({
 			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
 			to: jsDateToLuxonTimestamp(dateTo, 'to')
 		});
 
-		$dateTypeStore = 'Any Time';
+		$searchedDateTypeStore = 'Any Time';
 
 		$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
 		$page.url.searchParams.set('period', JSON.stringify('Any Time'));
@@ -135,18 +143,21 @@
 	};
 
 	onMount(() => {
-		$selectedTagsStore = Array.from(selectedTags);
-		dateRangeStore.set({
-			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
-			to: jsDateToLuxonTimestamp(dateTo, 'to')
-		});
-		$dateTypeStore = period;
-		$authorStore = selectedAuthor?.name ? selectedAuthor.name : '';
+		$searchedSelectedTagsStore = Array.from(selectedTags);
+		// searchedDateRangeStore.set({
+		// 	from: jsDateToLuxonTimestamp(dateFrom, 'from'),
+		// 	to: jsDateToLuxonTimestamp(dateTo, 'to')
+		// });
+		$searchedDateTypeStore = period;
+		$searchedAuthorStore = selectedAuthor?.name ? selectedAuthor.name : '';
 
-		const subscribtion = dateRangeStore.subscribe(() => {
-			if (dateFrom || dateTo) {
-				$page.url.searchParams.set('date', JSON.stringify({ from: dateFrom, to: dateTo }));
-				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+		const subscribtion = searchedDateRangeStore.subscribe(() => {
+			if ($searchedDateRangeStore.from || $searchedDateRangeStore.to) {
+				$page.url.searchParams.set(
+					'date',
+					JSON.stringify({ from: $searchedDateRangeStore.from, to: $searchedDateRangeStore.to})
+				);
+				goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true, keepFocus: true});
 			}
 		});
 
@@ -168,7 +179,7 @@
 			<Box cvh jsb gap="var(--gap-m)">
 				<Box width="fit-content" cvh gap="var(--gap-s)">
 					<span>Sort by:</span>
-					<Select {options} />
+					<SearchSelect {options} />
 				</Box>
 				<Box df tac fd="column" transformX width="fit-content">
 					<span class="query">{query}</span>
@@ -221,9 +232,9 @@
 					</Box>
 				{/if}
 				<Box ch gap="var(--gap-m)" width="fit-content">
-					{#if $dateTypeStore === 'Last 30 days' || $dateTypeStore === 'Last 3 months'}
+					{#if $searchedDateTypeStore === 'Last 30 days' || $searchedDateTypeStore === 'Last 3 months'}
 						<span class="select-tags">TIMEFRAME:</span>
-						<TagInfo text={$dateTypeStore} fp />
+						<TagInfo text={$searchedDateTypeStore} fp />
 						<img
 							src={deleteIcon}
 							alt="delete"
@@ -232,9 +243,9 @@
 						/>
 					{/if}
 
-					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && dateFrom}
+					{#if ($searchedDateTypeStore === 'On' || $searchedDateTypeStore === 'Before' || $searchedDateTypeStore === 'After') && $searchedDateRangeStore.from}
 						<span class="select-tags">TIMEFRAME:</span>
-						<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
+						<TagInfo text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate($searchedDateRangeStore.from)}`} fp />
 						<img
 							src={deleteIcon}
 							alt="delete"
@@ -243,10 +254,10 @@
 						/>
 					{/if}
 
-					{#if $dateTypeStore === 'Range' && dateTo}
+					{#if $searchedDateTypeStore === 'Range' && dateTo}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo
-							text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
+							text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
 								dateTo
 							)}`}
 							fp
@@ -262,7 +273,7 @@
 			</Box>
 
 			{#if open}
-				<Filters
+				<SearchFilters
 					bind:dateFrom
 					bind:dateTo
 					bind:selectedAuthor
@@ -290,7 +301,7 @@
 			<Box cvh jsb gap="var(--gap-m)">
 				<Box width="fit-content" cvh gap="var(--gap-s)">
 					<span>Sort by:</span>
-					<Select {options} />
+					<SearchSelect {options} />
 				</Box>
 				<Button
 					icon={filter}
@@ -339,9 +350,9 @@
 					</Box>
 				{/if}
 				<Box ch gap="var(--gap-m)" width="fit-content">
-					{#if $dateTypeStore === 'Last 30 days' || $dateTypeStore === 'Last 3 months'}
+					{#if $searchedDateTypeStore === 'Last 30 days' || $searchedDateTypeStore === 'Last 3 months'}
 						<span class="select-tags">TIMEFRAME:</span>
-						<TagInfo text={$dateTypeStore} fp />
+						<TagInfo text={$searchedDateTypeStore} fp />
 						<img
 							src={deleteIcon}
 							alt="delete"
@@ -350,9 +361,9 @@
 						/>
 					{/if}
 
-					{#if ($dateTypeStore === 'On' || $dateTypeStore === 'Before' || $dateTypeStore === 'After') && dateFrom}
+					{#if ($searchedDateTypeStore === 'On' || $searchedDateTypeStore === 'Before' || $searchedDateTypeStore === 'After') && dateFrom}
 						<span class="select-tags">TIMEFRAME:</span>
-						<TagInfo text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
+						<TagInfo text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(dateFrom)}`} fp />
 						<img
 							src={deleteIcon}
 							alt="delete"
@@ -361,10 +372,10 @@
 						/>
 					{/if}
 
-					{#if $dateTypeStore === 'Range' && dateTo}
+					{#if $searchedDateTypeStore === 'Range' && dateTo}
 						<span class="select-tags">TIMEFRAME:</span>
 						<TagInfo
-							text={`${$dateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
+							text={`${$searchedDateTypeStore} ${getDayAndMonthJsDate(dateFrom)} - ${getDayAndMonthJsDate(
 								dateTo
 							)}`}
 							fp
@@ -380,7 +391,7 @@
 			</Box>
 
 			{#if open}
-				<Filters
+				<SearchFilters
 					bind:dateFrom
 					bind:dateTo
 					bind:selectedAuthor

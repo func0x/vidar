@@ -8,6 +8,7 @@
 	import { eventsStore } from 'src/stores/Data';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { searchedEventsStore, searchedFiltered } from 'src/stores/SearchData';
 	// import tags from '$lib/jsons/tags.json';
 
 	let searched = [];
@@ -16,10 +17,6 @@
 	let authors = [];
 	let tags = [];
 	let query = $page.url.searchParams.get('query') || '';
-
-	const redirectToSearch = () => {
-		goto(`/search/?query=${query}`);
-	};
 
 	const findEventsByTitle = (eventsData, titleParam) => {
 		return eventsData.filter((item) => {
@@ -39,6 +36,7 @@
 				tagsSet = new Set([...tagsSet, ...element.tags]);
 			});
 
+			$searchedEventsStore = searched;
 			authors = Array.from(authorsSet).map((x) => JSON.parse(x));
 			tags = Array.from(tagsSet);
 		}
@@ -56,6 +54,7 @@
 				tagsSet = new Set([...tagsSet, ...element.tags]);
 			});
 
+			$searchedEventsStore = searched;
 			authors = Array.from(authorsSet).map((x) => JSON.parse(x));
 			tags = Array.from(tagsSet);
 		}
@@ -73,15 +72,13 @@
 	<div class="spacer" />
 
 	{#if searched.length > 0}
-		{#key $page.url.searchParams.get('query')}
-			<FilterPanelSearch
-				{authors}
-				{tags}
-				query={$page.url.searchParams.get('query') || 'Unknown parameter'}
-				count={searched.length}
-			/>
-		{/key}
-		<RecentEvents events={searched} />
+		<FilterPanelSearch
+			{authors}
+			{tags}
+			query={$page.url.searchParams.get('query') || 'Unknown parameter'}
+			count={searched.length}
+		/>
+		<RecentEvents events={$searchedFiltered} />
 	{:else}
 		<div class="wrapper">
 			<Box df tac fd="column" noRes width="fit-content">
