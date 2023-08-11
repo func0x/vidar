@@ -70,6 +70,6 @@
 		border: 1px solid rgba(103, 113, 137, 0.3);
 		padding: 4px 6px;
 		border-radius: 3px;
-		width: 300px;
+		width: 241px;
 	}
 </style>
