@@ -1,6 +1,9 @@
 <script>
 	import { css, keyframes } from '@emotion/css';
 	import deleteIcon from '$lib/images/delete.svg';
+	import { selectedTagsStore } from 'src/stores/Data';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let text = '';
 	export let bg = 'var(--grey-300)';
@@ -30,6 +33,15 @@
 			animation: ${changeTagColorHover} 0.75s;
 		}
 	`;
+
+	const onTagClick = () => {
+		selectedTagsStore.update((v) => {
+			return Array.from(new Set([...v, text]));
+		});
+
+		$page.url.searchParams.set('tags', JSON.stringify($selectedTagsStore));
+		goto(`?${$page.url.searchParams.toString()}`, { noScroll: true, replaceState: true });
+	};
 </script>
 
 {#if ft}
@@ -45,7 +57,7 @@
 		</div>
 	</span>
 {:else}
-	<span class={tagCss}>{text}</span>
+	<span on:click={onTagClick} on:keyup={onTagClick} class={tagCss}>{text}</span>
 {/if}
 
 <style>
@@ -57,6 +69,10 @@
 		display: flex;
 		white-space: nowrap;
 		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 	}
 
 	.ft {

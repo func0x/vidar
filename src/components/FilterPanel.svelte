@@ -17,6 +17,7 @@
 	import Filters from './Filters.svelte';
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import TagPanel from './TagPanel.svelte';
+	import TagInfo from './TagInfo.svelte';
 
 	export let tags;
 	export let authors;
@@ -45,8 +46,8 @@
 	let selectedAuthor = findAuthorByName(author);
 
 	const initSelectTags = () => {
-		Object.entries(boxRef.children).forEach(([_, value]) => {
-			if (selectedTags.has(value.textContent)) {
+		Object.entries(boxRef.children ? boxRef.children : []).forEach(([_, value]) => {
+			if (new Set(JSON.parse($page.url.searchParams.get('tags'))).has(value.textContent)) {
 				value.style.backgroundColor = 'var(--aubergine)';
 				value.style.color = 'var(--white)';
 			} else {
@@ -97,16 +98,16 @@
 
 	const deleteTagFromFilter = (tagName) => {
 		selectedTags.delete(tagName);
-		params = params.filter((x) => x !== tagName);
-		selectedTagsStore.set(params);
-
-		initSelectTags();
+		// params = params.filter((x) => x !== tagName);
+		// selectedTagsStore.set(params);
+		$selectedTagsStore = $selectedTagsStore.filter((x) => x !== tagName);
 
 		$page.url.searchParams.set('tags', JSON.stringify(Array.from(selectedTags)));
 		goto(`?${$page.url.searchParams.toString()}`, {
 			noScroll: true,
 			replaceState: true
 		});
+		initSelectTags();
 	};
 
 	const deleteSpeakerFromFilter = () => {
@@ -130,8 +131,7 @@
 	};
 
 	onMount(() => {
-		selectedTagsStore.set({ from: NaN, to: NaN });
-
+		$selectedTagsStore = Array.from(selectedTags);
 		dateRangeStore.set({
 			from: jsDateToLuxonTimestamp(dateFrom, 'from'),
 			to: jsDateToLuxonTimestamp(dateTo, 'to')
@@ -182,7 +182,7 @@
 	<MediaQuery query="(min-width: 1115px)" let:matches>
 		{#if matches}
 			<Box df fw gap="var(--gap-l)">
-				{#if params.length > 0}
+				{#if $selectedTagsStore.length > 0}
 					<Box ch gap="var(--gap-m)" width="fit-content">
 						<span class="select-tags">TAGS:</span>
 						<Box
@@ -193,9 +193,9 @@
 							fd="column"
 							height="fit-content"
 						>
-							{#key params}
+							{#key $selectedTagsStore}
 								<TagPanel>
-									{#each params as tag (tag)}
+									{#each $selectedTagsStore as tag (tag)}
 										<Tag ft text={tag} onDelete={deleteTagFromFilter} />
 									{/each}
 								</TagPanel>
@@ -220,9 +220,9 @@
 				{#if dateFrom != null || dateTo != null}
 					<Box ch gap="var(--gap-m)" width="fit-content">
 						<span class="select-tags">TIMEFRAME:</span>
-						<Tag text={getDayAndMonthJsDate(dateFrom)} />
+						<TagInfo text={getDayAndMonthJsDate(dateFrom)} fp />
 						<span>-</span>
-						<Tag text={getDayAndMonthJsDate(dateTo)} />
+						<TagInfo text={getDayAndMonthJsDate(dateTo)} fp />
 						<img
 							src={deleteIcon}
 							alt="delete"
@@ -288,34 +288,36 @@
 	</MediaQuery>
 
 	{#if open}
-		<MediaQuery query="(min-width: 1115px)" let:matches>
-			{#if matches}
-				<Filters
-					bind:dateFrom
-					bind:dateTo
-					bind:selectedAuthor
-					bind:author
-					bind:boxRef
-					{tags}
-					{authors}
-					tagClickEvent={addClickTagEvent}
-					{initSelectTags}
-				/>
-			{:else}
-				<Filters
-					bind:dateFrom
-					bind:dateTo
-					bind:selectedAuthor
-					bind:author
-					bind:boxRef
-					dc
-					{tags}
-					{authors}
-					tagClickEvent={addClickTagEvent}
-					{initSelectTags}
-				/>
-			{/if}
-		</MediaQuery>
+		{#key $selectedTagsStore}
+			<MediaQuery query="(min-width: 1115px)" let:matches>
+				{#if matches}
+					<Filters
+						bind:dateFrom
+						bind:dateTo
+						bind:selectedAuthor
+						bind:author
+						bind:boxRef
+						{tags}
+						{authors}
+						tagClickEvent={addClickTagEvent}
+						{initSelectTags}
+					/>
+				{:else}
+					<Filters
+						bind:dateFrom
+						bind:dateTo
+						bind:selectedAuthor
+						bind:author
+						bind:boxRef
+						dc
+						{tags}
+						{authors}
+						tagClickEvent={addClickTagEvent}
+						{initSelectTags}
+					/>
+				{/if}
+			</MediaQuery>
+		{/key}
 	{/if}
 </Box>
 

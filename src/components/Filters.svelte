@@ -16,7 +16,7 @@
 	export let tagClickEvent;
 	export let initSelectTags;
 	export let boxRef;
-	export let dc; // display inputs in column
+	export let dc = false; // display inputs in column
 
 	let tagBg = 'var(--grey-300)';
 	let hbg = 'var(--grey-700)'; // tag hover bg color
@@ -24,8 +24,8 @@
 	let fs = 'var(--font-s)'; // font size
 
 	onMount(() => {
-		tagClickEvent(boxRef);
-		initSelectTags(boxRef);
+		tagClickEvent();
+		initSelectTags();
 	});
 </script>
 
