@@ -1,8 +1,19 @@
 import adapter from '@sveltejs/adapter-static';
 import authors from './src/lib/jsons/authors.json' assert { type: 'json' };
 import fs from 'fs/promises';
+import path from 'path';
+import { replaceParamUrl } from './src/utils/replace.js';
 
-const getEvents = await fs.readdir('./event_data');
+const jsons = await fs.readdir('./event_data');
+let data = [];
+
+for (const file of jsons.filter((x) => !x.includes('.json'))) {
+	const fileData = await fs.readFile(path.join('./event_data', file, '/data.json'));
+	const json = JSON.parse(fileData.toString());
+	data = [...data, json];
+}
+
+// jsons.filter((x) => !x.includes('.json')).forEach(async (file) => {});
 
 export default {
 	kit: {
@@ -20,7 +31,11 @@ export default {
 			entries: [
 				...authors.map(({ id }) => `/author/${id}`),
 				// await jsonEvents().map(({ id }) => `/event/${id}`),
-				...getEvents.map((_, index) => `/event/${index + 1}`),
+				// ...getEvents.map((event, index) => `/event/${replaceParamUrl(event.title)}`),
+				// ...data.map((event) => `/event/${replaceParamUrl(event.title)}`),
+				// ...data.map((event) => console.log(event.title)),
+
+				...data.map((event) => `/event/${replaceParamUrl(event.title)}`),
 				'/event/[id]',
 				'/author',
 				'/event',
