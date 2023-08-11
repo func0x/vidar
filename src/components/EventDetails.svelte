@@ -1,8 +1,11 @@
 <script>
 	import MediaQuery from 'src/hooks/UseMediaQuery.svelte';
 	import { replaceParamUrl } from 'src/utils/replace';
+	import download from '$lib/images/download_icon.svg';
+	import slides from '$lib/images/slides.svg';
 	import Avatar from './Avatar.svelte';
 	import Box from './Box.svelte';
+	import Button from './Button.svelte';
 	import EventAuthor from './EventAuthor.svelte';
 	import Tag from './Tag.svelte';
 	import TagPanel from './TagPanel.svelte';
@@ -13,6 +16,14 @@
 	export let videoFooter = false;
 	export let hover = false;
 	export let isLive = false;
+
+	const downloadSlides = (assets) => {
+		console.log('click');
+		const a = document.createElement('a');
+		a.href = assets.slides.path;
+		a.setAttribute('download', assets.slides.name);
+		a.click();
+	};
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
@@ -45,18 +56,25 @@
 			fd="column"
 			height="fit-content"
 		>
-			<svelte:fragment>
-				<TagPanel>
-					{#each event.tags as tag}
-						<Tag text={tag} />
-					{/each}
-				</TagPanel>
-				<h1 class:hover class:eventCard>{event.title}</h1>
-				<EventAuthor authors={event.authors} timestamp={event.datetime} />
-				<p>
-					{event.description}
-				</p>
-			</svelte:fragment>
+			<TagPanel>
+				{#each event.tags as tag}
+					<Tag text={tag} />
+				{/each}
+			</TagPanel>
+			<h1 class:hover class:eventCard>{event.title}</h1>
+			<EventAuthor authors={event.authors} timestamp={event.datetime} />
+			<p>
+				{event.description}
+			</p>
+			{#if event.assets.slides.name.includes('https://')}
+				<Button href={event.assets.slides.name} icon={slides} text="Open with Google Slides" />
+			{:else}
+				<Button
+					onClick={() => downloadSlides(event.assets)}
+					icon={download}
+					text="Download slides"
+				/>
+			{/if}
 		</Box>
 	{/if}
 </MediaQuery>

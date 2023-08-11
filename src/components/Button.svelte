@@ -14,6 +14,10 @@
 		background-color: ${bg};
 		border: ${border};
 	`;
+
+	let linkCss = css`
+		align-self: ${text === 'Watch Live' ? 'flex-end' : 'flex-start'};
+	`;
 </script>
 
 {#if notFound}
@@ -25,7 +29,7 @@
 		><img src={icon} alt="icon" /> {text}</button
 	>
 {:else}
-	<a {href}>
+	<a {href} class={linkCss} target="_blank" rel="noopener noreferrer">
 		<button class={buttonCss} bind:this={ref} on:click={onClick}
 			><img src={icon} alt="icon" /> {text}</button
 		>
@@ -34,9 +38,9 @@
 
 <style>
 	button {
+		width: fit-content;
 		padding: var(--gap-m);
 		border-radius: var(--border-radius-xl);
-		align-self: flex-end;
 		color: var(--aubergine);
 		text-transform: uppercase;
 		display: flex;
@@ -44,10 +48,6 @@
 		gap: var(--gap-m);
 		cursor: pointer;
 		font-size: var(--font-m);
-	}
-
-	a {
-		align-self: flex-end;
 	}
 
 	.notFound {
