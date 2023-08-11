@@ -13,6 +13,11 @@
 	let buttonCss = css`
 		background-color: ${bg};
 		border: ${border};
+
+		&:hover {
+			background-color: var(--grey-700) !important;
+			color: var(--white) !important;
+		}
 	`;
 
 	let linkCss = css`

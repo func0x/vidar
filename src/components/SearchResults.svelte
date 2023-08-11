@@ -18,4 +18,4 @@
 		count={searched.length}
 	/>
 {/key}
-<RecentEvents events={$searchedFiltered} />
+<RecentEvents hover events={$searchedFiltered} />

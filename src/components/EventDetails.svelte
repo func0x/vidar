@@ -70,10 +70,15 @@
 				{event.description}
 			</p>
 			{#if event.assets.slides.name.includes('https://')}
-				<Button href={event.assets.slides.name} icon={slides} text="Open with Google Slides" />
+				<Button
+					bg="var(--white)"
+					href={event.assets.slides.name}
+					icon={slides}
+					text="Open with Google Slides"
+				/>
 			{:else}
 				<Button
-					bg="var(--grey-300)"
+					bg="var(--white)"
 					onClick={() => downloadSlides(event.assets)}
 					icon={download}
 					text="Download slides"
