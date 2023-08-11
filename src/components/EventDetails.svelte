@@ -133,6 +133,23 @@
 				<p class="event-video-description">
 					{event.description}
 				</p>
+				{#if !exploreSimilar}
+					{#if event.assets.slides.name.includes('https://')}
+						<Button
+							bg="var(--grey-300)"
+							href={event.assets.slides.name}
+							icon={slides}
+							text="Open with Google Slides"
+						/>
+					{:else if event.assets.slides.name.includes('.')}
+						<Button
+							bg="var(--white)"
+							onClick={() => downloadSlides(event.assets)}
+							icon={download}
+							text="Download slides"
+						/>
+					{/if}
+				{/if}
 			</svelte:fragment>
 		</Box>
 	{/if}
