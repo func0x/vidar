@@ -72,7 +72,7 @@ export const filtered = derived(
 
 		if ($selectedTagsStore.length > 0) {
 			events = events.filter(
-				(e) => e.tags.some((t) => $selectedTagsStore.indexOf(t) >= 0) && e.upcoming === false
+				(e) => $selectedTagsStore.every((t) => e.tags.indexOf(t) >= 0) && e.upcoming === false
 			);
 		}
 

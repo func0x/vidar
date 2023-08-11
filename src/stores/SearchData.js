@@ -15,14 +15,16 @@ export const searchedFiltered = derived(
 		searchedSelectedTagsStore,
 		searchedAuthorStore,
 		searchedDateTypeStore,
-		searchedDateRangeStore
+		searchedDateRangeStore,
+		searchedSortDirectionStore
 	],
 	([
 		$searchedEventsStore,
 		$searchedSelectedTagsStore,
 		$searchedAuthorStore,
 		$searchedDateTypeStore,
-		$searchedDateRangeStore
+		$searchedDateRangeStore,
+		$searchedSortDirectionStore
 	]) => {
 		let events = $searchedEventsStore;
 
@@ -36,7 +38,7 @@ export const searchedFiltered = derived(
 		if ($searchedSelectedTagsStore.length > 0) {
 			events = events.filter(
 				(e) =>
-					e.tags.some((t) => $searchedSelectedTagsStore.indexOf(t) >= 0) && e.upcoming === false
+					$searchedSelectedTagsStore.every((t) => e.tags.indexOf(t) >= 0) && e.upcoming === false
 			);
 		}
 
@@ -74,6 +76,10 @@ export const searchedFiltered = derived(
 			);
 		}
 
-		return events;
+		if ($searchedSortDirectionStore === 'Latest') {
+			return events.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
+		}
+
+		return events.sort((a, b) => (a.datetime < b.datetime ? -1 : 1));
 	}
 );
