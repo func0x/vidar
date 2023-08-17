@@ -18,6 +18,7 @@
 	export let videoFooter = false;
 	export let hover = false;
 	export let isLive = false;
+	export let exploreSimilar = false;
 
 	const downloadSlides = (assets) => {
 		const a = document.createElement('a');
@@ -34,7 +35,7 @@
 				{#key $selectedTagsStore || $searchedSelectedTagsStore}
 					<TagPanel>
 						{#each event.tags as tag}
-							<Tag text={tag} />
+							<Tag redirect text={tag} />
 						{/each}
 					</TagPanel>
 				{/key}
@@ -54,35 +55,43 @@
 		<Box
 			bg="transparent"
 			df
-			padding="var(--gap-m) var(--gap-l)"
+			padding={exploreSimilar ? 'unset' : 'var(--gap-m) var(--gap-l)'}
 			gap="var(--gap-s)"
 			fd="column"
 			height="fit-content"
 		>
 			<TagPanel>
 				{#each event.tags as tag}
-					<Tag text={tag} />
+					<Tag text={tag} redirect />
 				{/each}
 			</TagPanel>
-			<h1 class:hover class:eventCard>{event.title}</h1>
+			{#if exploreSimilar}
+				<a href={isLive ? event.livestream : `/event/${replaceParamUrl(event.title)}`}>
+					<h1 class:hover class:eventCard>{event.title}</h1>
+				</a>
+			{:else}
+				<h1 class:hover class:eventCard>{event.title}</h1>
+			{/if}
 			<EventAuthor authors={event.authors} timestamp={event.datetime} />
 			<p>
 				{event.description}
 			</p>
-			{#if event.assets.slides.name.includes('https://')}
-				<Button
-					bg="var(--grey-300)"
-					href={event.assets.slides.name}
-					icon={slides}
-					text="Open with Google Slides"
-				/>
-			{:else if event.assets.slides.name.includes('.')}
-				<Button
-					bg="var(--white)"
-					onClick={() => downloadSlides(event.assets)}
-					icon={download}
-					text="Download slides"
-				/>
+			{#if !exploreSimilar}
+				{#if event.assets.slides.name.includes('https://')}
+					<Button
+						bg="var(--grey-300)"
+						href={event.assets.slides.name}
+						icon={slides}
+						text="Open with Google Slides"
+					/>
+				{:else if event.assets.slides.name.includes('.')}
+					<Button
+						bg="var(--white)"
+						onClick={() => downloadSlides(event.assets)}
+						icon={download}
+						text="Download slides"
+					/>
+				{/if}
 			{/if}
 		</Box>
 	{/if}
@@ -115,7 +124,7 @@
 			<svelte:fragment>
 				<TagPanel>
 					{#each event.tags as tag}
-						<Tag text={tag} />
+						<Tag text={tag} redirect />
 					{/each}
 				</TagPanel>
 				<h1 class:eventCard>{event.title}</h1>

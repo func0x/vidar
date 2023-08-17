@@ -29,5 +29,5 @@
 <EventDetails eventCard videoFooter event={data.eventWithRecomendations.event} />
 {#if data.eventWithRecomendations.recomendedEvents.length > 1}
 	<SectionName title="Explore Similar" />
-	<RecentEvents hover events={data.eventWithRecomendations.recomendedEvents} />
+	<RecentEvents hover exploreSimilar events={data.eventWithRecomendations.recomendedEvents} />
 {/if}

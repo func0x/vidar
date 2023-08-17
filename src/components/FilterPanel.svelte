@@ -134,7 +134,10 @@
 	};
 
 	onMount(() => {
-		if ($page.url.searchParams?.get('tags') && Array.isArray($page.url.searchParams?.get('tags'))) {
+		if (
+			$page.url.searchParams.get('tags') &&
+			Array.isArray(JSON.parse($page.url.searchParams.get('tags')))
+		) {
 			if (JSON.parse($page.url.searchParams.get('tags')).every((i) => typeof i === 'string')) {
 				selectedTags = new Set(JSON.parse($page.url.searchParams.get('tags')));
 			}

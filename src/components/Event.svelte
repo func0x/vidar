@@ -7,6 +7,7 @@
 
 	export let event;
 	export let hover = false;
+	export let exploreSimilar = false;
 </script>
 
 <MediaQuery query="(min-width: 1115px)" let:matches>
@@ -18,7 +19,11 @@
 			{#if event.video.title === ''}
 				<TagInfo vna text="Not yet available" />
 			{/if}
-			<EventDetails {hover} eventCard {event} />
+			{#if exploreSimilar}
+				<EventDetails {hover} videoFooter {exploreSimilar} eventCard {event} />
+			{:else}
+				<EventDetails {hover} eventCard {event} />
+			{/if}
 		</div>
 	{/if}
 </MediaQuery>

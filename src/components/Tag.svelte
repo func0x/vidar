@@ -12,6 +12,7 @@
 	export let fs = 'var(--font-s)'; // font size
 	export let ft = false; // delete tag from filters
 	export let onDelete = undefined;
+	export let redirect = false;
 	// export let nh = false; // no hover effect
 
 	const changeTagColorHover = keyframes`
@@ -52,6 +53,10 @@
 			/>
 		</div>
 	</span>
+{:else if redirect}
+	<a href={`/?tags=${JSON.stringify([text])}`}>
+		<span class={tagCss}>{text}</span>
+	</a>
 {:else}
 	<span class={tagCss}>{text}</span>
 {/if}
