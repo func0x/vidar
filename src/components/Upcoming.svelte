@@ -128,19 +128,20 @@
 
 <style>
 	img {
-		max-height: 340px;
+		height: 340px;
+		aspect-ratio: 16 / 9;
 	}
 
 	@media screen and (max-width: 1749px) {
 		img {
-			max-height: 250px;
+			height: 250px;
 		}
 	}
 
 	@media screen and (max-width: 1114px) {
 		img {
 			width: 100%;
-			max-height: unset;
+			height: unset;
 		}
 	}
 </style>
