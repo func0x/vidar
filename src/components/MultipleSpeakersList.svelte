@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { searchedAuthorStore } from 'src/stores/SearchData';
+	import { trapFocus } from '../utils/actions';
 
 	export let authors;
 	export let notFound = false;
@@ -22,6 +23,7 @@
 	}
 
 	const onSelect = (event) => {
+		if (event instanceof KeyboardEvent && event.key !== 'Enter' && event.key !== ' ') return;
 		const { innerText } = event.target;
 
 		if (search) {
@@ -44,9 +46,11 @@
 	{#if authorName !== ''}
 		{#if matches}
 			<div class:ai class="multiple-speakers-list-wrapper">
-				<div class:ai class:notFound class="multiple-speakers-list" bind:this={ref}>
+				<div class:ai class:notFound class="multiple-speakers-list" bind:this={ref} use:trapFocus>
 					{#each authors as author}
+						<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 						<div
+							tabindex="0"
 							class="author-name-wrapper"
 							name={author.name}
 							on:click={onSelect}
@@ -122,11 +126,13 @@
 		padding: 0 var(--gap-s);
 	}
 
-	.author-name-wrapper:hover {
+	.author-name-wrapper:hover,
+	.author-name-wrapper:focus {
 		background-color: var(--grey-300);
 	}
 
-	.author-name-wrapper:hover > :global(.author-name) {
+	.author-name-wrapper:hover > :global(.author-name),
+	.author-name-wrapper:focus > :global(.author-name) {
 		background-color: var(--grey-300);
 	}
 
